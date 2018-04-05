@@ -1,4 +1,12 @@
 agm-map {
   height: 100%;
   }
-.container { width: 100%; height: 100% }
+.contain { width: 100%; height: 100% }
+#pageheader{
+  width: 100%;
+  padding: 1em;
+  position: absolute;
+  z-index: 20;
+  background-color: white;
+  text-align: center;
+}

@@ -1,10 +1,12 @@
-<h1>{{ title }}</h1>
-
+<div id=pageheader>
+<h1 >{{ title }}</h1>
+</div>
 <!-- this creates a google map on the page with the given lat/lng from -->
 <!-- the component as the initial center of the map: -->
 
-<div class="container">
-<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" id="map">
-  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+<div class="contain">
+<agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom"[minZoom]="3" [zoomControl]="zoomControl" [streetViewControl]="streetViewControl"[styles]="styles" id="map">
+  <!-- <agm-marker [latitude]="lat" [longitude]="lng" ></agm-marker> -->
+  
 </agm-map>
 </div>
