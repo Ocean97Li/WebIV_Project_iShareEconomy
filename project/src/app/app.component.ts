@@ -1,5 +1,6 @@
 import { Component, EventEmitter } from '@angular/core';
-import { LatLngBounds, AgmMap } from '@agm/core';
+import { LatLngBounds } from '@agm/core';
+import { User } from './user/user.model';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,10 @@ import { LatLngBounds, AgmMap } from '@agm/core';
 })
 export class AppComponent {
   title = 'iShareEconomy';
-  lat = 51.053645;
-  lng = 3.721506;
+  lat = 51.043526;
+  lng = 3.713618;
   zoom = 18;
+  label = 'label';
   streetViewControl = false;
   zoomControl = false;
   styles = [
@@ -110,6 +112,14 @@ export class AppComponent {
         }
       ]
     }
+  ];
+  users = [
+    new User('Hu Ocean', 'Li', 'Nonnemeerstraat', '19-24', 'lol', {lat: 51.043526, lng: 3.713618}),
+    new User('Svengal', 'Viking', 'Svengalstrass', '4', 'lol2', {lat: 59.043526, lng: 8.713618}),
+    new User('Ernie', 'Johnson', 'Svengalstrass', '4', 'lol3', {lat: 59.04359, lng: 8.713618}),
+    new User('Kim', '', 'Svengalstrass', '4', 'lol2', {lat: 59.04359, lng: 8.713618}),
+    new User('Barack', 'Obama', 'cia bunker', '0234', 'lol4', {lat: -10.04359, lng: -70.713618}),
+    new User('Donald', 'Trump', 'cia bunker', '0234', 'lol4', {lat: -10.04359, lng: 18.713618}),
   ];
 
 }
