@@ -2,6 +2,7 @@ export class User {
   // UserPersonalData
   private _blocknumber: number|null;
   private _postalcode: number;
+  private _country: string;
   private _extraAddressLine: string;
   private _rating: number;
   private _icon = '../../favicon.ico';
@@ -11,6 +12,7 @@ export class User {
   private _lending =  new Array<string>();
   private _lentOut = new Array<string>();
   private _using = new Array<string>();
+
 
   constructor(
     // esential data
