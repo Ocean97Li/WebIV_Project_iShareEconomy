@@ -1,0 +1,29 @@
+.item-icon{
+    border-radius: 5px;
+    background-color: #17a2b8;
+    padding: 10px;
+    width: 60px;
+    height: 60px;
+    margin: 10px;
+}
+.item-text{
+    height: 60px;
+    margin: 10px;
+    overflow: auto;
+}
+.item-available{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.item-title{
+    margin: 0px;
+}
+
+.cardcolumn{
+    padding: 0px; 
+}
+
+.rowfix{
+     margin: 0px
+}

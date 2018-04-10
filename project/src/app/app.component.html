@@ -1,11 +1,23 @@
-<div id=pageheader>
-<h1 >{{title}}</h1>
-</div>
+
 <!-- this creates a google map on the page with the given lat/lng from -->
 <!-- the component as the initial center of the map: -->
 
-<div class="cotainer-fluid contain">
-<agm-map class=row [latitude]="lat" [longitude]="lng" [zoom]="zoom"[minZoom]="3" [zoomControl]="zoomControl" [streetViewControl]="streetViewControl"[styles]="styles" id="map">
-  <app-user *ngFor='let usr of users'[user]='usr'></app-user>
-</agm-map>
+<div class="container-fluid contain">  
+    <div class="row">
+        <div class="col-12 pageheader1" >
+            <h2 class="pageheader2 text-center">{{title}}</h2>
+        </div>
+    </div>
+    <div class="row contentheight">
+        <app-selected-user-panel [currentSelectedUser]="selectedUser" class="col-xs-12 col-lg-4 userpanel"></app-selected-user-panel>
+    </div>
 </div>
+<div id="outDIV">
+    <div id="inDIV">
+        <agm-map  [latitude]="lat" [longitude]="lng" [zoom]="zoom"[minZoom]="3" [zoomControl]="zoomControl" [streetViewControl]="streetViewControl"[styles]="styles" id="map">
+          <app-user (selectedUser)=newSelectedUser($event) *ngFor='let usr of users'[user]='usr'></app-user>
+        </agm-map>
+    </div>
+</div>
+<footer class="footer text-center"><p> copyright 2018</p></footer>
+

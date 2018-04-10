@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from './user.model';
+
 
 @Component({
   selector: 'app-user',
@@ -7,62 +8,72 @@ import { User } from './user.model';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent {
-  @Input() public user: User;
+  private _user: User;
   constructor() { }
-  get blockumber(): any {
-    return this.user.blockumber;
-   }
+  @Output() private selectedUser =  new EventEmitter<User>();
+  @Input() set user(usr: User) {
+      this._user = usr;
+    }
+    get blockumber(): string|null {
+      return this._user.blockumber;
+     }
 
    get postalcode(): number {
-     return this.user.postalcode;
+     return this._user.postalcode;
    }
 
    get extraAddressLine(): string {
-     return this.user.extraAddressLine;
+     return this._user.extraAddressLine;
    }
 
    get rating(): number {
-     return this.user.rating;
+     return this._user.rating;
    }
 
    get firstname(): string {
-     return this.user.firstname;
+     return this._user.firstname;
    }
 
    get lastname(): string {
-     return this.user.lastname;
+     return this._user.lastname;
    }
 
    get streetname(): string {
-     return this.user.streetname;
+     return this._user.streetname;
    }
 
    get housenumber(): string {
-     return this.user.housenumber;
+     return this._user.housenumber;
    }
 
    // these don't seem so secure, but will have to do for now
    get inRequest(): string[] {
-     return this.user.inRequest;
+     return this._user.inRequest;
    }
    get outRequest(): string[] {
-     return this.user.inRequest;
+     return this._user.inRequest;
    }
 
    get lending(): string[] {
-     return this.user.lending;
+     return this._user.lending;
    }
 
    get lentOut(): string[] {
-     return this.user.lentOut;
+     return this._user.lentOut;
    }
 
    get using(): string[] {
-     return this.user.using;
+     return this._user.using;
    }
 
    get mapLocation(): {lat: number, lng: number} {
-    return this.user.mapLocation;
+    return this._user.mapLocation;
+  }
+
+  selectUser(): boolean {
+    console.log(this.firstname);
+    this.selectedUser.emit(this._user);
+    return false;
   }
 
 

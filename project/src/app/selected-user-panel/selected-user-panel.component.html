@@ -1,0 +1,61 @@
+<div *ngIf="used" class="userpanel container-fluid">
+  <span *ngIf="used">
+    <p class="text-center">
+      <fa name="user-circle" size="4x"></fa>
+    </p>
+  </span>
+  <h3 class="text-center">{{name}}</h3>
+  <ngb-accordion *ngIf="used" [closeOthers]="false" activeIds="static-3">
+    <ngb-panel>
+      <ng-template ngbPanelTitle>
+        <span>
+          <b>Adres</b>
+        </span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <p>{{address}} </p>
+        <p>{{postalcode}} </p>
+        <p>{{city}} </p>
+        <p>{{country}} </p>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="static-2">
+      <ng-template ngbPanelTitle>
+        <span>
+          <b>Rating</b>
+        </span>
+      </ng-template>
+      <ng-template ngbPanelContent class="text-center">
+        <ngb-rating style="font-size: 1.8em;padding-right: 1em; outline: none" [rate]="3"></ngb-rating>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="static-3">
+      <ng-template ngbPanelTitle>
+        <span>
+          <b>Sharing</b>
+        </span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div>
+          <button class="sharingbutton btn-default btn-lg "><fa name="handshake-o" size="2x"></fa><br>Request</button>
+          <button class="sharingbutton  btn-dark btn-lg"> <fa name="user" size="2x"></fa><br>Return</button>
+        </div>
+          <app-lend-object></app-lend-object>
+          <app-lend-object></app-lend-object>
+          <app-lend-object></app-lend-object>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="static-4">
+      <ng-template ngbPanelTitle>
+        <span>
+          <b>Using</b>
+        </span>
+      </ng-template>
+      <ng-template ngbPanelContent>
+          <app-lend-object></app-lend-object>
+          <app-lend-object></app-lend-object>
+          <app-lend-object></app-lend-object>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>
