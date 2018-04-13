@@ -26,8 +26,7 @@ export class SelectedUserPanelComponent implements OnInit {
   }
   get address() {
     return `
-    ${this._currentSelectedUser.streetname} ${this._currentSelectedUser.housenumber}
-    ${this._currentSelectedUser.postalcode}
+    ${this._currentSelectedUser.address} ${this._currentSelectedUser.extraAddressLine}
     `;
   }
 

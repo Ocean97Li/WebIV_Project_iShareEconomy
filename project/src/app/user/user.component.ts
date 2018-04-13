@@ -14,17 +14,14 @@ export class UserComponent {
   @Input() set user(usr: User) {
       this._user = usr;
     }
-    get blockumber(): string|null {
-      return this._user.blockumber;
-     }
-
-   get postalcode(): number {
-     return this._user.postalcode;
-   }
 
    get extraAddressLine(): string {
      return this._user.extraAddressLine;
    }
+
+   get address(): string {
+    return this._user.address;
+  }
 
    get rating(): number {
      return this._user.rating;
@@ -36,14 +33,6 @@ export class UserComponent {
 
    get lastname(): string {
      return this._user.lastname;
-   }
-
-   get streetname(): string {
-     return this._user.streetname;
-   }
-
-   get housenumber(): string {
-     return this._user.housenumber;
    }
 
    // these don't seem so secure, but will have to do for now

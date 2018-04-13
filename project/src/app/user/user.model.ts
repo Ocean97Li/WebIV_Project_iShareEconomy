@@ -1,19 +1,9 @@
+import { MapsAPILoader } from '@agm/core';
+
 export class User {
          // UserPersonalData
-         private _blocknumber: number | null;
-         private _postalcode: number;
-         private _country: string;
-         private _extraAddressLine: string;
+         private _extraAddressLine = '';
          private _rating: number;
-
-         public get country(): string {
-           return this._country;
-         }
-
-         public get blocknumber(): number {
-           return this._blocknumber;
-         }
-
          private _icon = '../../user.ico';
          // UserData
          private _inRequest = new Array<string>();
@@ -21,25 +11,23 @@ export class User {
          private _lending = new Array<string>();
          private _lentOut = new Array<string>();
          private _using = new Array<string>();
+         public mapsApiLoader: MapsAPILoader;
+         private geocoder;
 
          constructor(// esential data
           private _firstname: string,
           private _lastname: string,
-          private _streetname: string,
-          private _housenumber: string,
+          private _address: string,
           private _password: string,
-          private _mapLocation: { lat: number; lng: number }) {}
+          private _mapLocation: { lat: number; lng: number }) {
+          }
 
-         public get blockumber(): any {
-           return this._blocknumber;
-         }
-
-         public get postalcode(): number {
-           return this._blocknumber;
+        public get address(): string {
+           return this._address;
          }
 
          public get extraAddressLine(): string {
-           return this.extraAddressLine;
+           return this._extraAddressLine;
          }
 
          public get rating(): number {
@@ -54,13 +42,6 @@ export class User {
            return this._lastname;
          }
 
-         public get streetname(): string {
-           return this._streetname;
-         }
-
-         public get housenumber(): string {
-           return this._housenumber;
-         }
 
          // these don't seem so secure, but will have to do for now
          public get inRequest(): string[] {

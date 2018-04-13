@@ -1,4 +1,4 @@
-<div *ngIf="used" class="userpanel container-fluid">
+<div class="userpanel container-fluid">
   <span *ngIf="used">
     <p class="text-center">
       <fa name="user-circle" size="4x"></fa>
@@ -14,9 +14,6 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <p>{{address}} </p>
-        <p>{{postalcode}} </p>
-        <p>{{city}} </p>
-        <p>{{country}} </p>
       </ng-template>
     </ngb-panel>
     <ngb-panel id="static-2">
@@ -37,8 +34,8 @@
       </ng-template>
       <ng-template ngbPanelContent>
         <div>
-          <button class="sharingbutton btn-default btn-lg "><fa name="handshake-o" size="2x"></fa><br>Request</button>
-          <button class="sharingbutton  btn-dark btn-lg"> <fa name="user" size="2x"></fa><br>Return</button>
+          <button class="sharingbutton btn-border btn btn-light btn-lg "><fa name="handshake-o" size="2x"></fa><br>Request</button>
+          <button class="sharingbutton btn btn-dark btn-lg"> <fa name="user" size="2x"></fa><br>Return</button>
         </div>
           <app-lend-object></app-lend-object>
           <app-lend-object></app-lend-object>

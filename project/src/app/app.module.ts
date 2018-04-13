@@ -8,6 +8,9 @@ import { SelectedUserPanelComponent } from './selected-user-panel/selected-user-
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { LendObjectComponent } from './lend-object/lend-object.component';
+import { AppRoutingModule } from './/app-routing.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 
@@ -27,7 +30,11 @@ import { LendObjectComponent } from './lend-object/lend-object.component';
     }
     ),
     NgbModule.forRoot(),
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatSidenavModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,12 +4,18 @@
 
 <div class="container-fluid contain">  
     <div class="row">
-        <div class="col-12 pageheader1" >
-            <h2 class="pageheader2 text-center">{{title}}</h2>
+        <div class="col-12 pageheader1" >   
+            <h2 class="pageheader2 text-center">{{title}}  <a type="button" mat-button (click)="drawer.toggle()">
+                    T
+            </a></h2>
         </div>
     </div>
     <div class="row contentheight">
-        <app-selected-user-panel [currentSelectedUser]="selectedUser" class="col-xs-12 col-lg-4 userpanel"></app-selected-user-panel>
+            <mat-drawer-container class="col-xs-12 col-sm-6 col-md-5 col-lg-4 example-container nobackground" autosize>
+                    <mat-drawer #drawer class="nobackground fullwidth example-sidenav" mode="side">
+                      <app-selected-user-panel [currentSelectedUser]="selectedUser" class="userpanel"></app-selected-user-panel>
+                    </mat-drawer>
+            </mat-drawer-container>
     </div>
 </div>
 <div id="outDIV">
@@ -20,4 +26,3 @@
     </div>
 </div>
 <footer class="footer text-center"><p> copyright 2018</p></footer>
-

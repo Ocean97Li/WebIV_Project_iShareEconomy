@@ -1,9 +1,10 @@
 .userpanel{
-    background-color: rgba(255, 255, 255, 0.95);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.90);
+    width: 100%;
     height: 100%;
     z-index: 20;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding:15px;
     color: black;
     border-top: 1px solid lightgray;
     border-bottom: 1px solid lightgray;
@@ -11,10 +12,12 @@
 }
 
 .sharingbutton{
-    font-size: 1em;
+    font-size: 0.8em;
     width: 49%;
     margin-bottom: 15px;
+    outline: none !important;
+    box-shadow: none;
 }
-
-
-
+.btn-border{
+    border: 1px solid lightgray
+}
