@@ -5,13 +5,14 @@
 <div class="container-fluid contain">  
     <div class="row">
         <div class="col-12 pageheader1" >   
-            <h2 class="pageheader2 text-center">{{title}}  <a type="button" mat-button (click)="drawer.toggle()">
-                    T
-            </a></h2>
+            <button class="userbutton" type="button" mat-button (click)="toggleDspnone();drawer.toggle();toggleOpen1();">
+                <fa name="angle-right" size="2x" [ngClass]="{'rotate180': _open1, 'rotate-back': !_open1}"></fa>
+            </button>
+            <h2 class="pageheader2 text-center">{{title}}  </h2>
         </div>
     </div>
     <div class="row contentheight">
-            <mat-drawer-container class="col-xs-12 col-sm-6 col-md-5 col-lg-4 example-container nobackground" autosize>
+            <mat-drawer-container class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 example-container nobackground" autosize>
                     <mat-drawer #drawer class="nobackground fullwidth example-sidenav" mode="side">
                       <app-selected-user-panel [currentSelectedUser]="selectedUser" class="userpanel"></app-selected-user-panel>
                     </mat-drawer>

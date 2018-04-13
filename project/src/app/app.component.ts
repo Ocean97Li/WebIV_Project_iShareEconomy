@@ -15,6 +15,9 @@ declare let google: any;
   providers: [UserService, MapSettingsService]
 })
 export class AppComponent {
+  public _open1 = false;
+  public _open2 = false;
+  public _displaynone = true;
   private _selecteduser: User;
   private _geocoder;
   private _currentLoc;
@@ -117,5 +120,14 @@ export class AppComponent {
 
   get styles(): Object[] {
     return this._mapSettings.styles;
+  }
+
+
+  toggleOpen1() {
+    this._open1 = !this._open1;
+  }
+
+  toggleDspnone() {
+    this._displaynone = false;
   }
 }

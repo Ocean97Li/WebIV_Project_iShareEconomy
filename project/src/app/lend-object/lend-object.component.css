@@ -9,7 +9,8 @@
 .item-text{
     height: 60px;
     margin: 10px;
-    overflow: auto;
+    padding-left: 10px;
+    overflow: elpsis;
 }
 .item-available{
     margin-top: 30px;

@@ -68,3 +68,36 @@ agm-map {
   width: 100%;
 }
 
+.userbutton{
+  
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: white;
+  border: 0px;
+  padding: 5px;
+  border-radius: 30px;
+  box-shadow: none;
+
+}
+
+.userbutton:focus,.userbutton:active {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.rotate180 {
+  display: inline-block;
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+  -webkit-transition: all linear 200ms;
+  transition: all linear 200ms;
+}
+
+.rotate-back {
+  display: inline-block;
+  -webkit-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: all linear 200ms;
+  transition: all linear 200ms;
+}
