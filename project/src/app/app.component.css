@@ -101,11 +101,3 @@ agm-map {
   -webkit-transition: all linear 200ms;
   transition: all linear 200ms;
 }
-
-.display-false{
-  display: none;
-}
-
-.display-true{
-  display: block;
-}

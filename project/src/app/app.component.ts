@@ -4,29 +4,35 @@ import { User } from './user/user.model';
 import { UserService } from './services/user.service';
 import { MapSettingsService } from './services/map-settings.service';
 import { SelectedUserPanelComponent } from './selected-user-panel/selected-user-panel.component';
+import { MapsAPILoader } from '@agm/core';
 import 'hammerjs';
-import { timeout, delay } from 'q';
-import { GeolocationService } from './services/geolocation.service';
+import { timeout } from 'q';
 declare let google: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [UserService, MapSettingsService, GeolocationService]
+  providers: [UserService, MapSettingsService]
 })
 export class AppComponent {
   public _open1 = false;
-  public _display = false;
   public _open2 = false;
+  public _displaynone = true;
   private _selecteduser: User;
   private _geocoder;
   private _currentLoc;
   constructor(
+    public mapsApiLoader: MapsAPILoader,
     private _userService: UserService,
-    private _mapSettings: MapSettingsService,
-    private _geoService: GeolocationService
-  ) {}
-
+    private _mapSettings: MapSettingsService
+  ) {
+    this.findCurrentLocation();
+    this.mapsApiLoader.load().then(() => {
+      console.log('google script loaded');
+      this._geocoder = new google.maps.Geocoder();
+      console.log(this._geocoder);
+    });
+  }
   get users(): User[] {
     return this._userService.users;
   }
@@ -34,7 +40,45 @@ export class AppComponent {
   newSelectedUser(user: User) {
     console.log('setting ' + user.firstname);
     this._selecteduser = user;
-    this._geoService.reverseGeo(user.mapLocation);
+    this.reverseGeo(user.mapLocation);
+  }
+
+  private findCurrentLocation() {
+    let pos;
+    navigator.geolocation.getCurrentPosition(
+      function() {}, function(e) {}, {}
+    );
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        console.log(position.coords.latitude + ' ' + position.coords.longitude);
+        pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+      },
+      function(e) {
+        console.log('current location not found');
+      },
+      {
+        maximumAge: 100,
+        timeout: 90000
+      }
+    );
+    this._currentLoc = pos;
+  }
+
+  private reverseGeo(location: { lat: number; lng: number }) {
+    this._geocoder.geocode({ location: location }, function(results, status) {
+      if (status === 'OK') {
+        if (results[0]) {
+          console.log(results[0].formatted_address);
+        } else {
+          window.alert('No results found');
+        }
+      } else {
+        window.alert('Geocoder failed due to: ' + status);
+      }
+    });
   }
 
   newUserAdded(user: User) {
@@ -81,26 +125,9 @@ export class AppComponent {
 
   toggleOpen1() {
     this._open1 = !this._open1;
-    console.log(this._open1);
   }
 
-  toggleDisplay() {
-    // close
-    if (this._open1) {
-      this.toggleDisplayFalse();
-      console.log('called');
-    } else { // open
-      this._display = true;
-    }
+  toggleDspnone() {
+    this._displaynone = false;
   }
-
-  async toggleDisplayFalse() {
-    delay(300).then(() => {
-      console.log('waited!');
-      this._display = false;
-    });
-  }
-
-
-
 }
