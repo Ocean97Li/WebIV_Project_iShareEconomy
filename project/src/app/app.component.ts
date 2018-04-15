@@ -7,34 +7,44 @@ import { SelectedUserPanelComponent } from './selected-user-panel/selected-user-
 import 'hammerjs';
 import { timeout, delay } from 'q';
 import { GeolocationService } from './services/geolocation.service';
-declare let google: any;
+import { LoggedInUserService } from './services/logged-in-user.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [UserService, MapSettingsService, GeolocationService]
 })
 export class AppComponent {
   public _open1 = false;
-  public _display = false;
+  public _display1 = false;
   public _open2 = false;
+  public _display2 = false;
   private _selecteduser: User;
   private _geocoder;
   private _currentLoc;
   constructor(
     private _userService: UserService,
     private _mapSettings: MapSettingsService,
-    private _geoService: GeolocationService
+    private _geoService: GeolocationService,
+    private _loggedInUserService: LoggedInUserService
   ) {}
 
   get users(): User[] {
     return this._userService.users;
   }
 
-  newSelectedUser(user: User) {
-    console.log('setting ' + user.firstname);
+  newSelectedUser(user: User, drawerLeft: any) {
+    if (user !== this._selecteduser) {
+      if (user === this._loggedInUserService.loggedInUser) {
+          return;
+      }
+      console.log('setting ' + user.firstname);
+      if (!this._display1) {
+        this.toggleNavLeft(drawerLeft);
+      }
     this._selecteduser = user;
-    this._geoService.reverseGeo(user.mapLocation);
+    } else {
+      this.toggleNavLeft(drawerLeft);
+    }
   }
 
   newUserAdded(user: User) {
@@ -44,6 +54,11 @@ export class AppComponent {
   @Output()
   get selectedUser(): User {
     return this._selecteduser;
+  }
+
+  @Output()
+  get loggedInUser(): User {
+    return this._loggedInUserService.loggedInUser;
   }
 
   get title(): string {
@@ -79,28 +94,52 @@ export class AppComponent {
   }
 
 
-  toggleOpen1() {
+  public toggleNavLeft(drawerLeft) {
+    this.toggleDisplay1();
+    drawerLeft.toggle();
+    this.toggleOpen1();
+  }
+  private toggleOpen1() {
     this._open1 = !this._open1;
     console.log(this._open1);
   }
 
-  toggleDisplay() {
+  private toggleDisplay1() {
     // close
     if (this._open1) {
-      this.toggleDisplayFalse();
+      this.toggleDisplayFalse1();
       console.log('called');
     } else { // open
-      this._display = true;
+      this._display1 = true;
     }
   }
 
-  async toggleDisplayFalse() {
+  private async toggleDisplayFalse1() {
     delay(300).then(() => {
       console.log('waited!');
-      this._display = false;
+      this._display1 = false;
     });
   }
 
+  private toggleOpen2() {
+    this._open2 = !this._open2;
+    console.log(this._open2);
+  }
 
+  private toggleDisplay2() {
+    // close
+    if (this._open2) {
+      this.toggleDisplayFalse2();
+      console.log('called');
+    } else { // open
+      this._display2 = true;
+    }
+  }
 
+  private async toggleDisplayFalse2() {
+    delay(300).then(() => {
+      console.log('waited!');
+      this._display2 = false;
+    });
+  }
 }

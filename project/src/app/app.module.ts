@@ -11,6 +11,11 @@ import { LendObjectComponent } from './lend-object/lend-object.component';
 import { AppRoutingModule } from './/app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { UserService } from './services/user.service';
+import { MapSettingsService } from './services/map-settings.service';
+import { GeolocationService } from './services/geolocation.service';
+import { LoggedInUserComponent } from './logged-in-user/logged-in-user.component';
+import { LoggedInUserService } from './services/logged-in-user.service';
 
 
 
@@ -19,7 +24,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     AppComponent,
     UserComponent,
     SelectedUserPanelComponent,
-    LendObjectComponent
+    LendObjectComponent,
+    LoggedInUserComponent
 
   ],
   imports: [
@@ -34,9 +40,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     AppRoutingModule,
     BrowserAnimationsModule,
     MatSidenavModule
-
   ],
-  providers: [],
+  providers: [UserService, MapSettingsService, GeolocationService, LoggedInUserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,7 +12,6 @@ export class User {
          private _lentOut = new Array<string>();
          private _using = new Array<string>();
          public mapsApiLoader: MapsAPILoader;
-         private geocoder;
 
          constructor(// esential data
           private _firstname: string,
@@ -65,4 +64,13 @@ export class User {
          get mapLocation(): { lat: number; lng: number } {
            return this._mapLocation;
          }
+
+         public set address(address: string) {
+           this._address = address;
+         }
+
+         public set icon(icon: string) {
+          this._icon = icon;
+        }
+
        }

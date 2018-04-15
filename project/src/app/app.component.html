@@ -5,24 +5,35 @@
 <div class="container-fluid contain">  
     <div class="row">
         <div class="col-12 pageheader1" >   
-            <button class="userbutton" type="button" mat-button (click)="toggleDisplay();drawer.toggle();toggleOpen1();">
+            <button class="userbutton" type="button" mat-button (click)="toggleNavLeft(drawerleft);">
                 <fa name="angle-right" size="2x" [ngClass]="{'rotate180': _open1, 'rotate-back': !_open1}"></fa>
             </button>
             <h2 class="pageheader2 text-center">{{title}}  </h2>
+            <button class="userbutton2" type="button" mat-button (click)="toggleDisplay2();drawerright.toggle();toggleOpen2();">
+                <fa name="angle-left" size="2x" [ngClass]="{'rotate180': _open2, 'rotate-back': !_open2}"></fa>
+            </button>
         </div>
     </div>
-    <div class="row contentheight">
-            <mat-drawer-container class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 example-container nobackground" autosize [ngClass]="{'display-true': _display, 'display-false': !_display}"> 
-                    <mat-drawer #drawer class="nobackground fullwidth example-sidenav" mode="side">
+    <div class="row justify-content-between contentheight">
+            <mat-drawer-container class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 example-container nobackground" autosize [ngClass]="{'display-true': _display1, 'display-false': !_display1}"> 
+                    <mat-drawer #drawerleft class="nobackground fullwidth example-sidenav" mode="side">
                       <app-selected-user-panel [currentSelectedUser]="selectedUser" class="userpanel"></app-selected-user-panel>
                     </mat-drawer>
             </mat-drawer-container>
+            <div class="col" [ngClass]="{'display-false': _display1&&_display2, 'display-true': !_display1&&_display2}">
+            
+            </div>
+            <mat-drawer-container class="float-right col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 example-container nobackground" autosize [ngClass]="{'display-true': _display2, 'display-false': !_display2}"> 
+                <mat-drawer #drawerright class="nobackground fullwidth example-sidenav"position="end" mode="side">
+                  <app-logged-in-user [currentLoggedInUser]="loggedInUser" class="userpanel"></app-logged-in-user>
+                </mat-drawer>
+        </mat-drawer-container>
     </div>
 </div>
 <div id="outDIV">
     <div id="inDIV">
         <agm-map  [latitude]="lat" [longitude]="lng" [zoom]="zoom"[minZoom]="3" [zoomControl]="zoomControl" [streetViewControl]="streetViewControl"[styles]="styles" id="map">
-          <app-user (selectedUser)=newSelectedUser($event) *ngFor='let usr of users'[user]='usr'></app-user>
+          <app-user (selectedUser)="newSelectedUser($event,drawerleft);" *ngFor='let usr of users'[user]='usr'></app-user>
         </agm-map>
     </div>
 </div>
