@@ -1,5 +1,4 @@
 .userpanel{
-    -webkit-backdrop-filter: blur(10px);
     background-color: rgba(255, 255, 255, 0.90);
     width: 100%;
     height: 100%;
@@ -13,7 +12,7 @@
 
 .sharingbutton{
     font-size: 0.8em;
-    width: 49%;
+    width: 100%;
     margin-bottom: 15px;
     outline: none !important;
     box-shadow: none;

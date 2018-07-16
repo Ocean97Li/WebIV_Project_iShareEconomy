@@ -1,5 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from './user.model';
+import { RequestComponent } from '../request/request.component';
+import { LendObjectComponent } from '../lend-object/lend-object.component';
+import { LendObject } from '../lend-object/lend-object.model';
+import { Request } from '../request/request.model';
 
 
 @Component({
@@ -36,22 +40,18 @@ export class UserComponent {
    }
 
    // these don't seem so secure, but will have to do for now
-   get inRequest(): string[] {
+   get inRequest(): Request[] {
      return this._user.inRequest;
    }
-   get outRequest(): string[] {
+   get outRequest(): Request[] {
      return this._user.inRequest;
    }
 
-   get lending(): string[] {
+   get lending(): LendObject[] {
      return this._user.lending;
    }
 
-   get lentOut(): string[] {
-     return this._user.lentOut;
-   }
-
-   get using(): string[] {
+   get using(): LendObject[] {
      return this._user.using;
    }
 
@@ -64,6 +64,7 @@ export class UserComponent {
     this.selectedUser.emit(this._user);
     return false;
   }
+
 
 
 }

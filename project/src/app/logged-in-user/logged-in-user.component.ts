@@ -11,7 +11,7 @@ export class LoggedInUserComponent implements OnInit {
   constructor(private loggedInUserService: LoggedInUserService) { }
 
   @Input() set currentLoggedInUser(usr: User) {
-    console.log('new user arrived');
+    console.log('new logged user arrived');
     this.loggedInUserService.loggedInUser = usr;
   }
   get display() {
@@ -31,6 +31,22 @@ export class LoggedInUserComponent implements OnInit {
 
   get rating() {
     return new Array<number>(this.loggedInUserService.loggedInUser.rating);
+  }
+
+  get sharing() {
+    return this.loggedInUserService.loggedInUser.lending;
+  }
+
+  get using() {
+    return this.loggedInUserService.loggedInUser.using;
+  }
+
+  get inRequests() {
+    return this.loggedInUserService.loggedInUser.inRequest;
+  }
+
+  get outRequests() {
+    return this.loggedInUserService.loggedInUser.outRequest;
   }
   ngOnInit() {
   }

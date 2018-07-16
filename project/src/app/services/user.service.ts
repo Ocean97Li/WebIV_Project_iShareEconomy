@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
 import { User } from '../user/user.model';
+import { LendObjectComponent } from '../lend-object/lend-object.component';
+import { LendObject } from '../lend-object/lend-object.model';
+import { Request } from '../request/request.model';
 
 @Injectable()
 export class UserService {
 
   private _users: User[];
+  private _objects: LendObject[];
+  private _requests: Request[];
   constructor() {
     this._users = [
       new User('Hu Ocean', 'Li', 'Nonnemeerstraat 19-24', 'lol', {lat: 51.043526, lng: 3.713618}),
@@ -16,6 +21,50 @@ export class UserService {
       new User('Barack', 'Obama', 'CIA bunker BD911', 'lol4', {lat: 39.063 , lng: -77.889}),
       new User('Donald', 'Trump', 'CIA bunker BD911', 'china', {lat: 39.064, lng: -77.8}),
     ];
+    this._objects = [
+      new LendObject('Hammer' , 'A brand new spankin hammer', 'wrench', this._users[1], this._users[2]),
+      new LendObject('Sikkel' , 'A brand new sikkel', 'wrench', this._users[1], this._users[2]),
+      new LendObject('car' , 'A brand new spankin car', 'car', this._users[1], this._users[2]),
+      new LendObject('brush' , 'A brand new spankin brush', 'wrench', this._users[1], this._users[2]),
+
+      new LendObject('car' , 'BMW burgoise', 'car', this._users[5], this._users[2]),
+      new LendObject('car' , 'ferari', 'car', this._users[5], this._users[2]),
+      new LendObject('car' , 'Porsche', 'car', this._users[1], undefined),
+      new LendObject('car' , 'VW', 'car', this._users[1], this._users[5]),
+
+      new LendObject('dog walks' , '5km walk with your dog', 'male', this._users[0], this._users[2]),
+      new LendObject('dog walks' , '5km walk with your dog', 'male', this._users[0], undefined),
+      new LendObject('car wash' , '1hour wash of your car', 'male', this._users[2], this._users[0]),
+      new LendObject('archery practice' , 'try to get shot', 'male', this._users[1], this._users[0])
+    ];
+    this._objects[1].addUser(this._users[1]);
+    this._objects[1].addUser(this._users[2]);
+    this._objects[1].addUser(this._users[3]);
+    this._objects[1].addUser(this._users[4]);
+    this._objects[1].addUser(this._users[5]);
+
+    this._objects[2].addUser(this._users[1]);
+    this._objects[2].addUser(this._users[2]);
+    this._objects[2].addUser(this._users[3]);
+
+    this._objects[3].addUser(this._users[1]);
+    this._objects[3].addUser(this._users[2]);
+    this._objects[3].addUser(this._users[3]);
+    this._objects[3].addUser(this._users[4]);
+    this._objects[3].addUser(this._users[5]);
+    this._objects[3].addUser(this._users[1]);
+    this._objects[3].addUser(this._users[2]);
+    this._objects[3].addUser(this._users[3]);
+    this._objects[3].addUser(this._users[4]);
+    this._objects[3].addUser(this._users[5]);
+
+  this._requests = [
+    new Request(this._users[0], this._users[1], this._objects[0]),
+    new Request(this._users[0], this._users[1], this._objects[1]),
+    new Request(this._users[1], this._users[0], this._objects[3]),
+    new Request(this._users[1], this._users[0], this._objects[4]),
+    new Request(this._users[1], this._users[0], this._objects[5]),
+  ];
   }
 
   get users(): User[] {
@@ -29,7 +78,7 @@ export class UserService {
   }
 
   addNewUser(user: User) {
-    this._users = [...this.users, user];
+    this._users = [...this._users, user];
   }
 
 }

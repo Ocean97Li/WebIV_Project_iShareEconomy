@@ -26,11 +26,11 @@ export class GeolocationService implements OnInit {
     navigator.geolocation.getCurrentPosition(function() {}, function(e) {}, {});
     navigator.geolocation.getCurrentPosition(
       function(position) {
-        console.log(position.coords.latitude + ' ' + position.coords.longitude);
         pos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
+        return pos;
       },
       function(e) {
         console.log('current location not found');
@@ -41,6 +41,7 @@ export class GeolocationService implements OnInit {
       }
     );
     this._currentLoc = pos;
+    console.log(this._currentLoc);
   }
 
   reverseGeo(location: { lat: number; lng: number }) {

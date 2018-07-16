@@ -5,54 +5,43 @@
     </p>
   </span>
   <h3 class="text-center">{{name}}</h3>
-  <ngb-accordion *ngIf="used" [closeOthers]="false" activeIds="static-3">
-    <ngb-panel>
-      <ng-template ngbPanelTitle>
-        <span>
-          <b>Adres</b>
-        </span>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <p>{{address}} </p>
-      </ng-template>
-    </ngb-panel>
-    <ngb-panel id="static-2">
-      <ng-template ngbPanelTitle>
-        <span>
+  <mat-accordion *ngIf="used" [multi]=true>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <b>Address</b>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>{{address}} </p>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]=true>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
           <b>Rating</b>
-        </span>
-      </ng-template>
-      <ng-template ngbPanelContent class="text-center">
-        <ngb-rating style="font-size: 1.8em;padding-right: 1em; outline: none" [rate]="3"></ngb-rating>
-      </ng-template>
-    </ngb-panel>
-    <ngb-panel id="static-3">
-      <ng-template ngbPanelTitle>
-        <span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <ngb-rating style="font-size: 1.8em;padding-right: 1em; outline: none" [rate]="3"></ngb-rating>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]=true>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
           <b>Sharing</b>
-        </span>
-      </ng-template>
-      <ng-template ngbPanelContent>
-        <div>
-          <button class="sharingbutton btn-border btn btn-light btn-lg "><fa name="hand-paper-o" size="2x"></fa><br>Request</button>
-          <button class="sharingbutton btn btn-dark btn-lg fa-hand"> <fa name="handshake-o" size="2x"></fa><br>Return</button>
-        </div>
-          <app-lend-object></app-lend-object>
-          <app-lend-object></app-lend-object>
-          <app-lend-object></app-lend-object>
-      </ng-template>
-    </ngb-panel>
-    <ngb-panel id="static-4">
-      <ng-template ngbPanelTitle>
-        <span>
-          <b>Using</b>
-        </span>
-      </ng-template>
-      <ng-template ngbPanelContent>
-          <app-lend-object></app-lend-object>
-          <app-lend-object></app-lend-object>
-          <app-lend-object></app-lend-object>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <button class="sharingbutton btn-border btn btn-light btn-lg ">
+          <fa name="hand-paper-o" size="2x"></fa>
+          <br>Request</button>
+      </div>
+      <app-lend-object *ngFor='let obj of sharing' [lendObject]='obj'></app-lend-object>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+           <b>Using</b>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-lend-object *ngFor='let obj of using' [lendObject]='obj'></app-lend-object>
+      </mat-expansion-panel>
+    </mat-accordion>
 </div>

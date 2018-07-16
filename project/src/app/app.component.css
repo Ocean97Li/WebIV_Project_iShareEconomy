@@ -78,6 +78,13 @@ agm-map {
   padding: 5px;
   border-radius: 30px;
   box-shadow: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 
 .userbutton2{
@@ -90,6 +97,13 @@ agm-map {
   padding: 5px;
   border-radius: 30px;
   box-shadow: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome and Opera */
 
 }
 
@@ -100,17 +114,13 @@ agm-map {
 
 .rotate180 {
   display: inline-block;
-  -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
-  -webkit-transition: all linear 200ms;
   transition: all linear 200ms;
 }
 
 .rotate-back {
   display: inline-block;
-  -webkit-transform: rotate(0deg);
   transform: rotate(0deg);
-  -webkit-transition: all linear 200ms;
   transition: all linear 200ms;
 }
 

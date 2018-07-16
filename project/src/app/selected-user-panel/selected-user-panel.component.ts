@@ -15,6 +15,13 @@ export class SelectedUserPanelComponent implements OnInit {
     this._currentSelectedUser = usr;
 
   }
+
+  get sharing() {
+    return this._currentSelectedUser.lending;
+  }
+  get using() {
+    return this._currentSelectedUser.using;
+  }
   get used() {
     return (this._currentSelectedUser !== undefined);
   }

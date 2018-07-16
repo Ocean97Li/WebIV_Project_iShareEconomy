@@ -4,17 +4,17 @@ import { UserService } from './user.service';
 
 @Injectable()
 export class LoggedInUserService {
-  private _loggedInUser: User;
+  private _loggedInUser: string;
   constructor(private _userService: UserService) {
-    this._loggedInUser = this._userService.getUserByName('Hu Ocean');
+    this._loggedInUser = 'Hu Ocean';
   }
 
-  get loggedInUser() {
-    return this._loggedInUser;
+  public get loggedInUser() {
+    return this._userService.getUserByName(this._loggedInUser);
   }
 
-  set loggedInUser(user: User) {
-    this._loggedInUser = user;
+  public set loggedInUser(user: User) {
+    this._loggedInUser = user.firstname;
   }
 
 

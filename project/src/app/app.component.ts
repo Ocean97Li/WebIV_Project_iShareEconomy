@@ -93,7 +93,6 @@ export class AppComponent {
     return this._mapSettings.styles;
   }
 
-
   public toggleNavLeft(drawerLeft) {
     this.toggleDisplay1();
     drawerLeft.toggle();
@@ -108,15 +107,13 @@ export class AppComponent {
     // close
     if (this._open1) {
       this.toggleDisplayFalse1();
-      console.log('called');
     } else { // open
       this._display1 = true;
     }
   }
 
-  private async toggleDisplayFalse1() {
-    delay(300).then(() => {
-      console.log('waited!');
+  private toggleDisplayFalse1() {
+    delay(30).then(() => {
       this._display1 = false;
     });
   }
@@ -136,8 +133,8 @@ export class AppComponent {
     }
   }
 
-  private async toggleDisplayFalse2() {
-    delay(300).then(() => {
+  private toggleDisplayFalse2() {
+    delay(30).then(() => {
       console.log('waited!');
       this._display2 = false;
     });
