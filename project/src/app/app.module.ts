@@ -50,7 +50,7 @@ import { GeolocationService } from './services/geolocation.service';
 import { LoggedInUserComponent } from './logged-in-user/logged-in-user.component';
 import { LoggedInUserService } from './services/logged-in-user.service';
 import { RequestComponent } from './request/request.component';
-
+import { UserFilterPipe } from './user/user-filter.pipe';
 
 
 @NgModule({
@@ -60,8 +60,8 @@ import { RequestComponent } from './request/request.component';
     SelectedUserPanelComponent,
     LendObjectComponent,
     LoggedInUserComponent,
-    RequestComponent
-
+    RequestComponent,
+    UserFilterPipe,
   ],
   imports: [
     BrowserModule,

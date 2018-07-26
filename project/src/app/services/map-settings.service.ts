@@ -129,6 +129,12 @@ export class MapSettingsService {
   }
 
 
+  set position(posobject) {
+    this._lat = posobject.lat;
+    this._lng = posobject._lng;
+  }
+
+
   get lng(): number {
     return this._lng;
   }

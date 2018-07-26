@@ -20,7 +20,7 @@
           <b>Rating</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <ngb-rating style="font-size: 1.8em;padding-right: 1em; outline: none" [rate]="3"></ngb-rating>
+      <ngb-rating style="font-size: 1.5em;padding-right: 1em; outline: none" [rate]="3"></ngb-rating>
     </mat-expansion-panel>
     <mat-expansion-panel [expanded]=true>
       <mat-expansion-panel-header>
@@ -33,7 +33,7 @@
           <fa name="hand-paper-o" size="2x"></fa>
           <br>Request</button>
       </div>
-      <app-lend-object *ngFor='let obj of sharing' [lendObject]='obj'></app-lend-object>
+      <app-lend-object *ngFor='let obj of sharing' [lendObject]='obj' [selectable]='true'></app-lend-object>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>

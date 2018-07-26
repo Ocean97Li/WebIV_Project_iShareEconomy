@@ -9,39 +9,31 @@ export class GeolocationService implements OnInit {
   constructor(public mapsApiLoader: MapsAPILoader) {
     this.findCurrentLocation();
     this.mapsApiLoader.load().then(() => {
-      console.log('google script loaded');
       this._geocoder = new google.maps.Geocoder();
       console.log(this._geocoder);
     });
   }
 
   ngOnInit(): void {
-    console.log('google script loaded second time');
     this._geocoder = new google.maps.Geocoder();
     console.log(this._geocoder);
   }
 
-  findCurrentLocation() {
-    let pos;
-    navigator.geolocation.getCurrentPosition(function() {}, function(e) {}, {});
-    navigator.geolocation.getCurrentPosition(
-      function(position) {
-        pos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        return pos;
-      },
-      function(e) {
-        console.log('current location not found');
-      },
-      {
-        maximumAge: 100,
-        timeout: 90000
+  findCurrentLocation(): any {
+      if (navigator.geolocation) {
+          return navigator.geolocation.getCurrentPosition(this.showPosition);
+      } else {
+          console.log('Geolocation is not supported by this browser.');
       }
-    );
-    this._currentLoc = pos;
-    console.log(this._currentLoc);
+  }
+
+  showPosition(position) {
+    console.log(position.coords.latitude);
+    console.log(position.coords.longitude);
+    return {
+      'x': position.coords.latitude,
+      'y': position.coords.longitude
+    };
   }
 
   reverseGeo(location: { lat: number; lng: number }) {

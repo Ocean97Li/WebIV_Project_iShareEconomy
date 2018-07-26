@@ -9,6 +9,7 @@ import { LendObject } from './lend-object.model';
 })
 export class LendObjectComponent implements OnInit {
   private _selected: boolean;
+  @Input()public selectable: boolean;
   private _obj: LendObject;
   constructor() {}
   @Input() set lendObject(obj: LendObject) {

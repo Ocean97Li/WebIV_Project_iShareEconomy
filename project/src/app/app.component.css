@@ -131,3 +131,26 @@ agm-map {
 .display-true{
   display: block;
 }
+
+.smaller {
+  font-size: 0.7em;
+  margin-left: 1em;
+}
+
+.searchbar{
+  position: absolute;
+  left: 0px;
+  z-index: 20;
+  width: 100%;
+}
+
+.select{
+  height: 44px !important;
+  border-radius: 0px !important;
+  padding: 0px !important;
+  width: 25% !important;
+}
+
+.custum_input{
+  width: 50% !important;
+}
