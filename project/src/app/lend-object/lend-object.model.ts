@@ -5,11 +5,11 @@ export class LendObject {
   private _waitList: User[];
   private _name: string;
   private _description: string;
-  private _type: string;
+  private _type: ShareType;
   constructor(
     name: string,
     description: string,
-    type: string,
+    type: ShareType,
     private _owner: User,
     private _user: User|undefined
   ) {
@@ -92,7 +92,7 @@ export class LendObject {
    * Getter type
    * @return {string}
    */
-  public get type(): string {
+  public get type(): ShareType {
     return this._type;
   }
 
@@ -124,7 +124,13 @@ export class LendObject {
    * Setter type
    * @param {string} value
    */
-  public set type(value: string) {
+  public set type(value: ShareType) {
     this._type = value;
   }
+}
+
+export enum ShareType {
+  Service = 'male',
+  Tool = 'wrench',
+  Transport = 'car'
 }

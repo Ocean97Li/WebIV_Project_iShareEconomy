@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../user/user.model';
 import { LendObjectComponent } from '../lend-object/lend-object.component';
-import { LendObject } from '../lend-object/lend-object.model';
+import { LendObject, ShareType } from '../lend-object/lend-object.model';
 import { Request } from '../request/request.model';
 
 @Injectable()
@@ -22,20 +22,20 @@ export class UserService {
       new User('Donald', 'Trump', 'CIA bunker BD911', 'china', {lat: 39.064, lng: -77.8}),
     ];
     this._objects = [
-      new LendObject('Hammer' , 'A brand new spankin hammer', 'wrench', this._users[1], this._users[2]),
-      new LendObject('Sikkel' , 'A brand new sikkel', 'wrench', this._users[1], this._users[2]),
-      new LendObject('car' , 'A brand new spankin car', 'car', this._users[1], this._users[2]),
-      new LendObject('brush' , 'A brand new spankin brush', 'wrench', this._users[1], this._users[2]),
+      new LendObject('Hammer' , 'A brand new spankin hammer', ShareType.Tool, this._users[1], this._users[2]),
+      new LendObject('Sikkel' , 'A brand new sikkel', ShareType.Tool, this._users[1], this._users[2]),
+      new LendObject('car' , 'A brand new spankin car', ShareType.Tool, this._users[1], this._users[2]),
+      new LendObject('brush' , 'A brand new spankin brush', ShareType.Tool, this._users[1], this._users[2]),
 
-      new LendObject('car' , 'BMW burgoise', 'car', this._users[5], this._users[2]),
-      new LendObject('car' , 'ferari', 'car', this._users[5], this._users[2]),
-      new LendObject('car' , 'Porsche', 'car', this._users[1], undefined),
-      new LendObject('car' , 'VW', 'car', this._users[1], this._users[5]),
+      new LendObject('car' , 'BMW burgoise', ShareType.Tool, this._users[5], this._users[2]),
+      new LendObject('car' , 'ferari', ShareType.Tool, this._users[5], this._users[2]),
+      new LendObject('car' , 'Porsche', ShareType.Tool, this._users[1], undefined),
+      new LendObject('car' , 'VW', ShareType.Tool, this._users[1], this._users[5]),
 
-      new LendObject('dog walks' , '5km walk with your dog', 'male', this._users[0], this._users[2]),
-      new LendObject('dog walks' , '5km walk with your dog', 'male', this._users[0], undefined),
-      new LendObject('car wash' , '1hour wash of your car', 'male', this._users[2], this._users[0]),
-      new LendObject('archery practice' , 'try to get shot', 'male', this._users[1], this._users[0])
+      new LendObject('dog walks' , '5km walk with your dog', ShareType.Tool, this._users[0], this._users[2]),
+      new LendObject('dog walks' , '5km walk with your dog', ShareType.Tool, this._users[0], undefined),
+      new LendObject('car wash' , '1hour wash of your car', ShareType.Tool, this._users[2], this._users[0]),
+      new LendObject('archery practice' , 'try to get shot', ShareType.Tool, this._users[1], this._users[0])
     ];
     this._objects[1].addUser(this._users[1]);
     this._objects[1].addUser(this._users[2]);
