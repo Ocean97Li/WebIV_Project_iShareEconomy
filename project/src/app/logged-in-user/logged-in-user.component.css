@@ -11,13 +11,6 @@
     overflow: auto;
 }
 
-.sharingbutton{
-    font-size: 0.8em;
-    width: 100%;
-    margin-bottom: 15px;
-    outline: none !important;
-    box-shadow: none;
-}
 .btn-border{
     border: 1px solid lightgray
 }

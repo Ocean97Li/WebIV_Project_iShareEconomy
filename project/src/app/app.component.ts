@@ -1,25 +1,25 @@
-import { Component, EventEmitter, Output, OnInit } from "@angular/core";
-import { LatLngBounds } from "@agm/core";
-import { User } from "./user/user.model";
-import { UserService } from "./services/user.service";
-import { MapSettingsService } from "./services/map-settings.service";
-import { SelectedUserPanelComponent } from "./selected-user-panel/selected-user-panel.component";
-import "hammerjs";
-import { timeout, delay } from "q";
-import { GeolocationService } from "./services/geolocation.service";
-import { LoggedInUserService } from "./services/logged-in-user.service";
-import { Subject } from "../../node_modules/rxjs/Subject";
+import { Component, Output, OnInit } from '@angular/core';
+import { LatLngBounds } from '@agm/core';
+import { User } from './user/user.model';
+import { UserService } from './services/user.service';
+import { MapSettingsService } from './services/map-settings.service';
+import { SelectedUserPanelComponent } from './selected-user-panel/selected-user-panel.component';
+import 'hammerjs';
+import { timeout, delay } from 'q';
+import { GeolocationService } from './services/geolocation.service';
+import { LoggedInUserService } from './services/logged-in-user.service';
+import { Subject } from '../../node_modules/rxjs/Subject';
 import {
   distinctUntilChanged,
   debounceTime,
   map,
   filter
-} from "rxjs/operators";
+} from 'rxjs/operators';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   public _open1 = false;
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
   private _filtername: string;
   public searchType: string;
   public search: boolean;
-  public readonly searchTypes = ["User", "Object", "Address"];
+  public readonly searchTypes = ['User', 'Object', 'Address'];
   constructor(
     private _userService: UserService,
     private _mapSettings: MapSettingsService,
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
       if (user === this._loggedInUserService.loggedInUser) {
         return;
       }
-      console.log("setting " + user.firstname);
+      console.log('setting ' + user.firstname);
       if (!this._display1) {
         this.toggleNavLeft(drawerLeft);
       }

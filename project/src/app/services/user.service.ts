@@ -27,15 +27,15 @@ export class UserService {
       new LendObject('car' , 'A brand new spankin car', ShareType.Tool, this._users[1], this._users[2]),
       new LendObject('brush' , 'A brand new spankin brush', ShareType.Tool, this._users[1], this._users[2]),
 
-      new LendObject('car' , 'BMW burgoise', ShareType.Tool, this._users[5], this._users[2]),
-      new LendObject('car' , 'ferari', ShareType.Tool, this._users[5], this._users[2]),
-      new LendObject('car' , 'Porsche', ShareType.Tool, this._users[1], undefined),
-      new LendObject('car' , 'VW', ShareType.Tool, this._users[1], this._users[5]),
+      new LendObject('car' , 'BMW burgoise', ShareType.Transport, this._users[5], this._users[2]),
+      new LendObject('car' , 'ferari', ShareType.Transport, this._users[5], this._users[2]),
+      new LendObject('car' , 'Porsche', ShareType.Transport, this._users[1], undefined),
+      new LendObject('car' , 'VW', ShareType.Transport, this._users[1], this._users[5]),
 
-      new LendObject('dog walks' , '5km walk with your dog', ShareType.Tool, this._users[0], this._users[2]),
-      new LendObject('dog walks' , '5km walk with your dog', ShareType.Tool, this._users[0], undefined),
-      new LendObject('car wash' , '1hour wash of your car', ShareType.Tool, this._users[2], this._users[0]),
-      new LendObject('archery practice' , 'try to get shot', ShareType.Tool, this._users[1], this._users[0])
+      new LendObject('dog walks' , '5km walk with your dog', ShareType.Service, this._users[0], this._users[2]),
+      new LendObject('dog walks' , '5km walk with your dog', ShareType.Service, this._users[0], undefined),
+      new LendObject('car wash' , '1hour wash of your car', ShareType.Service, this._users[2], this._users[0]),
+      new LendObject('archery practice' , 'try to get shot', ShareType.Service, this._users[1], this._users[0])
     ];
     this._objects[1].addUser(this._users[1]);
     this._objects[1].addUser(this._users[2]);
@@ -79,6 +79,10 @@ export class UserService {
 
   addNewUser(user: User) {
     this._users = [...this._users, user];
+  }
+
+  addObjectToUser(object: LendObject, currentuser: User) {
+    this._users.find(user => user.authorCode === currentuser.authorCode).lending.push(object);
   }
 
 }

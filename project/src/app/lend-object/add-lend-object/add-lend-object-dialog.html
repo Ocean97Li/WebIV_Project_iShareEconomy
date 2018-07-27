@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Add a new thing to share!</h2>
+<div mat-dialog-content>
+  <form class="ui form" [formGroup]='lendObject' (ngSubmit)='onSubmit()'>
+    <label>What are you sharing?</label>
+    <br>
+    <div  class='type' [ngClass]="{'blue':type==chosenType,'last':type==='car'}" (click)="chosenType=type;" *ngFor="let type of types">
+      <fa class="ico" [name]="type" size="3x"></fa>
+    </div>
+    <p *ngIf="chosenType==='wrench'&&chosenType!==undefined">a
+      <b>tool</b>
+    </p>
+    <p *ngIf="chosenType==='male'&&chosenType!==undefined">a
+      <b>service</b>
+    </p>
+    <p *ngIf="chosenType==='car'&&chosenType!==undefined">a
+      <b>transportation mode</b>
+    </p>
+    <div *ngIf="chosenType===undefined"> Select one of these</div>
+    <div *ngIf='isTypeDirty()' class='ui pointing red label'>
+      Don't forget to do this!
+    </div>
+    <p>
+      <label>Title:</label>
+      <input [ngClass]={texterror:isTitleDirty()} formControlName='title' #title maxlength="20" placeholder="eg. A hammer">
+    </p>
+    <div>
+      <label>Rules:</label>
+      <textarea formControlName='rules' rows=3 #rules placeholder="eg. Get it back in the same state as you got it!"></textarea>
+    </div>
+    <p>
+      <label>Short Description:</label>
+      <input [ngClass]={texterror:isDescDirty()} formControlName='desc' #desc maxlength="40" placeholder="max. 40 characters">
+    </p>
+    <div>
+      <button class="ui button red" (click)="close()" type="button">Cancel</button>
+      <button [ngClass]={disabled:anyDirty()} class="ui right button green" type="submit">Create</button>
+    </div>
+  </form>
+</div>

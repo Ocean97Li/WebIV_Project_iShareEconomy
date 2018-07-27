@@ -6,21 +6,28 @@ export class LendObject {
   private _name: string;
   private _description: string;
   private _type: ShareType;
+  private _rules: string;
+
   constructor(
     name: string,
     description: string,
     type: ShareType,
-    private _owner: User,
-    private _user: User|undefined
+    private _owner?: User,
+    private _user?: User,
+    rules?: string
   ) {
     this._name = name;
     this._description = description;
     this._type = type;
+    this._waitList = [];
+    this._rules = rules;
+
     if (this._user !== undefined) {
       this._user.addLendObject(this);
     }
-    this._owner.addLendObject(this);
-    this._waitList = [];
+    if (this._owner !== undefined) {
+      this._owner.addLendObject(this);
+    }
   }
 
   public addUser(user: User): void {

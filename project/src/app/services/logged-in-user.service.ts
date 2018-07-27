@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../user/user.model';
 import { UserService } from './user.service';
+import { LendObject } from '../lend-object/lend-object.model';
 
 @Injectable()
 export class LoggedInUserService {
@@ -15,6 +16,13 @@ export class LoggedInUserService {
 
   public set loggedInUser(user: User) {
     this._loggedInUser = user.firstname;
+  }
+
+  public addNewLendObject(object: LendObject) {
+    // temporary
+    object.addUser(this.loggedInUser);
+    this._userService.addObjectToUser(object, this.loggedInUser);
+
   }
 
 

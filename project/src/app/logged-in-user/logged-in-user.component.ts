@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../user/user.model';
 import { LoggedInUserService } from '../services/logged-in-user.service';
+import { LendObject } from '../lend-object/lend-object.model';
 @Component({
   selector: 'app-logged-in-user',
   templateUrl: './logged-in-user.component.html',
@@ -13,6 +14,10 @@ export class LoggedInUserComponent implements OnInit {
   @Input() set currentLoggedInUser(usr: User) {
     console.log('new logged user arrived');
     this.loggedInUserService.loggedInUser = usr;
+  }
+
+  @Input() addNewLendObject(object: LendObject) {
+    this.loggedInUserService.addNewLendObject(object);
   }
   get display() {
     return (this.loggedInUserService.loggedInUser !== undefined);
@@ -50,4 +55,5 @@ export class LoggedInUserComponent implements OnInit {
   }
   ngOnInit() {
   }
+
 }

@@ -26,6 +26,10 @@ export class LendObjectComponent implements OnInit {
     this._selected = !this._selected;
   }
 
+  public deselect(): void {
+    this._selected = false;
+  }
+
   get description() {
     return this._obj.description;
   }

@@ -1,0 +1,32 @@
+.ico {
+    width: 45px;
+    height: 45px;
+}
+
+.type {
+    border-radius: 5px;
+    padding: 5px;
+    padding-top: 8px;
+    width: 60px;
+    height: 60px;
+    border: 1px solid silver;
+    text-align: center;
+    display: inline-block;
+    margin-right:  9px;
+}
+
+.last {
+    margin-right: 0px;
+}
+
+
+.blue {
+    background-color: rgb(0, 119, 216);
+    color: white;
+    border: 0px;
+}
+
+.texterror {
+    border-color: lightcoral !important;
+    color: lightcoral;
+}

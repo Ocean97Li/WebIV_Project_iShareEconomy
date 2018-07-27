@@ -4,3 +4,19 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 html { height: 100% }
 body { height: 100%; margin: 0px; padding: 0px }
+
+.sharingbutton{
+    font-size: 0.8em;
+    width: 100%;
+    margin-bottom: 15px;
+    outline: none !important;
+    box-shadow: none;
+}
+
+.sharingbutton:focus{
+    font-size: 0.8em;
+    width: 100%;
+    margin-bottom: 15px;
+    outline: none !important;
+    box-shadow: none;
+}

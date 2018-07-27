@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AgmCoreModule } from '@agm/core';
 import { UserComponent } from './user/user.component';
-import { User } from './user/user.model';
 import { SelectedUserPanelComponent } from './selected-user-panel/selected-user-panel.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
@@ -42,7 +41,8 @@ import {
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatDialog
 } from '@angular/material';
 import { UserService } from './services/user.service';
 import { MapSettingsService } from './services/map-settings.service';
@@ -51,7 +51,9 @@ import { LoggedInUserComponent } from './logged-in-user/logged-in-user.component
 import { LoggedInUserService } from './services/logged-in-user.service';
 import { RequestComponent } from './request/request.component';
 import { UserFilterPipe } from './user/user-filter.pipe';
-
+import { AddRequestComponent } from './request/add-request/add-request.component';
+import { AddLendObjectComponent, AddLendObjectDialogComponent } from './lend-object/add-lend-object/add-lend-object.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,9 @@ import { UserFilterPipe } from './user/user-filter.pipe';
     LoggedInUserComponent,
     RequestComponent,
     UserFilterPipe,
+    AddRequestComponent,
+    AddLendObjectComponent,
+    AddLendObjectDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,9 +81,11 @@ import { UserFilterPipe } from './user/user-filter.pipe';
     BrowserAnimationsModule,
     MatSidenavModule,
     MatExpansionModule,
-    MatExpansionModule
+    MatDialogModule,
+    ReactiveFormsModule
   ],
-  providers: [UserService, MapSettingsService, GeolocationService, LoggedInUserService],
-  bootstrap: [AppComponent]
+  providers: [UserService, MapSettingsService, GeolocationService, LoggedInUserService, MatDialog],
+  bootstrap: [AppComponent],
+  entryComponents: [AddLendObjectDialogComponent]
 })
 export class AppModule { }
