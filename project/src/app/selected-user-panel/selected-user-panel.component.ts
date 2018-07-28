@@ -11,7 +11,6 @@ export class SelectedUserPanelComponent implements OnInit {
   private _used = false;
   constructor() { }
   @Input() set currentSelectedUser(usr: User) {
-    console.log('new user arrived');
     this._currentSelectedUser = usr;
 
   }

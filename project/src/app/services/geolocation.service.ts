@@ -1,12 +1,13 @@
 import { Injectable, OnInit } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
+import { MapSettingsService } from './map-settings.service';
 declare let google: any;
 @Injectable()
 export class GeolocationService implements OnInit {
   public google: any;
   private _geocoder: any;
   private _currentLoc: any;
-  constructor(public mapsApiLoader: MapsAPILoader) {
+  constructor(public mapsApiLoader: MapsAPILoader, private _mapsSettingsService: MapSettingsService) {
     this.findCurrentLocation();
     this.mapsApiLoader.load().then(() => {
       this._geocoder = new google.maps.Geocoder();
@@ -21,19 +22,21 @@ export class GeolocationService implements OnInit {
 
   findCurrentLocation(): any {
       if (navigator.geolocation) {
-          return navigator.geolocation.getCurrentPosition(this.showPosition);
+          this._currentLoc = navigator.geolocation.getCurrentPosition(this.showPosition);
       } else {
           console.log('Geolocation is not supported by this browser.');
       }
+      return this._currentLoc;
   }
 
   showPosition(position) {
     console.log(position.coords.latitude);
     console.log(position.coords.longitude);
-    return {
-      'x': position.coords.latitude,
-      'y': position.coords.longitude
+    position = {
+      'lat': position.coords.latitude,
+      'lng': position.coords.longitude
     };
+    return position;
   }
 
   reverseGeo(location: { lat: number; lng: number }) {

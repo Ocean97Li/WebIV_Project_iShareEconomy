@@ -1,4 +1,4 @@
-import { Component, Output, OnInit } from '@angular/core';
+import { Component, Output, OnInit, Input } from '@angular/core';
 import { LatLngBounds } from '@agm/core';
 import { User } from './user/user.model';
 import { UserService } from './services/user.service';
@@ -15,6 +15,8 @@ import {
   map,
   filter
 } from 'rxjs/operators';
+import { ShareType } from './lend-object/lend-object.model';
+import { UserFilterPipe } from './user/user-filter.pipe';
 
 @Component({
   selector: 'app-root',
@@ -26,46 +28,47 @@ export class AppComponent implements OnInit {
   public _display1 = false;
   public _open2 = false;
   public _display2 = false;
-  public filterUser$ = new Subject<string>();
   private _selecteduser: User;
   private _geocoder;
   private _currentLoc;
-  private _filtername: string;
+  public filtername: string;
   public searchType: string;
   public search: boolean;
-  public readonly searchTypes = ['User', 'Object', 'Address'];
+  public dissappearAnimation: boolean;
+  private _users = new Array<User>();
   constructor(
     private _userService: UserService,
     private _mapSettings: MapSettingsService,
     private _geoService: GeolocationService,
     private _loggedInUserService: LoggedInUserService
   ) {
-    this.filterUser$.pipe(debounceTime(400)).subscribe(val => {
-      this._filtername = val;
-      console.log(val);
-    });
+    this.searchType = 'User';
+    this.filtername = '';
   }
 
   ngOnInit(): void {
     this._currentLoc = this._geoService.findCurrentLocation();
+    this._users = this._userService.users;
   }
+
+  // display component
 
   get users(): User[] {
-    return this._userService.users;
+    return this._users;
   }
 
-  newSelectedUser(user: User, drawerLeft: any) {
-    if (user !== this._selecteduser) {
-      if (user === this._loggedInUserService.loggedInUser) {
-        return;
-      }
-      console.log('setting ' + user.firstname);
-      if (!this._display1) {
+  newSelectedUser(user: User, drawerLeft: any, drawerRight) {
+    if (user === this._loggedInUserService.loggedInUser) {
+      this.toggleNavRight(drawerRight);
+    } else {
+      if (user !== this._selecteduser) {
+        if (!this._display1) {
+          this.toggleNavLeft(drawerLeft);
+        }
+        this._selecteduser = user;
+      } else {
         this.toggleNavLeft(drawerLeft);
       }
-      this._selecteduser = user;
-    } else {
-      this.toggleNavLeft(drawerLeft);
     }
   }
 
@@ -82,7 +85,7 @@ export class AppComponent implements OnInit {
   get loggedInUser(): User {
     return this._loggedInUserService.loggedInUser;
   }
-
+   // map component
   get title(): string {
     return this._mapSettings.title;
   }
@@ -115,9 +118,8 @@ export class AppComponent implements OnInit {
     return this._mapSettings.styles;
   }
 
-  get filtername(): string {
-    return this._filtername;
-  }
+
+  // display component
 
   public toggleNavLeft(drawerLeft) {
     this.toggleDisplay1();
@@ -134,7 +136,10 @@ export class AppComponent implements OnInit {
   private toggleOpen1() {
     this._open1 = !this._open1;
     if (this._open1) {
-      this.search = false;
+      this.dissappearAnimation = true;
+      setTimeout(() => {
+        this.search = false;
+      }, 500);
     }
   }
 
@@ -157,7 +162,10 @@ export class AppComponent implements OnInit {
   private toggleOpen2() {
     this._open2 = !this._open2;
     if (this._open2) {
-      this.search = false;
+      this.dissappearAnimation = true;
+      setTimeout(() => {
+        this.search = false;
+      }, 500);
     }
   }
 
@@ -165,7 +173,6 @@ export class AppComponent implements OnInit {
     // close
     if (this._open2) {
       this.toggleDisplayFalse2();
-      console.log('called');
     } else {
       // open
       this._display2 = true;
@@ -174,26 +181,52 @@ export class AppComponent implements OnInit {
 
   private toggleDisplayFalse2() {
     delay(30).then(() => {
-      console.log('waited!');
       this._display2 = false;
     });
   }
 
+  // search
   public toggleSearch(drawerLeft, drawerRight) {
+    if (this.search) {
+      this.dissappearAnimation = true;
+      setTimeout(() => {
+        this.handleToggleSearch(drawerLeft, drawerRight);
+      }, 500);
+    } else {
+      this.dissappearAnimation = false;
+      this.handleToggleSearch(drawerLeft, drawerRight);
+    }
+  }
+
+  public newSearch(search: string[]) {
+    console.log('received');
+    this.filtername = search[0];
+    this.searchType = search[1];
+    const pipe =  new UserFilterPipe();
+    const users = pipe.transform(this._users, this.filtername, this.searchType);
+    if (users.length >= 2) {
+      this._mapSettings.position = users[0].mapLocation;
+      this._mapSettings.zoom = 10;
+    } else if (users.length === 1) {
+      this._mapSettings.position = users[0].mapLocation;
+      this._mapSettings.zoom = 18;
+    }
+    console.log(this.filtername);
+    console.log(this.searchType);
+  }
+
+  private handleToggleSearch(drawerLeft, drawerRight) {
     this.search = !this.search;
     if (this.search) {
       if (this._open2) {
         // opening
         this.toggleNavRight(drawerRight);
-      } else {
-        // closing
       }
       if (this._open1) {
         // opening
         this.toggleNavLeft(drawerLeft);
-      } else {
-        // closing
       }
     }
   }
 }
+

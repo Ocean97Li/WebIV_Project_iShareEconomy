@@ -54,6 +54,8 @@ import { UserFilterPipe } from './user/user-filter.pipe';
 import { AddRequestComponent } from './request/add-request/add-request.component';
 import { AddLendObjectComponent, AddLendObjectDialogComponent } from './lend-object/add-lend-object/add-lend-object.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SearchbarComponent } from './searchbar/searchbar.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AddRequestComponent,
     AddLendObjectComponent,
     AddLendObjectDialogComponent,
+    SearchbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,7 +85,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatSidenavModule,
     MatExpansionModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [UserService, MapSettingsService, GeolocationService, LoggedInUserService, MatDialog],
   bootstrap: [AppComponent],

@@ -130,8 +130,9 @@ export class MapSettingsService {
 
 
   set position(posobject) {
+    console.log('setting coords:' + posobject.lat + ', ' + posobject.lng);
     this._lat = posobject.lat;
-    this._lng = posobject._lng;
+    this._lng = posobject.lng;
   }
 
 
@@ -140,8 +141,12 @@ export class MapSettingsService {
   }
 
 
-    get zoom(): number {
+  get zoom(): number {
     return this._zoom;
+  }
+
+  set zoom(zoom: number) {
+    this._zoom = zoom;
   }
 
 

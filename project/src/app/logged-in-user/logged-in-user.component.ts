@@ -12,7 +12,6 @@ export class LoggedInUserComponent implements OnInit {
   constructor(private loggedInUserService: LoggedInUserService) { }
 
   @Input() set currentLoggedInUser(usr: User) {
-    console.log('new logged user arrived');
     this.loggedInUserService.loggedInUser = usr;
   }
 

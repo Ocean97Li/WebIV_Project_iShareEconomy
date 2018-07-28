@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css";
 @import "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css";
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
@@ -19,4 +20,12 @@ body { height: 100%; margin: 0px; padding: 0px }
     margin-bottom: 15px;
     outline: none !important;
     box-shadow: none;
+}
+
+.green {
+    background-color: rgb(14, 194, 14);
+}
+
+.red {
+    background-color: rgb(206, 7, 7);
 }

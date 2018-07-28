@@ -71,6 +71,8 @@ export class UserService {
     return this._users;
   }
 
+
+
   getUserByName(firstname: string, lastname?: string): User {
     return this._users.find(user => lastname ?
         user.firstname.toLowerCase === firstname.toLowerCase && user.lastname.toLowerCase === lastname.toLowerCase

@@ -12,16 +12,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf=search class="searchbar ui right action input">
-    <input type=text class="custum_input ui text" (keyup)='filterUser$.next($event.target.value)' placeholder="Search ...">
-    <select class="select ui left compact selection dropdown">
-      <option *ngFor='let type of searchTypes'>
-        {{type}}
-      </option>
-    </select>
-    <button class="ui light button">next</button>
-  </div>
-  
+  <app-searchbar [_dissappearAnimation]=dissappearAnimation [_filtername]=filtername [_searchType]=searchType (newSearch)="newSearch($event)" *ngIf="search"></app-searchbar>
   <div class="row justify-content-between contentheight">
     <mat-drawer-container class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 example-container nobackground" autosize [ngClass]="{'display-true': _display1, 'display-false': !_display1}">
       <mat-drawer #drawerleft class="nobackground fullwidth example-sidenav" mode="side" role="main">
@@ -42,7 +33,7 @@
   <div id="inDIV">
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [minZoom]="3" [zoomControl]="zoomControl" [streetViewControl]="streetViewControl"
       [styles]="styles" id="map">
-      <app-user (selectedUser)="newSelectedUser($event,drawerleft);" *ngFor='let usr of users | userFilter:{"1": filtername,"2": searchType}'
+      <app-user (selectedUser)="newSelectedUser($event,drawerleft,drawerRight);" *ngFor='let usr of users |userFilter:filtername:searchType'
         [user]='usr'></app-user>
     </agm-map>
   </div>

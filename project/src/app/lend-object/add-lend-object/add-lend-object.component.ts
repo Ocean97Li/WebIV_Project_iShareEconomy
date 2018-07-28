@@ -110,7 +110,7 @@ export class AddLendObjectDialogComponent implements OnInit {
   }
 
   public isTitleDirty() {
-    return this._title.touched && this._title.invalid;
+    return (this._rules.touched || this._desc.touched) && this._title.invalid;
   }
 
   public anyDirty() {
