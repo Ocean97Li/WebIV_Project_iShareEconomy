@@ -5,14 +5,23 @@
         <fa name="angle-right" size="2x" [ngClass]="{'rotate180': _open1, 'rotate-back': !_open1}"></fa>
       </div>
       <h2 class="pageheader2 text-center">{{title}}
-        <a (click)="toggleSearch(drawerleft,drawerRight)"><fa name="search" class=smaller size="1x"></fa></a>
+        <a (click)="toggleSearch(drawerleft,drawerRight)">
+          <fa name="search" class=smaller size="1x"></fa>
+        </a>
+        <a>
+          <fa name="question" class=smaller size="1x"></fa>
+        </a>
+        <a>
+          <fa name="sign-out" class=smaller size="1x"></fa>
+        </a>
       </h2>
       <div class="userbutton2" (click)="toggleNavRight(drawerRight);">
         <fa name="angle-left" size="2x" [ngClass]="{'rotate180': _open2, 'rotate-back': !_open2}"></fa>
       </div>
     </div>
   </div>
-  <app-searchbar [_dissappearAnimation]=dissappearAnimation [_filtername]=filtername [_searchType]=searchType (newSearch)="newSearch($event)" *ngIf="search"></app-searchbar>
+  <app-searchbar [_dissappearAnimation]=dissappearAnimation [_filtername]=filtername [_searchType]=searchType (newSearch)="newSearch($event)"
+    *ngIf="search"></app-searchbar>
   <div class="row justify-content-between contentheight">
     <mat-drawer-container class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 example-container nobackground" autosize [ngClass]="{'display-true': _display1, 'display-false': !_display1}">
       <mat-drawer #drawerleft class="nobackground fullwidth example-sidenav" mode="side" role="main">

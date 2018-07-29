@@ -29,10 +29,8 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="row">
-        <app-add-lend-object class="col-6 noPaddingRight"></app-add-lend-object>
-        <div class="col-6 noPaddingLeft">
-        <button class="sharingbutton btn-border btn btn-dark btn-lg"> <fa name="trash" size="2x"></fa><br>Delete</button>
-        </div>
+          <app-add-lend-object class="col-6 noPaddingRight"></app-add-lend-object>
+          <app-delete-lend-object class="col-6 noPaddingLeft"></app-delete-lend-object>
       </div>
         <app-lend-object *ngFor='let obj of sharing'[lendObject]='obj'></app-lend-object>
     </mat-expansion-panel>

@@ -56,6 +56,8 @@ import { AddLendObjectComponent, AddLendObjectDialogComponent } from './lend-obj
 import { ReactiveFormsModule } from '@angular/forms';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { FormsModule } from '@angular/forms';
+import { DeleteLendObjectComponent, DeleteLendObjectDialogComponent } from './lend-object/delete-lend-object/delete-lend-object.component';
+import { InfoLendObjectComponent } from './lend-object/info-lend-object/info-lend-object.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,9 @@ import { FormsModule } from '@angular/forms';
     AddLendObjectComponent,
     AddLendObjectDialogComponent,
     SearchbarComponent,
+    DeleteLendObjectComponent,
+    DeleteLendObjectDialogComponent,
+    InfoLendObjectComponent
   ],
   imports: [
     BrowserModule,
@@ -90,6 +95,6 @@ import { FormsModule } from '@angular/forms';
   ],
   providers: [UserService, MapSettingsService, GeolocationService, LoggedInUserService, MatDialog],
   bootstrap: [AppComponent],
-  entryComponents: [AddLendObjectDialogComponent]
+  entryComponents: [AddLendObjectDialogComponent, DeleteLendObjectDialogComponent]
 })
 export class AppModule { }

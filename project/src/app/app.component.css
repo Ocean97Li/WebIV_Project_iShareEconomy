@@ -16,6 +16,9 @@ agm-map {
   background-color: white;
   text-align: center;
   margin: 0px;
+  padding-top: 15px;
+  height: 61px;
+  font-size: 1.5rem;
   
 }
 .label{

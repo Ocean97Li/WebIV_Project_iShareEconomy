@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '../user/user.model';
 import { LendObject } from './lend-object.model';
+
 
 @Component({
   selector: 'app-lend-object',
@@ -8,14 +9,22 @@ import { LendObject } from './lend-object.model';
   styleUrls: ['./lend-object.component.css']
 })
 export class LendObjectComponent implements OnInit {
-  private _selected: boolean;
+  @Input()public selected: boolean;
   @Input()public selectable: boolean;
   private _obj: LendObject;
-  constructor() {}
+  @Output() private sendObject: EventEmitter<LendObject>;
+  constructor() {
+    this.sendObject = this.sendObject = new EventEmitter();
+  }
   @Input() set lendObject(obj: LendObject) {
     this._obj = obj;
   }
   ngOnInit() {
+  }
+
+  send() {
+    this.sendObject.emit(this._obj);
+    console.log('emitted!');
   }
 
   get name() {
@@ -23,11 +32,14 @@ export class LendObjectComponent implements OnInit {
   }
 
   public select(): void {
-    this._selected = !this._selected;
+    if (this.selectable) {
+    console.log(this.selected);
+    this.send();
+    }
   }
 
   public deselect(): void {
-    this._selected = false;
+    this.selected = false;
   }
 
   get description() {
@@ -36,10 +48,6 @@ export class LendObjectComponent implements OnInit {
 
   get owner() {
     return this._obj.owner;
-  }
-
-  get selected(): boolean {
-      return this._selected;
   }
 
   get type(): string {
@@ -71,6 +79,11 @@ export class LendObjectComponent implements OnInit {
         return this._obj.waitList.length;
     }
     return this._obj.waitList.length + 1;
+  }
+
+  public usersTooltip() {
+    return `Current user:  ${this._obj.user}
+    Waitinglist: ${this._obj.waitList[this._obj.waitList.length - 1]}`;
   }
 
 

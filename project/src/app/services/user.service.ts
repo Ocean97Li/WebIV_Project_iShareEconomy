@@ -87,4 +87,9 @@ export class UserService {
     this._users.find(user => user.authorCode === currentuser.authorCode).lending.push(object);
   }
 
+  removeObject(user: User, object: LendObject) {
+    const userIndex = this._users.findIndex(u => u.authorCode === user.authorCode);
+    // geen idee hoe;
+  }
+
 }

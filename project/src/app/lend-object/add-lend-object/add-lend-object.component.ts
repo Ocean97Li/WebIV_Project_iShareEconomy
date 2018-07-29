@@ -90,10 +90,9 @@ export class AddLendObjectDialogComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log(this.lendObject.value.type);
     this.close();
     const object = new LendObject(this.lendObject.value.title, this.lendObject.value.desc, this._chosenType);
-    console.log(object);
+    this.objectEmitter.emit(object);
   }
 
   public isTypeDirty() {
@@ -116,9 +115,5 @@ export class AddLendObjectDialogComponent implements OnInit {
   public anyDirty() {
     return this._title.invalid || this._desc.invalid || this._chosenType === undefined;
   }
-
-
-
-
 
 }

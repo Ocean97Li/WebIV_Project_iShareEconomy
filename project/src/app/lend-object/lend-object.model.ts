@@ -38,11 +38,6 @@ export class LendObject {
     }
   }
 
-  public returnObject(userAuthorcode: string): void {
-    if (userAuthorcode === this._user.authorCode) {
-    }
-  }
-
   public isAvailable(): boolean {
     return this._user === undefined && this._waitList.length === 0;
   }
@@ -77,6 +72,14 @@ export class LendObject {
    */
   public get name(): string {
     return this._name;
+  }
+
+  /**
+   * Getter user
+   * @return {User}
+   */
+  public get user(): User {
+    return this._user;
   }
 
   /**

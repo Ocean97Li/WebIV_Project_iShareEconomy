@@ -1,3 +1,8 @@
-top-margin {
-    margin-top: 10px
+.margin {
+    margin-bottom: 10px !important;
+}
+
+.inverted {
+    background-color: rgb(128, 141, 158);
+    color: white;
 }

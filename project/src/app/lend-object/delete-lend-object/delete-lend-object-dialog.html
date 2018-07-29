@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>Stop sharing an item?</h2>
+<div mat-dialog-content>
+  <form class="ui form" (ngSubmit)='onSubmit()'>
+    <label>Select an item you wish to remove:</label>
+    <div class="object-selector">
+      <div *ngFor="let object of lending">
+        <app-lend-object (sendObject)="newSelected($event);" [selected]='object===selected' [selectable]='true'[lendObject]=object></app-lend-object>
+      </div>
+    </div>
+    <div *ngIf="showWarning"  class="appear ui orange message">
+      <div class="header">
+        Warning!
+      </div>
+      <p>This object either is being used and/or has a waitinglist of users, removing it now can cause trouble.
+    </p></div>
+    <br>
+    <div>
+      <button class="ui button blue" (click)="close()" type="button">Cancel</button>
+      <button [ngClass]={disabled:!selected} class="ui right button red" type="submit">Delete</button>
+    </div>
+  </form>
+</div>

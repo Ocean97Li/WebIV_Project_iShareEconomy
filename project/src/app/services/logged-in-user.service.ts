@@ -25,6 +25,10 @@ export class LoggedInUserService {
 
   }
 
+  removeObject(selected: LendObject): void {
+    //
+  }
+
 
 
 }

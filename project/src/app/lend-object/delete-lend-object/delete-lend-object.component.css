@@ -1,0 +1,8 @@
+.object-selector {
+    max-height: 300px;
+    overflow: auto;
+}
+
+.appear {
+    animation: appear 1s;
+}
