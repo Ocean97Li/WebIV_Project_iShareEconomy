@@ -32,7 +32,7 @@
           <app-add-lend-object class="col-6 noPaddingRight"></app-add-lend-object>
           <app-delete-lend-object class="col-6 noPaddingLeft"></app-delete-lend-object>
       </div>
-        <app-lend-object *ngFor='let obj of sharing'[lendObject]='obj'></app-lend-object>
+        <app-lend-object *ngFor='let obj of sharing' [information]=true [lendObject]='obj'></app-lend-object>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -43,7 +43,7 @@
       <div>
         <button class="sharingbutton btn-border btn btn-dark btn-lg"> <fa name="handshake-o" size="2x"></fa><br>Return</button>
     </div>
-    <app-lend-object *ngFor='let obj of using'[lendObject]='obj'></app-lend-object>
+    <app-lend-object *ngFor='let obj of using' [information]=true [lendObject]='obj'></app-lend-object>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>

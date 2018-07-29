@@ -58,6 +58,8 @@ export class UserService {
     this._objects[3].addUser(this._users[4]);
     this._objects[3].addUser(this._users[5]);
 
+    this._objects[8].addUser(this._users[5]);
+
   this._requests = [
     new Request(this._users[0], this._users[1], this._objects[0]),
     new Request(this._users[0], this._users[1], this._objects[1]),

@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '../user/user.model';
 import { LendObject } from './lend-object.model';
+import { MatDialog } from '../../../node_modules/@angular/material';
+import { InfoLendObjectComponent } from './info-lend-object/info-lend-object.component';
 
 
 @Component({
@@ -9,11 +11,13 @@ import { LendObject } from './lend-object.model';
   styleUrls: ['./lend-object.component.css']
 })
 export class LendObjectComponent implements OnInit {
-  @Input()public selected: boolean;
-  @Input()public selectable: boolean;
+  @Input() public information: boolean;
+  @Input() public selected: boolean;
+  @Input() public selectable: boolean;
   private _obj: LendObject;
   @Output() private sendObject: EventEmitter<LendObject>;
-  constructor() {
+
+  constructor(public dialog: MatDialog) {
     this.sendObject = this.sendObject = new EventEmitter();
   }
   @Input() set lendObject(obj: LendObject) {
@@ -22,20 +26,21 @@ export class LendObjectComponent implements OnInit {
   ngOnInit() {
   }
 
-  send() {
-    this.sendObject.emit(this._obj);
-    console.log('emitted!');
-  }
-
   get name() {
     return this._obj.name;
   }
 
   public select(): void {
-    if (this.selectable) {
-    console.log(this.selected);
-    this.send();
+    // when viewing information
+    if (this.information) {
+      this.openDialog();
+    } else {
+      // when deleting
+      if (this.selectable) {
+        this.sendObject.emit(this._obj);
+      }
     }
+
   }
 
   public deselect(): void {
@@ -81,10 +86,19 @@ export class LendObjectComponent implements OnInit {
     return this._obj.waitList.length + 1;
   }
 
-  public usersTooltip() {
-    return `Current user:  ${this._obj.user}
-    Waitinglist: ${this._obj.waitList[this._obj.waitList.length - 1]}`;
+  private openDialog(): void {
+    if (this.information) {
+    const dialogRef = this.dialog.open(InfoLendObjectComponent, {
+      width: '450px',
+      data: {
+        object: this._obj
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      //
+    });
   }
+}
 
 
 }

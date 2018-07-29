@@ -60,7 +60,6 @@ export class UserComponent {
   }
 
   selectUser(): boolean {
-    console.log(this.firstname);
     this.selectedUser.emit(this._user);
     return false;
   }

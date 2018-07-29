@@ -28,7 +28,7 @@ export class SelectedUserPanelComponent implements OnInit {
     if (this._currentSelectedUser === undefined) {
       return '';
     }
-    return `${this._currentSelectedUser.firstname} ${this._currentSelectedUser.lastname}`;
+    return this._currentSelectedUser.name;
   }
   get address() {
     return `

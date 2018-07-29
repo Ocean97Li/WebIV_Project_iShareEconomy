@@ -32,13 +32,4 @@ select {
       background-color: white
   }
 
-  @keyframes appear {
-   from  {opacity: 0;}
-   to  {opacity: 1;}
-  }
-
-  @keyframes dissappear {
-    from  {opacity: 1;}
-    to  {opacity: 0;}
-   }
   

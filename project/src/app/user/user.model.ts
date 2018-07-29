@@ -49,6 +49,10 @@ export class User {
            return this._lastname;
          }
 
+         public get name(): string {
+           return `${this._firstname} ${this._lastname}`;
+         }
+
          public get authorCode(): string {
            return this._authorCode;
          }

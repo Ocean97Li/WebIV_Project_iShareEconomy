@@ -25,7 +25,7 @@ export class LoggedInUserComponent implements OnInit {
     if (this.loggedInUserService.loggedInUser === undefined) {
       return '';
     }
-    return `${this.loggedInUserService.loggedInUser.firstname} ${this.loggedInUserService.loggedInUser.lastname}`;
+    return this.loggedInUserService.loggedInUser.name;
   }
   get address() {
     return `

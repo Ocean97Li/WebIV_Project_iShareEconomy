@@ -29,7 +29,7 @@ export class RequestComponent implements OnInit {
    * @return {string}
    */
   get source(): string {
-    return `${this._request.source.firstname} ${this._request.source.lastname}`;
+    return this._request.source.name;
   }
 
   /**
@@ -37,7 +37,7 @@ export class RequestComponent implements OnInit {
    * @return {string}
    */
   private get target(): string {
-    return `${this._request.target.firstname} ${this._request.target.lastname}`;
+    return this._request.target.name;
   }
 
   /**

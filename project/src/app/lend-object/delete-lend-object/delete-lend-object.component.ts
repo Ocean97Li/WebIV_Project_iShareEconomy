@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogContent, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { User } from '../../user/user.model';
-import { ShareType, LendObject } from '../lend-object.model';
+import { LendObject } from '../lend-object.model';
 import { UserService } from '../../services/user.service';
 import { LoggedInUserService } from '../../services/logged-in-user.service';
 
@@ -23,7 +23,7 @@ export class DeleteLendObjectComponent implements OnInit {
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      //
     });
   }
 }
@@ -54,9 +54,7 @@ export class DeleteLendObjectDialogComponent implements OnInit {
 
   public newSelected(object: LendObject) {
     this._selected = object;
-    console.log(this.selected);
     this.showWarning = !(this.selected.isAvailable());
-    console.log(this.showWarning);
   }
 
   public get selected() {

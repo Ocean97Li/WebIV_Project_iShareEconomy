@@ -6,6 +6,13 @@
 html { height: 100% }
 body { height: 100%; margin: 0px; padding: 0px }
 
+/* general */
+
+.noPadding{
+    padding: 0px !important;
+}
+
+/* buttons */
 .sharingbutton{
     font-size: 0.8em;
     width: 100%;

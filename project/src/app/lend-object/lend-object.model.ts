@@ -1,8 +1,10 @@
 import { User } from '../user/user.model';
+import { Request } from '../request/request.model';
 
 export class LendObject {
   private _id;
   private _waitList: User[];
+  private _waitingList: Request[];
   private _name: string;
   private _description: string;
   private _type: ShareType;
@@ -20,6 +22,7 @@ export class LendObject {
     this._description = description;
     this._type = type;
     this._waitList = [];
+    this._waitingList = [];
     this._rules = rules;
 
     if (this._user !== undefined) {
@@ -35,6 +38,16 @@ export class LendObject {
       this._user = user;
     } else {
       this._waitList.push(user);
+    }
+  }
+
+  public addRequest(request: Request): boolean {
+    if (this._waitingList.find(r => request.fromdate.valueOf() >= r.fromdate.valueOf()
+    && request.todate.valueOf() <= r.todate.valueOf())) {
+      return false;
+    } else {
+      this._waitingList.push(request);
+      return true;
     }
   }
 
@@ -107,6 +120,22 @@ export class LendObject {
   }
 
   /**
+   * Getter rules
+   * @return {string}
+   */
+  public get rules(): string {
+    return this._rules;
+  }
+
+  /**
+   * Getter rules
+   * @return {Request[]}
+   */
+  public get waitingList(): Request[] {
+    return this._waitingList;
+  }
+
+  /**
    * Setter waitList
    * @param {User[]} value
    */
@@ -137,6 +166,8 @@ export class LendObject {
   public set type(value: ShareType) {
     this._type = value;
   }
+
+
 }
 
 export enum ShareType {

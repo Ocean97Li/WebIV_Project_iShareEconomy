@@ -1,0 +1,11 @@
+.font {
+    color: black;
+}
+
+.inline {
+    display: inline;
+}
+
+.smallerFont{
+    font-size: 13px;
+}

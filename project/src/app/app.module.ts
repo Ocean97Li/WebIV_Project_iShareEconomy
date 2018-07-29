@@ -95,6 +95,6 @@ import { InfoLendObjectComponent } from './lend-object/info-lend-object/info-len
   ],
   providers: [UserService, MapSettingsService, GeolocationService, LoggedInUserService, MatDialog],
   bootstrap: [AppComponent],
-  entryComponents: [AddLendObjectDialogComponent, DeleteLendObjectDialogComponent]
+  entryComponents: [AddLendObjectDialogComponent, DeleteLendObjectDialogComponent, InfoLendObjectComponent]
 })
 export class AppModule { }

@@ -33,7 +33,7 @@
           <fa name="hand-paper-o" size="2x"></fa>
           <br>Request</button>
       </div>
-      <app-lend-object *ngFor='let obj of sharing' [lendObject]='obj' [selectable]='true'></app-lend-object>
+      <app-lend-object *ngFor='let obj of sharing' [information]=true [lendObject]='obj' [selectable]='true'></app-lend-object>
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -41,7 +41,7 @@
            <b>Using</b>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-lend-object *ngFor='let obj of using' [lendObject]='obj'></app-lend-object>
+        <app-lend-object *ngFor='let obj of using' [information]=true [lendObject]='obj'></app-lend-object>
       </mat-expansion-panel>
     </mat-accordion>
 </div>

@@ -22,7 +22,7 @@ export class AddLendObjectComponent implements OnInit {
       data: {}
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      //
     });
   }
 }
