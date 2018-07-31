@@ -1,0 +1,9 @@
+.margin {
+    margin-bottom: 10px !important;
+}
+
+.inverted {
+    background-color: rgb(52, 58, 64);
+    color: white;
+    padding: 5px;
+}

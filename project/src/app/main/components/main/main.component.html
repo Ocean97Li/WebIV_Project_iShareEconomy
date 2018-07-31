@@ -1,0 +1,52 @@
+<div class="container-fluid contain">
+  <div class="row">
+    <div class="col-12 pageheader1">
+      <div class="userbutton" (click)="toggleNavLeft(drawerleft);">
+        <fa name="angle-right" size="2x" [ngClass]="{'rotate180': _open1, 'rotate-back': !_open1}"></fa>
+      </div>
+      <h2 class="pageheader2 text-center">{{title}}
+        <a (click)="toggleSearch(drawerleft,drawerRight)">
+          <fa name="search" class=smaller size="1x"></fa>
+        </a>
+        <a>
+          <fa name="question" class=smaller size="1x"></fa>
+        </a>
+        <a>
+          <fa name="sign-out" class=smaller size="1x"></fa>
+        </a>
+      </h2>
+      <div class="userbutton2" (click)="toggleNavRight(drawerRight);">
+        <fa name="angle-left" size="2x" [ngClass]="{'rotate180': _open2, 'rotate-back': !_open2}"></fa>
+      </div>
+    </div>
+  </div>
+  <app-searchbar [_dissappearAnimation]=dissappearAnimation [_filtername]=filtername [_searchType]=searchType (newSearch)="newSearch($event)"
+    *ngIf="search"></app-searchbar>
+  <div class="row justify-content-between contentheight">
+    <mat-drawer-container class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 example-container nobackground" autosize [ngClass]="{'display-true': _display1, 'display-false': !_display1}">
+      <mat-drawer #drawerleft class="nobackground fullwidth example-sidenav" mode="side" role="main">
+        <app-selected-user-panel [currentSelectedUser]="selectedUser" class="userpanel"></app-selected-user-panel>
+      </mat-drawer>
+    </mat-drawer-container>
+    <div class="col" [ngClass]="{'display-false': _display1&&_display2, 'display-true': !_display1&&_display2}">
+    </div>
+    <mat-drawer-container class="float-right col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 example-container nobackground" autosize
+      [ngClass]="{'display-true': _display2, 'display-false': !_display2}">
+      <mat-drawer #drawerRight class="nobackground fullwidth example-sidenav" position="end" mode="side" role="main">
+        <app-logged-in-user [currentLoggedInUser]="loggedInUser" class="userpanel"></app-logged-in-user>
+      </mat-drawer>
+    </mat-drawer-container>
+  </div>
+</div>
+<div id="outDIV">
+  <div id="inDIV">
+    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [minZoom]="3" [zoomControl]="zoomControl" [streetViewControl]="streetViewControl"
+      [styles]="styles" id="map">
+      <app-user (selectedUser)="newSelectedUser($event,drawerleft,drawerRight);" *ngFor='let usr of users |userFilter:filtername:searchType'
+        [user]='usr'></app-user>
+    </agm-map>
+  </div>
+</div>
+<footer class="footer text-center">
+  <p> copyright 2018</p>
+</footer>

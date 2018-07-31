@@ -1,16 +1,15 @@
 import { NgModule } from '@angular/core';
-import {RouterModule, Routes, Router} from '@angular/router';
-import { UserComponent } from './user/user.component';
+import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
+import { MainComponent } from './main/components/main/main.component';
 
-const routes: Routes = [
-  {
-    path: 'users',
-    component: UserComponent
-  }
+const appRoutes: Routes = [
+    { path: '**', component: MainComponent}
 ];
 @NgModule({
-   exports: [ RouterModule ],
-   imports:  [ RouterModule.forRoot(routes)]
+    imports: [
+        RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules })
+    ],
+    exports: [RouterModule],
 
 })
 export class AppRoutingModule { }
