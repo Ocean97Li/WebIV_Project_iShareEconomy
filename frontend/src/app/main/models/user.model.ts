@@ -35,7 +35,7 @@ export class User {
     this._inRequest = new Array<Request>();
     this._outRequest = new Array<Request>();
   }
-  public static fromJSON(json: any): User {
+  public static fromJSON(json: any, norequests?: boolean): User {
     const user = new User(
       json.username,
       json.firstname,
@@ -46,17 +46,21 @@ export class User {
     user._id = json._id;
     user._lending = json.lending.map(o => LendObject.fromJSON(o));
     user._using = json.using.map(o => LendObject.fromJSON(o));
+    if (!norequests) {
     user._inRequest = json.using.map(r => Request.fromJSON(r));
     user._outRequest = json.using.map(r => Request.fromJSON(r));
+    }
     return user;
   }
 
   public toJSON() {
+    console.log(this._address);
+    console.log(this._password);
     return {
       username: this._username,
       firstname: this.firstname,
       lastname: this.lastname,
-      address: this._address,
+      address: this._address.toString(),
       password: this._password,
       mapLocation: this._mapLocation,
       _id: this._id,

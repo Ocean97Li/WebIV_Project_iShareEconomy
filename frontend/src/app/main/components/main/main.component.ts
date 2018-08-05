@@ -49,8 +49,9 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this._currentLoc = this._geoService.findCurrentLocation();
-    this._users = this._userService.users;
-    this._mapSettings.position = this._loggedInUserService.loggedInUser.mapLocation;
+    this._userService.users.subscribe(users => {
+      this._users = users;
+    });
   }
 
   // display component
@@ -60,7 +61,7 @@ export class MainComponent implements OnInit {
   }
 
   newSelectedUser(user: User, drawerLeft: any, drawerRight) {
-    if (user === this._loggedInUserService.loggedInUser) {
+    if (user.id === this._loggedInUserService.loggedInUser.id) {
       this.toggleNavRight(drawerRight);
     } else {
       if (user !== this._selecteduser) {

@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { LendObject, ShareType } from '../models/lend-object.model';
 import { Request } from '../models/request.model';
+import { BehaviorSubject } from '../../../../node_modules/rxjs/BehaviorSubject';
+import { HttpClient } from '../../../../node_modules/@angular/common/http';
+import { Observable } from '../../../../node_modules/rxjs/Observable';
+import { map } from '../../../../node_modules/rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -9,7 +13,9 @@ export class UserService {
   private _users: User[];
   private _objects: LendObject[];
   private _requests: Request[];
-  constructor() {
+  private _users$ = new Observable<User[]>();
+  private readonly _appUrl = '/API/users';
+  constructor(private http: HttpClient) {
     this._users = [
       new User('temp', 'Hu Ocean', 'Li', 'Nonnemeerstraat 19-24', {lat: 51.043526, lng: 3.713618}),
       new User('temp', 'Angela', 'Merkel', 'ReichsStrasse 19-24', {lat: 51.03526, lng: 3.73618}),
@@ -66,10 +72,17 @@ export class UserService {
     new Request(this._users[1], this._users[0], this._objects[4]),
     new Request(this._users[1], this._users[0], this._objects[5]),
   ];
+
+  // get actual users
+  this._users$ = this.http
+    .get(this._appUrl)
+    .pipe(
+      map((list: any[]): User[] => list.map(user => User.fromJSON(user, true)))
+    );
   }
 
-  get users(): User[] {
-    return this._users;
+  get users(): Observable<User[]> {
+    return this._users$;
   }
 
 

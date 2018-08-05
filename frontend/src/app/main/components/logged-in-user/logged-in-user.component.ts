@@ -11,10 +11,6 @@ export class LoggedInUserComponent implements OnInit {
   private _display = false;
   constructor(private loggedInUserService: LoggedInUserService) { }
 
-  @Input() set currentLoggedInUser(usr: User) {
-    this.loggedInUserService.loggedInUser = usr;
-  }
-
   @Input() addNewLendObject(object: LendObject) {
     this.loggedInUserService.addNewLendObject(object);
   }

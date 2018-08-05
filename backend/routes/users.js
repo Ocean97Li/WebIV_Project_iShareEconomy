@@ -13,7 +13,9 @@ router.post('/register', function(req, res, next) {
   user.username = req.body.username;
   user.firstname = req.body.firstname;
   user.lastname = req.body.lastname;
+  console.log(req.body.address);
   user.address = req.body.address;
+  console.log(user.address);
   user.mapLocation = req.body.mapLocation;
   user.setPassword(req.body.password);
   user.save(function(err) {
@@ -37,25 +39,25 @@ router.post('/login', function(req, res, next) {
       console.log(user);
       return res.json({ token: user.generateJWT() });
     } else {
-      console.log(info)
+      console.log()
       return res.status(401).json(info);
     }
   })(req, res, next);
 });
 
-router.delete('/delete-all', function(req, res) {
+router.delete('', function(req, res) {
   User.remove({ _id: { $in: User.find()} }, function(err) {
-    res.json('all is well');
+    res.json(err);
   });
 });
 
-router.get('/get-all',function(req, res) {
+router.get('',function(req, res) {
   let query = User.find();
-  query.exec(function(err, recipes) {
+  query.exec(function(err, users) {
     if (err) {
       return next(err);
     }
-    res.json(recipes);
+    res.json(users);
   });
 });
 

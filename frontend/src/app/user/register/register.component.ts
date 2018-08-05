@@ -133,12 +133,11 @@ export class RegisterComponent implements OnInit {
   }
 
   get validcoords(): boolean {
-    return (this.lat <= 85 && this.lat >= -85) && (this.lng <= 180 && this.lng > -180);
+    return (this._val) && (this.lat <= 85 && this.lat >= -85) && (this.lng <= 180 && this.lng > -180);
   }
 
 
   onSubmit() {
-
     let user = new User(this.user.value.username, this.user.value.firstname,
     this.user.value.lastname, this._val, {'lat': this.lat, 'lng': this.lng});
     user.password = this.passwordControl.value;
@@ -147,8 +146,9 @@ export class RegisterComponent implements OnInit {
       .register(user)
       .subscribe(
         val => {
+          console.log(val);
           if (val) {
-            this._router.navigate(['/recipe/list']);
+            this._router.navigate(['/main']);
           }
         },
         (error: HttpErrorResponse) => {

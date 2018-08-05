@@ -6,14 +6,19 @@ import { map } from 'rxjs/operators';
 import { User } from '../main/models/user.model';
 
 function parseJwt(token) {
-  if (!token) {
-    return null;
-  }
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  return JSON.parse(window.atob(base64));
-}
+  if (token) {
+  const b64DecodeUnicode = str =>
+  decodeURIComponent(
+    Array.prototype.map.call(atob(str), c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''));
 
+  return JSON.parse(
+    b64DecodeUnicode(
+      token.split('.')[1].replace('-', '+').replace('_', '/')
+    ));
+  }
+}
 @Injectable()
 export class AuthenticationService {
   private readonly _tokenKey = 'currentUser';
@@ -85,7 +90,7 @@ export class AuthenticationService {
         const token = usr.token;
         if (token) {
           localStorage.setItem(this._tokenKey, token);
-          this._user$.next(usr.username);
+           this.parseToken();
           return true;
         } else {
           return false;
