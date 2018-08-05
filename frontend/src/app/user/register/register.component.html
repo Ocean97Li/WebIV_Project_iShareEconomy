@@ -1,0 +1,85 @@
+<form [formGroup]='user' (ngSubmit)='onSubmit()' class="ui large form segment">
+  <h3 class="ui header">register new user</h3>
+  <div class="row">
+    <div class="bottom ui field col col-12">
+      <label for="username">username:</label>
+      <input type="text" id="username" formControlName='username'>
+      <div class='ui pointing basic label' *ngIf=' user.get("username").errors?.required && user.get("username").touched'>
+        a username is required
+      </div>
+      <div class='ui pointing basic label' *ngIf='user.get("username").errors?.minlength && user.get("username").touched'>
+        the username should be at least {{user.get("username").errors?.minlength.requiredLength }} letters
+      </div>
+      <div class='ui pointing basic label' *ngIf='user.get("username").errors?.userAlreadyExists && user.get("username").touched'>
+        a user with that username already exists
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="field col-12 col-md-6">
+      <label for="username">first name:</label>
+      <input type="text" id="firstname" formControlName='firstname'>
+      <div class='ui pointing basic label' *ngIf=' user.get("firstname").errors?.required && user.get("firstname").touched'>
+        a first name is required
+      </div>
+      <div class='ui pointing basic label' *ngIf='user.get("firstname").errors?.minlength && user.get("firstname").touched'>
+        the first name should be at least {{user.get("firstname").errors?.minlength.requiredLength }} letters
+      </div>
+    </div>
+    <div class="bottom field col-12 col-md-6">
+      <label for="username">last name:</label>
+      <input type="text" id="lastname" formControlName='lastname'>
+      <div class='ui pointing basic label' *ngIf=' user.get("lastname").errors?.required && user.get("lastname").touched'>
+        a last name is required
+      </div>
+      <div class='ui pointing basic label' *ngIf='user.get("lastname").errors?.minlength && user.get("lastname").touched'>
+        the last name should be at least {{user.get("lastname").errors?.minlength.requiredLength }} letters
+      </div>
+    </div>
+  </div>
+  <div class=row formGroupName='passwordGroup'>
+    <div class="field col-12 col-md-6">
+      <label for="password">password:</label>
+      <input type="password" id="password" formControlName='password'>
+      <div class='ui pointing basic label' *ngIf=' passwordControl.errors?.passwordTooShort && passwordControl.touched'>
+        password too short, please use at least {{passwordControl.errors?.passwordTooShort.requiredLength}} letters (got {{passwordControl.errors?.passwordTooShort.actualLength}})
+      </div>
+    </div>
+    <div class="bottom field col-12 col-md-6">
+      <label for="confirmpassword">confirm password:</label>
+      <input type="password" id="confirmpassword" formControlName='confirmPassword'>
+      <div class='ui pointing basic label' *ngIf=' user.get("passwordGroup").errors?.passwordsDiffer && user.get("passwordGroup").get("confirmPassword").touched  && user.get("passwordGroup").get("password").touched'>
+          the two passwords should be the same
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label for="address">Address: </label>
+    <div class="ui left icon input" [ngClass]="{'loading': valSeaching}">
+      <input id=address type="text" placeholder="Select address on the map..." readonly [value]="val||''">
+      <i class="world icon"></i>
+    </div>
+  </div>
+  <div class="field">
+    <div id="outDIV">
+      <div id="inDIV">
+        <agm-map [gestureHandling]="'greedy'"[latitude]="51" [longitude]="4" [zoom]="5" [minZoom]="3" [zoomControl]="zoomControl" [streetViewControl]="streetViewControl"
+      [styles]="styles" id="map" id="map" (mapClick)='locationSelected($event);'>
+          <agm-marker
+          [iconUrl]="'../favicon.ico'" [latitude]="lat" [longitude]="lng">
+          </agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+      <div class="ui checkbox">
+          <input type="checkbox" name="example" [checked]=terms (click)="togglecheckbox()">
+          <label>I agree to the terms of service</label>
+      </div>
+  </div>
+  <div class="ui field">
+      <button type='submit' [disabled]="!user.valid||!validcoords||!terms" class="full ui large positive button">register</button>
+  </div>
+  <div *ngIf='errorMsg' class="ui error message">{{errorMsg}}</div>
+</form>

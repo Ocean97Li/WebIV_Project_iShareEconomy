@@ -1,0 +1,21 @@
+#outDIV{
+    border: 5px solid lightgrey;
+    border-radius: 5px;
+  }
+  
+  agm-map {
+    height: 200px;
+  }
+ .bottom {
+     margin-bottom: 10px !important;
+ }
+
+ .form {
+     min-height: 100% !important;
+     padding-left: 10% !important;
+     padding-right: 10% !important;
+ }
+
+ .ui.basic.label {
+    border-color: lightcoral !important;
+ }
