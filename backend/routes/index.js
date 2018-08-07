@@ -1,9 +1,15 @@
 var express = require('express');
 var router = express.Router();
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send('server works'); 
-});
-
+let mongoose = require('mongoose');
+let LendObject = mongoose.model('LendObject');
 module.exports = router;
+
+router.get('/lends',function(req, res) {
+    let query = LendObject.find();
+    query.exec(function(err, los) {
+      if (err) {
+        return next(err);
+      }
+      res.json(los);
+    });
+  });

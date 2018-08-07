@@ -3,6 +3,7 @@ import { MatDialog, MatDialogContent, MatDialogRef, MAT_DIALOG_DATA } from '@ang
 import { User } from '../../../models/user.model';
 import { ShareType, LendObject } from '../../../models/lend-object.model';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { LoggedInUserService } from '../../../services/logged-in-user.service';
 
 
 
@@ -39,14 +40,13 @@ export class AddLendObjectDialogComponent implements OnInit {
   private _title;
   private _rules;
   private lendObject: FormGroup;
-  @Output() public objectEmitter;
 
   constructor(
+    private _loggedInUserService: LoggedInUserService,
     public dialogRef: MatDialogRef<AddLendObjectDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: MatDialogContent,
     private fb: FormBuilder
   ) {
-    this.objectEmitter = new EventEmitter<LendObject>();
   }
 
   ngOnInit(): void {
@@ -90,8 +90,13 @@ export class AddLendObjectDialogComponent implements OnInit {
 
   public onSubmit() {
     this.close();
-    const object = new LendObject(this.lendObject.value.title, this.lendObject.value.desc, this._chosenType);
-    this.objectEmitter.emit(object);
+    const object = {
+      name: this.lendObject.value.title,
+      desc: this.lendObject.value.desc,
+      type: this._chosenType,
+      rules: this.lendObject.value.rules
+    };
+    this._loggedInUserService.addNewLendObject(object);
   }
 
   public isTypeDirty() {

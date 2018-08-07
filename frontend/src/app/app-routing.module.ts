@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { UserModule } from './user/user.module';
 import { MainModule } from './main/main.module';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientModule, HttpHandler } from '@angular/common/http';
 
 const appRoutes: Routes = [
     { path: '**', redirectTo: 'login'}
@@ -11,7 +11,9 @@ const appRoutes: Routes = [
     imports: [
         UserModule,
         MainModule,
-        RouterModule.forRoot(appRoutes),
+        RouterModule.forRoot(appRoutes, {
+            preloadingStrategy: PreloadAllModules
+        }),
     ],
     exports: [RouterModule, UserModule],
     providers: []

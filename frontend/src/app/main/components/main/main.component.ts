@@ -37,6 +37,7 @@ export class MainComponent implements OnInit {
   public search: boolean;
   public dissappearAnimation: boolean;
   private _users = new Array<User>();
+  private _user: User;
   constructor(
     private _userService: UserService,
     private _mapSettings: MapSettingsService,
@@ -49,9 +50,12 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this._currentLoc = this._geoService.findCurrentLocation();
-    this._userService.users.subscribe(users => {
+    this._userService.users.pipe(distinctUntilChanged(), debounceTime(2000)).subscribe(users => {
       this._users = users;
     });
+    this._loggedInUserService.loggedInUser.pipe(distinctUntilChanged(), debounceTime(500)).subscribe( user =>
+      this._user = user
+    );
   }
 
   // display component
@@ -61,7 +65,7 @@ export class MainComponent implements OnInit {
   }
 
   newSelectedUser(user: User, drawerLeft: any, drawerRight) {
-    if (user.id === this._loggedInUserService.loggedInUser.id) {
+    if (user.id === this._user.id) {
       this.toggleNavRight(drawerRight);
     } else {
       if (user !== this._selecteduser) {
@@ -86,7 +90,7 @@ export class MainComponent implements OnInit {
 
   @Output()
   get loggedInUser(): User {
-    return this._loggedInUserService.loggedInUser;
+    return this._user;
   }
    // map component
   get title(): string {

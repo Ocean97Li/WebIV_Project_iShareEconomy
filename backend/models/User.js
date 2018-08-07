@@ -15,12 +15,12 @@ let UserSchema = new mongoose.Schema({
   rating: [{score:Number, user: String}],
   lending: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Lend-Object'
+      ref: 'LendObject'
     }
   ],
   using: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Lend-Object'
+    ref: 'LendObject'
     }
   ],
   firstname: String,
@@ -57,16 +57,10 @@ UserSchema.methods.generateJWT = function() {
   exp.setDate(today.getDate() + 60);
   return jwt.sign(
     {
-      user: {_id: this._id,
+      user: {
+      _id: this._id,
       username: this.username,
-      firstname: this.firstname,
-      lastname: this.lastname,
-      address: this.address,
-      mapLocation: this.mapLocation,
-      inRequest: this.inRequest,
-      outRequest: this.outRequest,
-      lending: this.lending,
-      using: this.using},
+    },
       exp: parseInt(exp.getTime() / 1000)
     },
     process.env.RECIPE_BACKEND_SECRET

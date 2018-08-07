@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../models/user.model';
 import { LoggedInUserService } from '../../services/logged-in-user.service';
 import { LendObject } from '../../models/lend-object.model';
+import { BehaviorSubject } from '../../../../../node_modules/rxjs/BehaviorSubject';
 @Component({
   selector: 'app-logged-in-user',
   templateUrl: './logged-in-user.component.html',
@@ -9,43 +10,67 @@ import { LendObject } from '../../models/lend-object.model';
 })
 export class LoggedInUserComponent implements OnInit {
   private _display = false;
-  constructor(private loggedInUserService: LoggedInUserService) { }
+  private user: User;
+  private user$: BehaviorSubject<User>;
+  constructor(private loggedInUserService: LoggedInUserService) {
+    this.user$ = this.loggedInUserService.loggedInUser;
+    this.user$.subscribe(val => {
+      if (val !== null) {
+        this.user = val;
+      }
+    });
+   }
 
-  @Input() addNewLendObject(object: LendObject) {
-    this.loggedInUserService.addNewLendObject(object);
-  }
   get display() {
-    return (this.loggedInUserService.loggedInUser !== undefined);
+    return (this.user !== undefined);
   }
   get name() {
-    if (this.loggedInUserService.loggedInUser === undefined) {
-      return '';
+    if (this.user === undefined) {
+      return 'Loading name...';
     }
-    return this.loggedInUserService.loggedInUser.name;
+    return this.user.name;
   }
   get address() {
+    if (this.user === undefined) {
+      return 'Loading address...';
+    }
     return `
-    ${this.loggedInUserService.loggedInUser.address}`;
+    ${this.user.address}`;
   }
 
   get rating() {
-    return new Array<number>(this.loggedInUserService.loggedInUser.rating);
+    if (this.user === undefined) {
+      return new Array<number>(0);
+    }
+    return new Array<number>(this.user.rating);
   }
 
   get sharing() {
-    return this.loggedInUserService.loggedInUser.lending;
+    if (this.user === undefined) {
+      return [];
+    }
+    return this.user.lending;
   }
 
   get using() {
-    return this.loggedInUserService.loggedInUser.using;
+    if (this.user === undefined) {
+      return [];
+    }
+    return this.user.using;
   }
 
   get inRequests() {
-    return this.loggedInUserService.loggedInUser.inRequest;
+    if (this.user === undefined) {
+      return [];
+    }
+    return this.user.inRequest;
   }
 
   get outRequests() {
-    return this.loggedInUserService.loggedInUser.outRequest;
+    if (this.user === undefined) {
+      return [];
+    }
+    return this.user.outRequest;
   }
   ngOnInit() {
   }

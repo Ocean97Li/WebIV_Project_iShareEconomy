@@ -6,3 +6,8 @@
 .fullheight{
     height: 100%;
 }
+
+.ui.error.message{
+    position: absolute;
+    width: 100%;
+}

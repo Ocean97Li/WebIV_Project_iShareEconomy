@@ -45,7 +45,6 @@ function comparePasswords(control: AbstractControl): { [key: string]: any } {
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  public static observer$ = new Subject<string>();
   private _val: string;
   public valSearching: boolean;
   public user: FormGroup;
@@ -75,7 +74,7 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    RegisterComponent.observer$.pipe(
+    GeolocationService._addres$.pipe(
       distinctUntilChanged()
     ).subscribe(val => {
       this.val = val;

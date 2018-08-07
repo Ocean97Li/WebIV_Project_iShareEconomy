@@ -64,10 +64,12 @@ import { InfoLendObjectComponent } from './components/lend-object/info-lend-obje
 import { MainComponent } from './components/main/main.component';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
 import { LoginComponent } from '../user/login/login.component';
 import { RegisterComponent } from '../user/register/register.component';
 import { GOOGLE_MAPS_API_KEY } from '../../environments/api-keys';
 import { LogoutComponent } from '../user/logout/logout.component';
+import { HttpClientModule } from '@angular/common/http';
 
 const api = GOOGLE_MAPS_API_KEY;
 const appRoutes: Routes = [
@@ -88,16 +90,15 @@ const appRoutes: Routes = [
     FormsModule,
     AgmCoreModule.forRoot({
       apiKey: api,
-      language: 'English'
     }),
-    RouterModule.forChild(appRoutes)
+    RouterModule.forChild(appRoutes),
+
   ],
   declarations: [
     MainComponent,
     UserComponent,
     SelectedUserPanelComponent,
     LendObjectComponent,
-    LoggedInUserComponent,
     RequestComponent,
     UserFilterPipe,
     AddRequestComponent,
@@ -106,11 +107,12 @@ const appRoutes: Routes = [
     SearchbarComponent,
     DeleteLendObjectComponent,
     DeleteLendObjectDialogComponent,
-    InfoLendObjectComponent
+    InfoLendObjectComponent,
+    LoggedInUserComponent
   ],
   providers: [
-    UserService,
     LoggedInUserService,
+    UserService,
     MatDialog,
   ],
   entryComponents: [

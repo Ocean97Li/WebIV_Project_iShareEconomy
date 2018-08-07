@@ -23,7 +23,7 @@ function parseJwt(token) {
 export class AuthenticationService {
   private readonly _tokenKey = 'currentUser';
   private readonly _url = '/API/users';
-  private _user$: BehaviorSubject<User> ;
+  private _user$: BehaviorSubject<string> ;
 
   public redirectUrl: string;
 
@@ -41,17 +41,16 @@ export class AuthenticationService {
         parsedToken = null;
       } else {
         if (!this.user$) {
-          this._user$ = new BehaviorSubject<User>(
-            User.fromJSON(parsedToken.user)
-          );
+          console.log('token1');
+          this._user$ = new BehaviorSubject<string>(parsedToken.user._id);
         }
-        this.user$.next(User.fromJSON(parsedToken.user));
+        this.user$.next(parsedToken.user._id);
+        console.log('token2');
       }
-      console.log(this._user$.value);
     }
   }
 
-  get user$(): BehaviorSubject<User> {
+  get user$(): BehaviorSubject<string> {
     return this._user$;
   }
 

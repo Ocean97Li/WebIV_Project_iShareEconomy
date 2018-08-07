@@ -81,21 +81,19 @@ export class LendObjectComponent implements OnInit {
 
   get waiting(): number {
     if (this.isAvailable) {
-        return this._obj.waitList.length;
+        return this._obj.waitinglist.length;
     }
-    return this._obj.waitList.length + 1;
+    return this._obj.waitinglist.length + 1;
   }
 
   private openDialog(): void {
     if (this.information) {
+    console.log(this._obj);
     const dialogRef = this.dialog.open(InfoLendObjectComponent, {
       width: '450px',
       data: {
         object: this._obj
       }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      //
     });
   }
 }

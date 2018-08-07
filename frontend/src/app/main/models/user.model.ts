@@ -4,7 +4,7 @@ import { Request } from './request.model';
 
 export class User {
   // ID
-  private _id: number;
+  private _id: string;
   private _password;
   // UserPersonalData
   private _username: string;
@@ -47,8 +47,8 @@ export class User {
     user._lending = json.lending.map(o => LendObject.fromJSON(o));
     user._using = json.using.map(o => LendObject.fromJSON(o));
     if (!norequests) {
-    user._inRequest = json.using.map(r => Request.fromJSON(r));
-    user._outRequest = json.using.map(r => Request.fromJSON(r));
+    user._inRequest = json.inRequest.map(r => Request.fromJSON(r));
+    user._outRequest = json.outRequest.map(r => Request.fromJSON(r));
     }
     return user;
   }
@@ -63,7 +63,7 @@ export class User {
       address: this._address.toString(),
       password: this._password,
       mapLocation: this._mapLocation,
-      _id: this._id,
+      id: this._id,
       lending: this._lending.map(o => o.toJSON()),
       using: this._using.map(o => o.toJSON()),
       inRequest: this._inRequest.map(r => r.toJSON()),
@@ -71,7 +71,7 @@ export class User {
     };
   }
 
-  public get id() {
+  public get id(): string {
     return this._id;
   }
 
@@ -87,6 +87,9 @@ export class User {
     return this.rating;
   }
 
+  public get username(): string {
+    return this._username;
+  }
   public get firstname(): string {
     return this._firstname;
   }
@@ -126,12 +129,12 @@ export class User {
     this._password = password;
   }
 
-  public addLendObject(object: LendObject) {
-    if (object.owner === this) {
+  public addLendingObject(object: LendObject) {
       this._lending.push(object);
-    } else {
-      this._using.push(object);
-    }
+  }
+
+  public  removeLendingObject(object: LendObject) {
+   this._lending = this.lending.filter(l => l.id !== object.id);
   }
 
   public addInRequest(request: Request) {
@@ -143,6 +146,8 @@ export class User {
     /*additional control*/
     this._outRequest.push(request);
   }
+
+
 
 
 }

@@ -24,7 +24,7 @@
       <label>Rules:</label>
       <textarea class='font-black' placeholder="No rules yet!" [rows]="data.object.rules!==undefined?5:1" readonly="">{{data.object.rules||""}}</textarea>
     </div>
-    <div *ngIf='data.object.waitingList.length>0' class="field">
+    <div *ngIf='data.object.waitinglist.length>0' class="field">
         <label>Waitinglist:</label>
         <div class='ui card' *ngFor='let request of waitingList'>
             <div class="inline">{{request.fromdate}} - {{request.todate}}</div>

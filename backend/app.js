@@ -7,16 +7,19 @@ var mongoose = require('mongoose');
 let passport = require('passport');
 
 mongoose.connect(
-  process.env.ISHARE_DATABASE || 'mongodb://localhost/ishareDB'
+  process.env.ISHARE_DATABASE || 'mongodb://localhost/ishareDB',
+  // function(){
+  //   mongoose.connection.db.dropDatabase();
+  // }
 );
 // require('./models/Recipe');
 // require('./models/Ingredient');
 require('./models/User');
+require('./models/LendObject');
 
 require('./config/passport');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 var users = require('./routes/users');
 let cors = require('cors');
 
@@ -31,7 +34,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 
-app.use('/', index);
+app.use('/API', index);
 app.use('/API/users', users);
 
 // catch 404 and forward to error handler

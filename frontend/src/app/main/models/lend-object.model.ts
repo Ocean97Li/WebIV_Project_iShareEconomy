@@ -7,107 +7,159 @@ export class LendObject {
   private _description: string;
   private _type: ShareType;
   private _rules: string;
-  private _owner: User;
-  private _user: User;
-  private _waitList: User[];
-  private _waitingList: Request[];
+  private _owner: { id: string; name: string };
+  private _user: { id: string; name: string };
+  private _waitinglist: {
+    id: string;
+    name: string;
+    todate: Date;
+    fromdate: Date;
+  }[];
 
   constructor(
     name: string,
     description: string,
     type: ShareType,
-    owner?: User,
-    user?: User,
+    owner: { id: string; name: string },
     rules?: string
   ) {
     this._name = name;
     this._description = description;
     this._type = type;
-    this._owner = owner;
-    this._user = user;
-    this._waitList = [];
-    this._waitingList = [];
+    this._owner = { id: owner.id, name: owner.name };
+    console.log(this._owner);
+    this._waitinglist = [];
     this._rules = rules;
-
-    if (this._user !== undefined) {
-      this._user.addLendObject(this);
-    }
-    if (this._owner !== undefined) {
-      this._owner.addLendObject(this);
-    }
   }
 
   static fromJSON(json: any): LendObject {
+    const id: string = undefined;
+    const name: string = undefined;
     const lo = new LendObject(
       json.name,
       json.description,
-      json.type,
+      LendObject.TypeFromJSON(json.type),
       json.owner,
-      json.user,
-      json.rules
+      json.rules,
     );
     lo._id = json._id;
-    lo._waitingList = json.waitingList.map(o => LendObject.fromJSON(o));
+    if (json.user) {
+      lo.user = json.user;
+    }
+    if (json.waitinglist) {
+      lo._waitinglist = json.waitinglist.map(
+        (list: any[]): Request[] => list.map(r => Request.fromJSON(r))
+      );
+    } else {
+      lo._waitinglist = [];
+    }
     return lo;
+  }
+
+  public static TypeFromJSON(type: string): ShareType {
+    let value: ShareType;
+    switch (type) {
+      case 'service':
+        value = ShareType.Service;
+        break;
+      case 'tool':
+        value = ShareType.Tool;
+        break;
+      case 'transport':
+        value = ShareType.Transport;
+        break;
+    }
+    return value;
+  }
+
+  public TypeToJSON(): string {
+    let value: string;
+    switch (this._type) {
+      case ShareType.Service:
+        value = 'service';
+        break;
+      case ShareType.Tool:
+        value = 'tool';
+        break;
+      case ShareType.Transport:
+        value = 'transport';
+        break;
+    }
+    return value;
   }
 
   toJSON() {
     return {
-      _id: this._id,
+      // _id: this._id,
       name: this._name,
       description: this._description,
-      type: this._type,
-      owner: this._owner.toJSON(),
-      user: this._user.toJSON(),
+      type: this.TypeToJSON(),
+      owner: this.owner,
+      user: this.user ? this.user : undefined,
       rules: this._rules,
-      waitingList: this.waitingList
+      waitinglist: this.waitinglist
     };
   }
 
-  public addUser(user: User): void {
-    if (this._waitList.length === 0 && this._user === undefined) {
-      this._user = user;
-    } else {
-      this._waitList.push(user);
-    }
-  }
-
   public addRequest(request: Request): boolean {
-    if (this._waitingList.find(r => request.fromdate.valueOf() >= r.fromdate.valueOf()
-    && request.todate.valueOf() <= r.todate.valueOf())) {
+    if (
+      this._waitinglist.find(
+        r =>
+          request.fromdate.valueOf() >= r.fromdate.valueOf() &&
+          request.todate.valueOf() <= r.todate.valueOf()
+      )
+    ) {
       return false;
     } else {
-      this._waitingList.push(request);
+      this._waitinglist.push({
+        id: request.source.id,
+        name: request.source.name,
+        fromdate: request.fromdate,
+        todate: request.todate
+      });
       return true;
     }
   }
 
   public isAvailable(): boolean {
-    return this._user === undefined && this._waitList.length === 0;
+    return this._user === undefined && this._waitinglist.length === 0;
   }
 
   public isTempAvailable(): boolean {
-    return this._user === undefined && this._waitList.length !== 0;
+    return this._user === undefined && this._waitinglist.length !== 0;
   }
 
   public isUsed(): boolean {
-    return this._user !== undefined && this._waitList.length >= 0 && this._waitList.length <= 3;
+    return (
+      this._user !== undefined &&
+      this._waitinglist.length >= 0 &&
+      this._waitinglist.length <= 3
+    );
   }
 
   public isHeavilyUsed(): boolean {
-    return this._user !== undefined && this._waitList.length > 3 && this._waitList.length < 10;
+    return (
+      this._user !== undefined &&
+      this._waitinglist.length > 3 &&
+      this._waitinglist.length < 10
+    );
   }
 
   public isVeryHeavilyUsed(): boolean {
-    return this._user !== undefined && this._waitList.length >= 10;
+    return this._user !== undefined && this._waitinglist.length >= 10;
   }
 
   /**
-   * Getter waitList
+   * Getter waitinglist
    * @return {User[]}
    */
-  public get waitList(): User[] {
-    return this._waitList;
+  public get waitinglist(): {
+    id: string;
+    name: string;
+    todate: Date;
+    fromdate: Date;
+  }[] {
+    return this._waitinglist;
   }
 
   /**
@@ -119,10 +171,19 @@ export class LendObject {
   }
 
   /**
-   * Getter user
-   * @return {User}
+   * Getter id
+   * @return {string}
    */
-  public get user(): User {
+  public get id(): string {
+    return this._id;
+  }
+
+
+  /**
+   * Getter user
+   * @return {{id: string, name: string}}
+   */
+  public get user(): { id: string; name: string } {
     return this._user;
   }
 
@@ -134,11 +195,11 @@ export class LendObject {
     return this._description;
   }
 
-   /**
-   * Getter type
-   * @return {string}
+  /**
+   * Getter owner
+   * @return {{id: string, name: string}}
    */
-  public get owner(): User {
+  public get owner(): { id: string; name: string } {
     return this._owner;
   }
 
@@ -156,22 +217,6 @@ export class LendObject {
    */
   public get rules(): string {
     return this._rules;
-  }
-
-  /**
-   * Getter rules
-   * @return {Request[]}
-   */
-  public get waitingList(): Request[] {
-    return this._waitingList;
-  }
-
-  /**
-   * Setter waitList
-   * @param {User[]} value
-   */
-  public set waitList(value: User[]) {
-    this._waitList = value;
   }
 
   /**
@@ -198,7 +243,13 @@ export class LendObject {
     this._type = value;
   }
 
-
+  /**
+   * Setter user
+   * @param {{id: string, name: string}} value
+   */
+  public set user(value: { id: string; name: string }) {
+    this._user = value;
+  }
 }
 
 export enum ShareType {

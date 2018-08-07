@@ -1,10 +1,11 @@
 import { Injectable, OnInit } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { MapSettingsService } from './map-settings.service';
-import { RegisterComponent } from '../../user/register/register.component';
+import { Subject } from '../../../../node_modules/rxjs/Subject';
 declare let google: any;
 @Injectable()
 export class GeolocationService implements OnInit {
+  public static _addres$ = new Subject<string>();
   public google: any;
   private _geocoder: any;
   private _currentLoc: any;
@@ -53,7 +54,7 @@ export class GeolocationService implements OnInit {
         if (status === 'OK') {
           if (results[0]) {
             const address = results[0].formatted_address;
-            RegisterComponent.observer$.next(address);
+            GeolocationService._addres$.next(address);
           } else {
             window.alert('No results found');
           }

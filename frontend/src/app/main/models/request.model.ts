@@ -6,7 +6,6 @@ export class Request {
   private _text: string;
   private _fromdate: Date;
   private _todate: Date;
-  private _approved: boolean;
   private _replyText: string;
 
   constructor(
@@ -28,7 +27,6 @@ export class Request {
     request._text = json._text;
     request._fromdate = json.fromdate;
     request._todate = json.todate;
-    request._approved = json._approved;
     request._replyText = json.replyText;
     return request;
   }
@@ -41,18 +39,12 @@ export class Request {
       text: this._text,
       fromdate: this._fromdate,
       todate: this._todate,
-      approved: this._approved,
       replyText: this._replyText
     };
   }
 
   approve(yesno: boolean, message: string, authorization: string) {
-      this._approved = yesno;
-      if (this._approved) {
-        this._text = message;
-        this._object.addUser(this._source);
-      }
-    }
+  }
 
   /**
    * Getter text
@@ -103,14 +95,6 @@ export class Request {
   }
 
   /**
-   * Getter approved
-   * @return {boolean}
-   */
-  public get approved(): boolean {
-    return this._approved;
-  }
-
-  /**
    * Getter replyText
    * @return {string}
    */
@@ -142,13 +126,6 @@ export class Request {
     this._todate = value;
   }
 
-  /**
-   * Setter approved
-   * @param {boolean} value
-   */
-  public set approved(value: boolean) {
-    this._approved = value;
-  }
 
   /**
    * Setter replyText

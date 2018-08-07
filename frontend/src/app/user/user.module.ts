@@ -24,7 +24,6 @@ const routes = [
   imports: [
     CommonModule,
     HttpModule,
-    HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
     AngularFontAwesomeModule,
