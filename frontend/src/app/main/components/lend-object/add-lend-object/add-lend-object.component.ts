@@ -1,11 +1,8 @@
 import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogContent, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { User } from '../../../models/user.model';
-import { ShareType, LendObject } from '../../../models/lend-object.model';
+import { ShareType } from '../../../models/lend-object.model';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { LoggedInUserService } from '../../../services/logged-in-user.service';
-
-
 
 @Component({
   selector: 'app-add-lend-object',
@@ -20,9 +17,6 @@ export class AddLendObjectComponent implements OnInit {
     const dialogRef = this.dialog.open(AddLendObjectDialogComponent, {
       width: '650px',
       data: {}
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      //
     });
   }
 }
@@ -44,7 +38,6 @@ export class AddLendObjectDialogComponent implements OnInit {
   constructor(
     private _loggedInUserService: LoggedInUserService,
     public dialogRef: MatDialogRef<AddLendObjectDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: MatDialogContent,
     private fb: FormBuilder
   ) {
   }

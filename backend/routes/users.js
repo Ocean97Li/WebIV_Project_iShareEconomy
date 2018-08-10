@@ -5,6 +5,7 @@ let mongoose = require('mongoose');
 let passport = require('passport');
 let LendObject = mongoose.model('LendObject');
 let User = mongoose.model('User');
+let Request = mongoose.model('Request');
 let jwt = require('express-jwt');
 let auth = jwt({
   secret: process.env.RECIPE_BACKEND_SECRET
@@ -64,6 +65,16 @@ router.get('', function (req, res, next) {
   });
 });
 
+router.get('/requests', function (req, res, next) {
+  let query = Request.find().populate('object');
+  query.exec(function (err, users) {
+    if (err) {
+      return next(err);
+    }
+    res.json(users);
+  });
+});
+
 router.post('/checkusername', function (req, res, next) {
   User.find({
     username: req.body.username
@@ -90,20 +101,43 @@ router.param('user', function (req, res, next, id) {
       return next(new Error('not found ' + id));
     }
     req.user = user;
-    console.log('param user');
-    console.log(req.user);
     return next();
   });
 });
 
 router.get('/:user', function (req, res, next) {
+  req.user.password = undefined;
+  req.user.salt = undefined;
+  req.user.hash = undefined;
+  // req.user.inRequest = undefined;
+  req.user.outRequest = undefined;
+  console.log(req.user.inRequest)
   res.json(req.user);
 });
-
 
 router.get('/:user/lending', function (req, res, next) {
   res.json(req.user.lending);
 });
+
+router.get('/:user/using', function (req, res, next) {
+  res.json(req.user.using);
+});
+
+router.get('/:user/inRequest', function (req, res, next) {
+  console.log('get inrequest');
+  Request.find({ _id: { $in: req.user.inRequest }}).exec(function(err,requests){
+    if(err) return next(err)
+    res.json(requests);
+  });
+});
+
+router.get('/:user/outRequest', function (req, res, next) {
+  console.log('get outrequest');
+  Request.find({ _id: { $in: req.user.outRequest }}).populate('object').exec(function(err,requests){
+    res.json(requests);
+  });
+});
+
 
 router.post('/:user/lending', function (req, res, next) {
   let obj = new LendObject();
@@ -151,4 +185,41 @@ router.param('object', function (req, res, next, id) {
     return next();
   });
 });
+
+router.post('/:user/outRequest',function(req, res, next) {
+  console.log('gets here');
+  let obj = new Request();
+  obj.source = req.body.source;
+  obj.object = req.body.object._id
+  obj.fromdate = req.body.fromdate;
+  obj.todate = req.body.todate;
+  obj.approved = req.body.approved;
+  obj.messages = req.body.messages;
+  console.log('gets here2');
+  obj.save(function (err, obj) {
+    if (err) return next(err);
+    //add it to the inRequest of the selected user
+    User.findOne({
+      _id: req.body.object.owner.id
+    }).exec(
+    function (err, owner) {
+      console.log('gets here3');
+      if (err) return next(err);
+      console.log('gets here4');
+      console.log(obj.object);
+      owner.inRequest.push(obj);
+      owner.save(function (err, user) {
+        if (err) return next(err);
+      });
+    });
+    //add it to outRequest of the logged in user
+    req.user.outRequest.push(obj);
+    req.user.save(function (err4, user) {
+      if (err4) return next(err4);
+    });
+  });
+  req.body._id = obj
+  res.json(req.body);
+});
+
 module.exports = router;

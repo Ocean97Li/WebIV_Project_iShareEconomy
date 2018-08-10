@@ -32,7 +32,7 @@
       <input [ngClass]={texterror:isDescDirty()} formControlName='desc' #desc maxlength="40" placeholder="max. 40 characters">
     </p>
     <div>
-      <button class="ui button red" (click)="close()" type="button">Cancel</button>
+      <button class="ui button blue" (click)="close()" type="button">Cancel</button>
       <button [ngClass]={disabled:anyDirty()} class="ui right button green" type="submit">Create</button>
     </div>
   </form>

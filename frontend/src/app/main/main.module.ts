@@ -17,6 +17,7 @@ import {
   MatDialogModule,
   MatDividerModule,
   MatExpansionModule,
+  MatFormFieldModule,
   MatGridListModule,
   MatIconModule,
   MatInputModule,
@@ -39,7 +40,8 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatDialog
+  MatDialog,
+  MatDatepicker
 } from '@angular/material';
 import { UserService } from './services/user.service';
 import { MapSettingsService } from './services/map-settings.service';
@@ -48,7 +50,7 @@ import { LoggedInUserComponent } from './components/logged-in-user/logged-in-use
 import { LoggedInUserService } from './services/logged-in-user.service';
 import { RequestComponent } from './components/request/request/request.component';
 import { UserFilterPipe } from './components/user/user-filter.pipe';
-import { AddRequestComponent } from './components/request/add-request/add-request.component';
+import { AddRequestComponent, AddRequestDialogComponent } from './components/request/add-request/add-request.component';
 import {
   AddLendObjectComponent,
   AddLendObjectDialogComponent
@@ -70,6 +72,7 @@ import { RegisterComponent } from '../user/register/register.component';
 import { GOOGLE_MAPS_API_KEY } from '../../environments/api-keys';
 import { LogoutComponent } from '../user/logout/logout.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SelectedUserService } from './services/selected-user.service';
 
 const api = GOOGLE_MAPS_API_KEY;
 const appRoutes: Routes = [
@@ -85,6 +88,10 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     MatSidenavModule,
     MatExpansionModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
     MatDialogModule,
     ReactiveFormsModule,
     FormsModule,
@@ -107,18 +114,23 @@ const appRoutes: Routes = [
     SearchbarComponent,
     DeleteLendObjectComponent,
     DeleteLendObjectDialogComponent,
+    AddRequestDialogComponent,
     InfoLendObjectComponent,
     LoggedInUserComponent
   ],
   providers: [
     LoggedInUserService,
+    SelectedUserService,
     UserService,
     MatDialog,
+    MatDatepicker
+
   ],
   entryComponents: [
     AddLendObjectDialogComponent,
     DeleteLendObjectDialogComponent,
-    InfoLendObjectComponent
+    InfoLendObjectComponent,
+    AddRequestDialogComponent
   ]
 })
 export class MainModule {}

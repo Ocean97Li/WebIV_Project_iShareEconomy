@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Want to request an item?</h2>
+<div mat-dialog-content>
+  <form class="ui form" (ngSubmit)='onSubmit()' [formGroup]='request'>
+    <label>Select an item you wish to use:</label>
+    <div class="field object-selector">
+      <div *ngFor="let object of lending">
+        <app-lend-object (sendObject)="newSelected($event);" [selected]='object===selected' [selectable]='true' [lendObject]=object></app-lend-object>
+      </div>
+    </div>
+    <div class="basic-container row rowfix ui form">
+      <label class="half padright">From:</label>
+      <label class="half padleft">To:</label>
+      <div class="half field ui right icon input padright">
+        <input readonly matInput [matDatepicker]="pickerfrom" placeholder="pick a date!" [(ngModel)]="fromdate" name=fromdate formControlName='fromdate'>
+        <i class="calendar alternate outline large icon link" (click)="pickerfrom.open()"></i>
+      </div>
+      <div class="half field ui right icon input padleft">
+        <input readonly matInput [matDatepicker]="pickerto" placeholder="pick a date!" [(ngModel)]="todate" name=todate formControlName='todate'>
+        <i class="calendar alternate outline large icon link" (click)="pickerto.open()"></i>
+      </div>
+      <mat-datepicker #pickerfrom touchUi></mat-datepicker>
+      <mat-datepicker #pickerto touchUi></mat-datepicker>
+    </div>
+    <label class="full">Questions for {{name}}:</label>
+    <div class="full field ui">
+      <textarea rows=2 placeholder="Max.80 tokens" maxlength="80"></textarea>
+     </div>
+    <div>
+      <button class="ui button blue" (click)="close()" type="button">Cancel</button>
+      <button [ngClass]={disabled:!selected||fromdate.invalid||todate.invalid||!validDateCombo} class="ui right button green" type="submit">Send it!</button>
+    </div>
+  </form>
+</div>

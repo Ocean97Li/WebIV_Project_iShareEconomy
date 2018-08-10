@@ -5,21 +5,29 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 html { height: 100% }
 body { height: 100%; margin: 0px; padding: 0px }
-
+label {font-weight: bold};
 /* general */
 
 .noPadding{
     padding: 0px !important;
 }
+padddingleft{
+    padding-left: 4px;
+}
+
+paddingright{
+    padding-right: 4px;
+}
 
 .full{
-    width: 100%;
+    width: 100% !important;
 }
 
 .half {
-    width: 50%;
+    width: 50% !important;
 }
 /* buttons */
+
 .sharingbutton{
     font-size: 0.8em;
     width: 100%;
@@ -34,6 +42,10 @@ body { height: 100%; margin: 0px; padding: 0px }
     margin-bottom: 15px;
     outline: none !important;
     box-shadow: none;
+}
+
+.btn-border{
+    border: 1px solid lightgray
 }
 
 /* colors */

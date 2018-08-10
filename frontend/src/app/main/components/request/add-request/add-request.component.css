@@ -1,0 +1,25 @@
+.object-selector {
+    max-height: 300px;
+    overflow: hidden;
+}
+
+.appear {
+    animation: appear 1s;
+}
+
+.mat-from-field-underline {
+    display: none !important;
+    visibility: hidden;
+}
+
+.rowfix {
+    margin-left: 0px !important;
+}
+
+.padleft {
+padding-left: 3px;
+}
+
+.padright {
+padding-right: 3px;
+}

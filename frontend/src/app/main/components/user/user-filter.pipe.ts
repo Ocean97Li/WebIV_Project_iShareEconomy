@@ -5,8 +5,10 @@ import { User } from '../../models/user.model';
   name: 'userFilter'
 })
 export class UserFilterPipe implements PipeTransform {
-
   transform(users: User[], input, type): User[] {
+    if (!users) {
+      return;
+    }
     if (input === undefined) {
       input = '';
     }

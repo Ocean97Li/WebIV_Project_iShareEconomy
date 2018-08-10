@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../models/user.model';
+import { SelectedUserService } from '../../services/selected-user.service';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-selected-user-panel',
@@ -9,10 +11,15 @@ import { User } from '../../models/user.model';
 export class SelectedUserPanelComponent implements OnInit {
   private _currentSelectedUser: User;
   private _used = false;
-  constructor() { }
+  constructor(private selectedUserServ: SelectedUserService) {
+    selectedUserServ.selectedUser.subscribe(
+      val => {
+        this._currentSelectedUser = val;
+      }
+    );
+   }
   @Input() set currentSelectedUser(usr: User) {
     this._currentSelectedUser = usr;
-
   }
 
   get sharing() {

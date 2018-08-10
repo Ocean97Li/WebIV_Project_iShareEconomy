@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { MapSettingsService } from './map-settings.service';
-import { Subject } from '../../../../node_modules/rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 declare let google: any;
 @Injectable()
 export class GeolocationService implements OnInit {

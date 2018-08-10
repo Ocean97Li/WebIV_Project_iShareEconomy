@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../models/user.model';
 import { LoggedInUserService } from '../../services/logged-in-user.service';
 import { LendObject } from '../../models/lend-object.model';
-import { BehaviorSubject } from '../../../../../node_modules/rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Component({
   selector: 'app-logged-in-user',
   templateUrl: './logged-in-user.component.html',

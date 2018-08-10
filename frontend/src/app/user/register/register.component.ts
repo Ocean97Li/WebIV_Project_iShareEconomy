@@ -15,7 +15,7 @@ import { map, delay, distinctUntilChanged } from 'rxjs/operators';
 import { User } from '../../main/models/user.model';
 import { GeolocationService } from '../../main/services/geolocation.service';
 import { MapSettingsService } from '../../main/services/map-settings.service';
-import { Subject } from '../../../../node_modules/rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { debounceTime } from 'rxjs/operators';
 
 function passwordValidator(length: number): ValidatorFn {

@@ -1,20 +1,20 @@
 <div class="card" [ngClass]="{'selected': selected&&selectable}" (click)="select()">
   <div class="row rowfix">
-    <div class="col-4 col-lg-3 cardcolumn">
+    <div class="cardcolumn">
       <div class="item-icon wrapper" [ngClass]="{'blue': isTempAvailable,'green':isAvailable,'yellow':isUsed,'orange':isHeavilyUsed,'red':isVeryHeavilyUsed}">
         <fa class="yourdiv" [name]=type size="3x"></fa>
       </div>
     </div>
-    <div class="col-7 col-lg-8 cardcolumn">
+    <div class="cardcolumn flexible">
       <div class="item-text">
-        <p class="item-title"><strong>{{name}}</strong></p>
+       <strong class="item-title">{{name}}</strong>
         <p>{{description}}</p>
       </div>
     </div>
-    <div class="col-1 cardcolumn">
-      <div class="users">{{waiting}}</div>
-      <div class="item-available">
+    <div class="">
+      <div class="usericon">
         <fa name="user-circle" size="1.5x"></fa>
+        <div class="usernumber">{{waiting}}</div>
       </div>
     </div>
   </div>

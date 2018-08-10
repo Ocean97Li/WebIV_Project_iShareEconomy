@@ -1,6 +1,6 @@
 import { MapsAPILoader } from '@agm/core';
 import { LendObject } from './lend-object.model';
-import { Request } from './request.model';
+import { ObjectRequest } from './object-request.model';
 
 export class User {
   // ID
@@ -17,8 +17,8 @@ export class User {
   private _lending = new Array<LendObject>();
   private _using = new Array<LendObject>();
   public mapsApiLoader: MapsAPILoader;
-  private _inRequest: Request[];
-  private _outRequest: Request[];
+  private _inRequest: ObjectRequest[];
+  private _outRequest: ObjectRequest[];
 
   constructor(// esential data
      username: string,
@@ -32,8 +32,8 @@ export class User {
     this._lastname = lastname;
     this._address = address;
     this._mapLocation = mapLocation;
-    this._inRequest = new Array<Request>();
-    this._outRequest = new Array<Request>();
+    this._inRequest = [];
+    this._outRequest = [];
   }
   public static fromJSON(json: any, norequests?: boolean): User {
     const user = new User(
@@ -47,8 +47,8 @@ export class User {
     user._lending = json.lending.map(o => LendObject.fromJSON(o));
     user._using = json.using.map(o => LendObject.fromJSON(o));
     if (!norequests) {
-    user._inRequest = json.inRequest.map(r => Request.fromJSON(r));
-    user._outRequest = json.outRequest.map(r => Request.fromJSON(r));
+    user._inRequest = json.inRequest.map(r => ObjectRequest.fromJSON(r));
+    user._outRequest = json.outRequest.map(r => ObjectRequest.fromJSON(r));
     }
     return user;
   }
@@ -103,10 +103,10 @@ export class User {
   }
 
   // these don't seem so secure, but will have to do for now
-  public get inRequest(): Request[] {
+  public get inRequest(): ObjectRequest[] {
     return this._inRequest;
   }
-  public get outRequest(): Request[] {
+  public get outRequest(): ObjectRequest[] {
     return this._outRequest;
   }
 
@@ -129,6 +129,23 @@ export class User {
     this._password = password;
   }
 
+  public set lending(lending: LendObject[]) {
+    this._lending = lending;
+  }
+
+  public set using(using: LendObject[]) {
+    this._using = using;
+  }
+
+  public set inRequest(rqs: ObjectRequest[]) {
+    this._inRequest = rqs;
+  }
+
+  public set outRequest(rqs: ObjectRequest[]) {
+    this._outRequest = rqs;
+  }
+
+
   public addLendingObject(object: LendObject) {
       this._lending.push(object);
   }
@@ -137,12 +154,12 @@ export class User {
    this._lending = this.lending.filter(l => l.id !== object.id);
   }
 
-  public addInRequest(request: Request) {
+  public addInRequest(request: ObjectRequest) {
     /*additional control*/
     this._inRequest.push(request);
   }
 
-  public addOutRequest(request: Request) {
+  public addOutRequest(request: ObjectRequest) {
     /*additional control*/
     this._outRequest.push(request);
   }

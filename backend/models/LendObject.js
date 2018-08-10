@@ -5,12 +5,6 @@ let LendObjectSchema = new mongoose.Schema({
     description: String,
     type: String,
     rules: String,
-    waitinglist: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Request'
-        }
-      ],
     owner: {id: String,name: String},
     user: {id: String,name: String},
     

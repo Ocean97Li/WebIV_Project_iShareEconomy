@@ -29,9 +29,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div>
-        <button class="sharingbutton btn-border btn btn-light btn-lg ">
-          <fa name="hand-paper-o" size="2x"></fa>
-          <br>Request</button>
+       <app-add-request></app-add-request>
       </div>
       <app-lend-object *ngFor='let obj of sharing' [information]=true [lendObject]='obj' [selectable]='true'></app-lend-object>
     </mat-expansion-panel>

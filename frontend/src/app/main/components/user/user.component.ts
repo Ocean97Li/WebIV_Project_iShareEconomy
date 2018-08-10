@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '../../models/user.model';
 import { LendObject } from '../../models/lend-object.model';
-import { Request } from '../../models/request.model';
+import { ObjectRequest } from '../../models/object-request.model';
 
 
 @Component({
@@ -34,10 +34,10 @@ export class UserComponent {
    }
 
    // these don't seem so secure, but will have to do for now
-   get inRequest(): Request[] {
+   get inRequest(): ObjectRequest[] {
      return this._user.inRequest;
    }
-   get outRequest(): Request[] {
+   get outRequest(): ObjectRequest[] {
      return this._user.inRequest;
    }
 

@@ -17,6 +17,8 @@ import {
 import { ShareType } from '../../models/lend-object.model';
 import { UserFilterPipe } from '../user/user-filter.pipe';
 import { User } from '../../models/user.model';
+import { SelectControlValueAccessor } from '@angular/forms';
+import { SelectedUserService } from '../../services/selected-user.service';
 
 @Component({
   selector: 'app-main',
@@ -24,38 +26,42 @@ import { User } from '../../models/user.model';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-
   public _open1 = false;
   public _display1 = false;
   public _open2 = false;
   public _display2 = false;
-  private _selecteduser: User;
   private _geocoder;
   private _currentLoc;
   public filtername: string;
   public searchType: string;
   public search: boolean;
   public dissappearAnimation: boolean;
-  private _users = new Array<User>();
+  private _users: User[];
+  private _selecteduser: User;
   private _user: User;
   constructor(
     private _userService: UserService,
     private _mapSettings: MapSettingsService,
     private _geoService: GeolocationService,
-    private _loggedInUserService: LoggedInUserService
+    private _loggedInUserService: LoggedInUserService,
+    private _selectedUserService: SelectedUserService
   ) {
     this.searchType = 'User';
     this.filtername = '';
+    this._loggedInUserService.loggedInUser
+      .subscribe(user => (this._user = user));
   }
 
   ngOnInit(): void {
     this._currentLoc = this._geoService.findCurrentLocation();
-    this._userService.users.pipe(distinctUntilChanged(), debounceTime(2000)).subscribe(users => {
-      this._users = users;
+    this._userService.users.subscribe(users => {
+      console.log('change detected');
+      if (users) {
+        this.users = users;
+      } else {
+        console.log('no users yet');
+      }
     });
-    this._loggedInUserService.loggedInUser.pipe(distinctUntilChanged(), debounceTime(500)).subscribe( user =>
-      this._user = user
-    );
   }
 
   // display component
@@ -64,23 +70,49 @@ export class MainComponent implements OnInit {
     return this._users;
   }
 
+  set users(users: User[]) {
+        if (this._users) {
+          if (this._users.includes(this._user)) {
+            this._users = users;
+          }
+          users.forEach(user => {
+            let index = this._users.findIndex(usr => usr.id === user.id);
+            if (index === -1) {
+              console.log('new user');
+              index = this._users.push(user) - 1;
+            }
+            this._users[index].lending = user.lending;
+            this._users[index].using = user.using;
+          });
+        } else {
+          this._users = users;
+          console.log(this._users);
+        }
+  }
+
   newSelectedUser(user: User, drawerLeft: any, drawerRight) {
+    if (!this._user) {
+      console.log('still loading this user');
+    }
     if (user.id === this._user.id) {
       this.toggleNavRight(drawerRight);
     } else {
-      if (user !== this._selecteduser) {
-        if (!this._display1) {
-          this.toggleNavLeft(drawerLeft);
-        }
+      if (!this._selecteduser) {
         this._selecteduser = user;
-      } else {
+        this._selectedUserService.selectedUser.next(user);
         this.toggleNavLeft(drawerLeft);
+      } else {
+        if (user.id === this._selecteduser.id) {
+          this.toggleNavLeft(drawerLeft);
+        } else {
+          console.log(this._display1);
+          if (!this._display1) {
+            this.toggleNavLeft(drawerLeft);
+          }
+          this._selectedUserService.selectedUser.next(user);
+        }
       }
     }
-  }
-
-  newUserAdded(user: User) {
-    this._userService.addNewUser(user);
   }
 
   @Output()
@@ -92,7 +124,7 @@ export class MainComponent implements OnInit {
   get loggedInUser(): User {
     return this._user;
   }
-   // map component
+  // map component
   get title(): string {
     return this._mapSettings.title;
   }
@@ -124,7 +156,6 @@ export class MainComponent implements OnInit {
   get styles(): Object[] {
     return this._mapSettings.styles;
   }
-
 
   // display component
 
@@ -209,7 +240,7 @@ export class MainComponent implements OnInit {
     console.log('received');
     this.filtername = search[0];
     this.searchType = search[1];
-    const pipe =  new UserFilterPipe();
+    const pipe = new UserFilterPipe();
     const users = pipe.transform(this._users, this.filtername, this.searchType);
     if (users.length >= 2) {
       this._mapSettings.position = users[0].mapLocation;
@@ -235,5 +266,4 @@ export class MainComponent implements OnInit {
       }
     }
   }
-
 }

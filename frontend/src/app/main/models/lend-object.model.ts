@@ -1,5 +1,4 @@
 import { User } from './user.model';
-import { Request } from './request.model';
 
 export class LendObject {
   private _id;
@@ -26,7 +25,9 @@ export class LendObject {
     this._name = name;
     this._description = description;
     this._type = type;
-    this._owner = { id: owner.id, name: owner.name };
+    const ownerid = owner.id;
+    const ownername = owner.name;
+    this._owner = { id: ownerid, name: ownername };
     console.log(this._owner);
     this._waitinglist = [];
     this._rules = rules;
@@ -46,13 +47,7 @@ export class LendObject {
     if (json.user) {
       lo.user = json.user;
     }
-    if (json.waitinglist) {
-      lo._waitinglist = json.waitinglist.map(
-        (list: any[]): Request[] => list.map(r => Request.fromJSON(r))
-      );
-    } else {
-      lo._waitinglist = [];
-    }
+      lo._waitinglist = json.waitinglist ? json.waitinglist : [];
     return lo;
   }
 
@@ -90,35 +85,15 @@ export class LendObject {
 
   toJSON() {
     return {
-      // _id: this._id,
+      _id: this._id,
       name: this._name,
       description: this._description,
       type: this.TypeToJSON(),
       owner: this.owner,
       user: this.user ? this.user : undefined,
       rules: this._rules,
-      waitinglist: this.waitinglist
+      waitinglist: this.waitinglist ? this.waitinglist : []
     };
-  }
-
-  public addRequest(request: Request): boolean {
-    if (
-      this._waitinglist.find(
-        r =>
-          request.fromdate.valueOf() >= r.fromdate.valueOf() &&
-          request.todate.valueOf() <= r.todate.valueOf()
-      )
-    ) {
-      return false;
-    } else {
-      this._waitinglist.push({
-        id: request.source.id,
-        name: request.source.name,
-        fromdate: request.fromdate,
-        todate: request.todate
-      });
-      return true;
-    }
   }
 
   public isAvailable(): boolean {

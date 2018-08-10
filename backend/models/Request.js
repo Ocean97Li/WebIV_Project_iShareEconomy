@@ -2,17 +2,20 @@ let mongoose = require('mongoose');
 
 let RequestSchema = new mongoose.Schema({
   source: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    id: String,
+    name: String
   },
-  object: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'LendObject'
-    }
-  ],
-  fromDate: { type: Date },
-  toDate: { type: Date},
+  object: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'LendObject'
+  },
+  fromdate: {
+    type: Date
+  },
+  todate: {
+    type: Date
+  },
+  approved: Boolean
 });
 
-mongoose.model('Request', RecipeSchema);
+mongoose.model('Request', RequestSchema);

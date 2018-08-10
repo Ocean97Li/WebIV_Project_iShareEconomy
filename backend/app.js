@@ -16,6 +16,7 @@ mongoose.connect(
 // require('./models/Ingredient');
 require('./models/User');
 require('./models/LendObject');
+require('./models/Request');
 
 require('./config/passport');
 

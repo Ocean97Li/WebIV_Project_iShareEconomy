@@ -9,7 +9,7 @@ import { User } from '../../../models/user.model';
 import { LendObject } from '../../../models/lend-object.model';
 import { UserService } from '../../../services/user.service';
 import { LoggedInUserService } from '../../../services/logged-in-user.service';
-import { distinctUntilChanged } from '../../../../../../node_modules/rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-delete-lend-object',

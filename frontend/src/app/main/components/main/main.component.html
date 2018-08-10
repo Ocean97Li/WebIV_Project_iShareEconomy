@@ -42,6 +42,8 @@
   <div id="inDIV">
     <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [minZoom]="3" [zoomControl]="zoomControl" [streetViewControl]="streetViewControl"
       [styles]="styles" id="map">
+      <app-user (selectedUser)="newSelectedUser($event,drawerleft,drawerRight);"
+        [user]='loggedInUser' *ngIf=loggedInUser></app-user>
       <app-user (selectedUser)="newSelectedUser($event,drawerleft,drawerRight);" *ngFor='let usr of users |userFilter:filtername:searchType'
         [user]='usr'></app-user>
     </agm-map>

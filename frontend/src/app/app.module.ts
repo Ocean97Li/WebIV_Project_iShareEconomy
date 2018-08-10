@@ -7,6 +7,7 @@ import { GeolocationService } from './main/services/geolocation.service';
 import { AuthenticationService } from './user/authentication.service';
 import { AuthGuardService } from './user/auth-guard.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MatNativeDateModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    MatNativeDateModule
   ],
   exports: [],
   bootstrap: [AppComponent],

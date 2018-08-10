@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Request } from '../../../models/request.model';
+import { ObjectRequest } from '../../../models/object-request.model';
 import { LoggedInUserService } from '../../../services/logged-in-user.service';
 import { LendObject } from '../../../models/lend-object.model';
 
@@ -9,7 +9,7 @@ import { LendObject } from '../../../models/lend-object.model';
   styleUrls: ['./request.component.css']
 })
 export class RequestComponent implements OnInit {
-  private _request: Request;
+  private _request: ObjectRequest;
   constructor (private _loggedInUserService: LoggedInUserService) {
   }
   //
@@ -17,9 +17,9 @@ export class RequestComponent implements OnInit {
   /**
    * Setter request
    *
-   * @param {Request} value
+   * @param {ObjectRequest} value
    */
-  @Input() set request(value: Request) {
+  @Input() set request(value: ObjectRequest) {
     this._request = value;
   }
 
@@ -31,13 +31,14 @@ export class RequestComponent implements OnInit {
     return this._request.source.name;
   }
 
-  /**
+   /**
    * get target name
    * @return {string}
    */
-  private get target(): string {
-    return this._request.target.name;
+  get target(): string {
+    return this._request.object.owner.name;
   }
+
 
   /**
    * get object
