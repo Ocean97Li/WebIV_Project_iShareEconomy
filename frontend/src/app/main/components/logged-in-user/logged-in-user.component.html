@@ -4,12 +4,12 @@
       <fa name="user-circle" size="4x"></fa>
     </p>
   </span>
-  <h3 class="text-center">{{name}}</h3>
+  <h3 class="josefin marginbottom text-center">{{name}}</h3>
   <mat-accordion [multi]=true>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-         <b>Address</b>
+         <b class="comforta">Address</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <p>{{address}} </p>
@@ -17,7 +17,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-         <b>Rating</b>
+         <b class="comforta">Rating</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <ngb-rating style="font-size: 1.5em;padding-right: 1em; outline: none" [rate]="3"></ngb-rating>
@@ -25,7 +25,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-         <b>Sharing</b>
+         <b class="comforta">Sharing</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="row">
@@ -37,7 +37,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-         <b>Using</b>
+         <b class="comforta">Using</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div>
@@ -48,7 +48,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-         <b>My Requests</b>
+         <b class="comforta">My Requests</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <app-request *ngFor='let req of outRequests'[request]='req'></app-request>
@@ -56,7 +56,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-         <b>Requests for me</b>
+         <b class="comforta">Requests for me</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div>

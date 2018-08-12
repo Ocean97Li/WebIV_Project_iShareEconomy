@@ -3,6 +3,8 @@
 @import "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css";
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css?family=Raleway|Roboto');
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:700|Josefin+Slab|Poiret+One');
 html { height: 100% }
 body { height: 100%; margin: 0px; padding: 0px }
 label {font-weight: bold};
@@ -11,12 +13,16 @@ label {font-weight: bold};
 .noPadding{
     padding: 0px !important;
 }
-padddingleft{
+.padddingleft{
     padding-left: 4px;
 }
 
-paddingright{
+.paddingright{
     padding-right: 4px;
+}
+
+.marginbottom{
+    margin-bottom: 0.75em;
 }
 
 .full{
@@ -26,6 +32,24 @@ paddingright{
 .half {
     width: 50% !important;
 }
+
+/* fonts & titles */
+.poiret {
+    font-family: 'poiret one'
+}
+
+.josefin {
+    font-family: 'Josefin Slab'
+}
+
+.comforta{
+    font-family: 'Comfortaa'
+}
+
+label,button {
+    font-family: 'Comfortaa' !important;
+}
+
 /* buttons */
 
 .sharingbutton{
