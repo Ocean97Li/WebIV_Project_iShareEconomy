@@ -55,7 +55,9 @@ export class AddRequestDialogComponent implements OnInit {
   ) {
     _selectedUserService.selectedUser
       .pipe(distinctUntilChanged())
-      .subscribe(val => (this._lending = val.lending));
+      .subscribe(val => {if (val) {
+        this._lending = val.lending;
+      }});
     _loggedInUserService.loggedInUser
     .pipe()
     .subscribe(val => {

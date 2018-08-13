@@ -34,6 +34,7 @@ export class LendObject {
   }
 
   static fromJSON(json: any): LendObject {
+    console.log(json);
     const id: string = undefined;
     const name: string = undefined;
     const lo = new LendObject(

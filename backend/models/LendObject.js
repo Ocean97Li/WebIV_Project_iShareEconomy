@@ -7,6 +7,12 @@ let LendObjectSchema = new mongoose.Schema({
     rules: String,
     owner: {id: String,name: String},
     user: {id: String,name: String},
+    waitinglist: [{
+        id: String,
+        name: String,
+        todate: Date,
+        fromdate: Date,
+    }]
     
 });
 mongoose.model('LendObject', LendObjectSchema);

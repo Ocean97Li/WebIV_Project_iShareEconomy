@@ -46,6 +46,10 @@ label {font-weight: bold};
     font-family: 'Comfortaa'
 }
 
+p { 
+    font-family: 'Raleway'
+}
+
 label,button {
     font-family: 'Comfortaa' !important;
 }

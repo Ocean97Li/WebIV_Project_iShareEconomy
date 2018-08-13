@@ -14,7 +14,9 @@ export class SelectedUserPanelComponent implements OnInit {
   constructor(private selectedUserServ: SelectedUserService) {
     selectedUserServ.selectedUser.subscribe(
       val => {
-        this._currentSelectedUser = val;
+        if (val) {
+          this._currentSelectedUser = val;
+        }
       }
     );
    }

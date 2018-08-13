@@ -26,10 +26,10 @@
     </div>
     <div *ngIf='data.object.waitinglist.length>0' class="field">
         <label>Waitinglist:</label>
-        <div class='ui card' *ngFor='let request of waitingList'>
-            <div class="inline">{{request.fromdate}} - {{request.todate}}</div>
+        <div class='ui card' *ngFor='let usage of waitingList'>
+            <div class="inline">{{usage.fromdate}} - {{usage.todate}}</div>
             <fa class="inline" name=user-circle size=2x></fa>
-            <h5 [ngClass]={smallerFont:!data.object.user} class="inline">{{data.object.user?.name||" No current user"}}</h5>
+            <h5 [ngClass]={smallerFont:!data.object.user} class="inline">{{usage.name||" No current user"}}</h5>
         </div>
     </div>
   </div>

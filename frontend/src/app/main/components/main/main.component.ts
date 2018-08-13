@@ -49,7 +49,10 @@ export class MainComponent implements OnInit {
     this.searchType = 'User';
     this.filtername = '';
     this._loggedInUserService.loggedInUser
-      .subscribe(user => (this._user = user));
+      .subscribe(user => {
+        console.log('last user');
+        this._user = user;
+      });
   }
 
   ngOnInit(): void {
@@ -96,19 +99,26 @@ export class MainComponent implements OnInit {
     }
     if (user.id === this._user.id) {
       this.toggleNavRight(drawerRight);
+      console.log('1');
     } else {
       if (!this._selecteduser) {
+        console.log('2');
         this._selecteduser = user;
         this._selectedUserService.selectedUser.next(user);
         this.toggleNavLeft(drawerLeft);
       } else {
+        console.log('3');
         if (user.id === this._selecteduser.id) {
+          console.log('4');
           this.toggleNavLeft(drawerLeft);
         } else {
+          console.log('5');
           console.log(this._display1);
           if (!this._display1) {
+            console.log('6');
             this.toggleNavLeft(drawerLeft);
           }
+          this._selecteduser = user;
           this._selectedUserService.selectedUser.next(user);
         }
       }

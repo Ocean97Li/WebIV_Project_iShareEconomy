@@ -16,6 +16,7 @@ export class LoggedInUserComponent implements OnInit {
     this.user$ = this.loggedInUserService.loggedInUser;
     this.user$.subscribe(val => {
       if (val !== null) {
+        console.log('logged in user updated');
         this.user = val;
       }
     });
@@ -72,6 +73,7 @@ export class LoggedInUserComponent implements OnInit {
     }
     return this.user.outRequest;
   }
+
   ngOnInit() {
   }
 

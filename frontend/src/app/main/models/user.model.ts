@@ -36,6 +36,7 @@ export class User {
     this._outRequest = [];
   }
   public static fromJSON(json: any, norequests?: boolean): User {
+    console.log(json);
     const user = new User(
       json.username,
       json.firstname,

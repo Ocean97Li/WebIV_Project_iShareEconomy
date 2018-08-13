@@ -5,7 +5,7 @@ import { LendObject } from '../models/lend-object.model';
 import { AuthenticationService } from '../../user/authentication.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MapSettingsService } from './map-settings.service';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Observable } from '../../../../node_modules/rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { ObjectRequest } from '../models/object-request.model';
@@ -37,14 +37,16 @@ export class LoggedInUserService {
   }
 
   private loggedInUserfromUsers() {
-    this.userserv.getUsersFromServer();
     this.userserv.users.subscribe(users => {
       if (users) {
         this._user = users.find(usr => usr.id === this._id);
         this._user$.next(this._user);
         this.mapToUserLocation();
+        this.fetchInRequest();
+        this.fetchOutRequest();
       } else {
         console.log('something went wrong');
+        this.userserv.getUsersFromServer();
       }
     });
   }
@@ -64,6 +66,21 @@ export class LoggedInUserService {
     }
   }
 
+  private fetchInRequest() {
+    if (this._id) {
+    console.log('udpated from server');
+    this._http
+      .get(`/API/users/${this._id}/inrequest`)
+      .pipe(map((list: any[]): ObjectRequest[] => list.map(ObjectRequest.fromJSON)))
+      .subscribe(reqs => {
+        console.log('inrequest');
+        console.log(reqs);
+        this._user.inRequest = reqs;
+        this._user$.next(this._user);
+      });
+    }
+  }
+
   private mapToUserLocation() {
     if (this._user) {
       this._mapserv.position = this._user.mapLocation;
@@ -75,7 +92,7 @@ export class LoggedInUserService {
   }
 
   public addNewLendObject(obj: any): void {
-    const url = `/API/users/${this._id}/lending`;
+   const url = `/API/users/${this._id}/lending`;
     const lo = new LendObject(
       obj.name,
       obj.desc,
@@ -103,14 +120,36 @@ export class LoggedInUserService {
   }
 
   public addNewRequest(request: ObjectRequest) {
-    const url = `/API/users/${this._id}/outrequest`;
-    this._http
-      .post(url, request.toJSON())
-      .pipe(map(ob => ObjectRequest.fromJSON(ob)))
-      .subscribe(val => {
-        console.log(val);
-        this._user.outRequest.push(val);
-        this._user$.next(this._user);
-      });
+    let url = `/API/check/request`;
+    console.log(request.toJSON());
+    this._http.post(url, request.toJSON()).subscribe(
+      (result: any) => {
+        if (result.state) {
+          switch (result.state) {
+            case 'invalid dates': {
+              console.log('invalid dates');
+              break;
+            }
+            case 'request conflict': {
+              console.log('invalid dates');
+              break;
+            }
+            case 'ok': {
+              url = `/API/users/${this._id}/outrequest`;
+              this._http
+                .post(url, request.toJSON())
+                .pipe(map(ob => ObjectRequest.fromJSON(ob)))
+                .subscribe(val => {
+                  console.log(val);
+                  this._user.outRequest.push(val);
+                  this._user$.next(this._user);
+                });
+              break;
+            }
+          }
+
+        }
+      }
+    );
   }
 }
