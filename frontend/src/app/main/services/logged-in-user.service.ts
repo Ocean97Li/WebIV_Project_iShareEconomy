@@ -51,7 +51,7 @@ export class LoggedInUserService {
     });
   }
 
-  private fetchOutRequest() {
+  public fetchOutRequest() {
     if (this._id) {
     console.log('udpated from server');
     this._http
@@ -66,7 +66,7 @@ export class LoggedInUserService {
     }
   }
 
-  private fetchInRequest() {
+  public fetchInRequest() {
     if (this._id) {
     console.log('udpated from server');
     this._http
@@ -79,6 +79,35 @@ export class LoggedInUserService {
         this._user$.next(this._user);
       });
     }
+  }
+
+  public approveRequest(req: ObjectRequest) {
+    console.log('approve');
+    const id = req.id;
+    const url = `/API/users/${this._id}/inRequest/${id}/approve`;
+    this._http.post(url, undefined).pipe(map((val: any) => ObjectRequest.fromJSON(val))).subscribe(
+      request => {
+        this._user.lending[this._user.lending.findIndex( ob => ob.id === request.object.id)] = request.object;
+        this.loggedInUser.next(this._user);
+      }
+    );
+  }
+
+  public denyRequest(req: ObjectRequest) {
+    console.log('deny');
+    const id = req.id;
+    const url = `/API/users/${this._id}/inRequest/${id}/deny`;
+    this._http.post(url, undefined).pipe(map((val: any) => ObjectRequest.fromJSON(val))).subscribe(
+      request => {
+        this._user.lending[this._user.lending.findIndex( ob => ob.id === request.object.id)] = request.object;
+        this.loggedInUser.next(this._user);
+      }
+    );
+  }
+
+  public removeInRequest(req: ObjectRequest) {
+    this._user.inRequest = this._user.inRequest.filter(r => r.id !== req.id);
+    this._user$.next(this._user);
   }
 
   private mapToUserLocation() {
@@ -147,7 +176,6 @@ export class LoggedInUserService {
               break;
             }
           }
-
         }
       }
     );

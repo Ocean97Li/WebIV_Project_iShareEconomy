@@ -1,4 +1,4 @@
-<div class="card" [ngClass]="{'selected': selected&&selectable}" (click)="select()">
+<div class="card" [ngClass]="{'selected': selected&&selectable,'approved':approved}" (click)="select()">
   <div class="row rowfix">
     <div class="cardcolumn">
       <div class="item-icon wrapper" [ngClass]="{'blue': isTempAvailable,'green':isAvailable,'yellow':isUsed,'orange':isHeavilyUsed,'red':isVeryHeavilyUsed}">

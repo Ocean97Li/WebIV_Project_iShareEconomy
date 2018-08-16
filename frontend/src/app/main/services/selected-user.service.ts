@@ -8,12 +8,13 @@ import { MapSettingsService } from './map-settings.service';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 import { Observable } from '../../../../node_modules/rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
+import { ObjectRequest } from '../models/object-request.model';
 
 @Injectable()
 export class SelectedUserService {
   private _user$: BehaviorSubject<User>;
   private _user: User;
-  private _userId: string;
+  private _id: string;
 
   constructor(
     private _http: HttpClient,
@@ -24,6 +25,11 @@ export class SelectedUserService {
       this._user$.pipe(distinctUntilChanged()).subscribe(
         val => {
           this._user = val;
+          if (val) {
+            this._id = val.id;
+            this.fetchInRequest();
+            this.fetchOutRequest();
+          }
         }
       );
   }
@@ -40,6 +46,36 @@ export class SelectedUserService {
 
   public get selectedUser(): BehaviorSubject<User> {
     return this._user$;
+  }
+
+  public fetchOutRequest() {
+    if (this._id) {
+    console.log('udpated from server');
+    this._http
+      .get(`/API/users/${this._id}/outrequest`)
+      .pipe(map((list: any[]): ObjectRequest[] => list.map(ObjectRequest.fromJSON)))
+      .subscribe(reqs => {
+        console.log('outrequest');
+        console.log(reqs);
+        this._user.outRequest = reqs;
+        this._user$.next(this._user);
+      });
+    }
+  }
+
+  public fetchInRequest() {
+    if (this._id) {
+    console.log('udpated from server');
+    this._http
+      .get(`/API/users/${this._id}/inrequest`)
+      .pipe(map((list: any[]): ObjectRequest[] => list.map(ObjectRequest.fromJSON)))
+      .subscribe(reqs => {
+        console.log('inrequest');
+        console.log(reqs);
+        this._user.inRequest = reqs;
+        this._user$.next(this._user);
+      });
+    }
   }
 
 }

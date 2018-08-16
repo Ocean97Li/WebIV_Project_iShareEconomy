@@ -18,19 +18,6 @@ export class UserService {
 
   constructor(private http: HttpClient) {
   this.getUsersFromServer();
-  // this.everyTenSeconds(true);
-  }
-
-  private everyTenSeconds(toggle: boolean) {
-    if (toggle) {
-      this._sub = interval(10000);
-      this._sub.subscribe((val) => {
-        console.log('refresh');
-        this.getUsersFromServer();
-      });
-    } else {
-      this._sub.unsubscribe();
-    }
   }
 
   public getUsersFromServer() {

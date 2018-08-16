@@ -2,7 +2,7 @@
   <h3 class="ui header">register new user</h3>
   <div class="row">
     <div class="bottom ui field col col-12">
-      <label for="username">username:</label>
+      <label for="username" maxlength="30">username:</label>
       <input type="text" id="username" formControlName='username'>
       <div class='ui pointing basic label' *ngIf=' user.get("username").errors?.required && user.get("username").touched'>
         a username is required
@@ -17,8 +17,8 @@
   </div>
   <div class="row">
     <div class="field col-12 col-md-6">
-      <label for="username">first name:</label>
-      <input type="text" id="firstname" formControlName='firstname'>
+      <label for="firstname">first name:</label>
+      <input type="text" id="firstname" formControlName='firstname' maxlength="15">
       <div class='ui pointing basic label' *ngIf=' user.get("firstname").errors?.required && user.get("firstname").touched'>
         a first name is required
       </div>
@@ -28,7 +28,7 @@
     </div>
     <div class="bottom field col-12 col-md-6">
       <label for="username">last name:</label>
-      <input type="text" id="lastname" formControlName='lastname'>
+      <input type="text" id="lastname" formControlName='lastname' maxlength="15">
       <div class='ui pointing basic label' *ngIf=' user.get("lastname").errors?.required && user.get("lastname").touched'>
         a last name is required
       </div>

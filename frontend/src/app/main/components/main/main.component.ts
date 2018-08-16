@@ -93,7 +93,7 @@ export class MainComponent implements OnInit {
         }
   }
 
-  newSelectedUser(user: User, drawerLeft: any, drawerRight) {
+  newSelectedUser(user: User, drawerLeft, drawerRight) {
     if (!this._user) {
       console.log('still loading this user');
     }
@@ -246,21 +246,21 @@ export class MainComponent implements OnInit {
     }
   }
 
-  public newSearch(search: string[]) {
-    console.log('received');
+  public newSearch(search: string[], drawerLeft, drawerRight) {
+    console.log(drawerLeft, drawerRight);
     this.filtername = search[0];
     this.searchType = search[1];
     const pipe = new UserFilterPipe();
     const users = pipe.transform(this._users, this.filtername, this.searchType);
     if (users.length >= 2) {
       this._mapSettings.position = users[0].mapLocation;
-      this._mapSettings.zoom = 5;
+      this._mapSettings.zoom = 10;
+      this.newSelectedUser(users[0], drawerLeft, drawerRight);
     } else if (users.length === 1) {
       this._mapSettings.position = users[0].mapLocation;
       this._mapSettings.zoom = 18;
+      this.newSelectedUser(users[0], drawerLeft, drawerRight);
     }
-    console.log(this.filtername);
-    console.log(this.searchType);
   }
 
   private handleToggleSearch(drawerLeft, drawerRight) {

@@ -15,41 +15,64 @@ router.get('/lends', function (req, res) {
 });
 
 router.post('/check/request', function (req, res, next) {
+  //fix the date 
+  req.body.fromdate = new Date(req.body.fromdate);
+  req.body.todate = new Date(req.body.todate);
   //check if dates are valid
-  const today = new Date();
-  console.log(today);
-  console.log(req.body.fromdate);
-  console.log(new Date(req.body.fromdate));
-  console.log(req.body.todate);
-  console.log(new Date(req.body.todate));
-  console.log(new Date(req.body.fromdate) <= new Date(req.body.todate));
-  console.log(new Date(req.body.fromdate).setHours(0, 0, 0, 0).valueOf() >= new Date().setHours(0, 0, 0, 0).valueOf());
-  if (!(
-      new Date(req.body.fromdate) <= new Date(req.body.todate) &&
-      new Date(req.body.fromdate).setHours(0, 0, 0, 0).valueOf() >= new Date().setHours(0, 0, 0, 0).valueOf()
-    )) {
+  if (isOutdatedRequest(req.body.fromdate)||isDeformedRequest(req.body.fromdate,req.body.todate)) {
+    console.log('outdated / deformed')
     return res.json({
       state: 'invalid dates'
     })
-  }
-  //check if the request does not conflict with current/future users
-  LendObject.findOne({
-    _id: req.body.object._id
-  }).exec(
-    function (err, object) {
-      if (object.waitinglist) {
-        if (object.waitinglist.length > 0) {
-          object.waitinglist.forEach(usage => {
-            if (!(usage.todate < req.body.fromdate && !(req.body.todate < usage.fromdate))) {
+  } else {
+    //check if the request does not conflict with current/future users
+    LendObject.findOne({
+      _id: req.body.object._id
+    }).exec(
+      function (err, object) {
+        if (object.waitinglist || object.user) {
+          if (object.user) {
+            if (isConflictingRequest(object.user,req.body)){
+              console.log('request conflict found')
               return res.json({
                 state: 'request conflict'
               })
             }
+          }
+          if (object.waitinglist.length > 0) {
+            console.log('checking waitng list');
+            object.waitinglist.forEach(
+              usage => {
+              if (isConflictingRequest({fromdate: req.body.fromdate,todate: req.body.todate},usage)) {
+                console.log('request conflict found')
+                return res.json({
+                  state: 'request conflict'
+                })
+              }
+            });
+          }
+          return res.json({
+            state: 'ok'
+          });
+        } else {
+          return res.json({
+            state: 'ok'
           });
         }
-      }
-    });
-  res.json({
-    state: 'ok'
-  });
+      });
+  }
 });
+
+function isOutdatedRequest(fromdate) {
+  //request that is for a date already passed
+  return fromdate <= new Date().setTime(0,0,0,0);
+}
+function isDeformedRequest(fromdate,todate){
+  //request that is for a date already passed
+  return !(fromdate <= todate);
+}
+function isConflictingRequest(request,checkwith){
+  //checks for overlaps
+  console.log((request.fromdate  <= checkwith.todate )  &&  (request.todate  >= checkwith.fromdate));
+  return (request.fromdate  <= checkwith.todate )  &&  (request.todate  >= checkwith.fromdate)
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ObjectRequest } from '../../../models/object-request.model';
 import { LoggedInUserService } from '../../../services/logged-in-user.service';
 import { LendObject } from '../../../models/lend-object.model';
@@ -9,10 +9,24 @@ import { LendObject } from '../../../models/lend-object.model';
   styleUrls: ['./request.component.css']
 })
 export class RequestComponent implements OnInit {
+  @Input() public conflict: boolean = null;
+  @Input() public selected = false;
+  @Input() public selectable = false;
   private _request: ObjectRequest;
+  @Output() private sendRequest: EventEmitter<ObjectRequest> = new EventEmitter<ObjectRequest>();
   constructor (private _loggedInUserService: LoggedInUserService) {
   }
-  //
+  public send() {
+    if (this.selectable) {
+      this.sendRequest.emit(this._request);
+    }
+  }
+
+  public remove() {
+    if (this.dissaproved) {
+      this.sendRequest.emit(this._request);
+    }
+  }
 
   /**
    * Setter request
@@ -32,6 +46,22 @@ export class RequestComponent implements OnInit {
   }
 
    /**
+   * get dissaproved
+   * @return {boolean}
+   */
+  get dissaproved(): boolean {
+    return this.approved === false;
+  }
+
+  /**
+   * get approved
+   * @return {string}
+   */
+  get approved(): boolean {
+    return this._request.approved;
+  }
+
+   /**
    * get target name
    * @return {string}
    */
@@ -46,6 +76,22 @@ export class RequestComponent implements OnInit {
    */
   public get object(): LendObject {
     return this._request.object;
+  }
+
+  /**
+   * get fromdate
+   * @return {string}
+   */
+  public get fromdate(): Date {
+    return this._request.dates.fromdate;
+  }
+
+  /**
+   * get todate
+   * @return {string}
+   */
+  public get todate(): Date {
+    return this._request.dates.todate;
   }
 
 

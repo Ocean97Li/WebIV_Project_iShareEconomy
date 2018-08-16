@@ -21,10 +21,6 @@
       <mat-datepicker #pickerfrom touchUi></mat-datepicker>
       <mat-datepicker #pickerto touchUi></mat-datepicker>
     </div>
-    <label class="full">Questions for {{name}}:</label>
-    <div class="full field ui">
-      <textarea rows=2 placeholder="Max.80 tokens" maxlength="80"></textarea>
-     </div>
     <div>
       <button class="ui button blue" (click)="close()" type="button">Cancel</button>
       <button [ngClass]={disabled:!selected||fromdate.invalid||todate.invalid||!validDateCombo} class="ui right button green" type="submit">Send it!</button>

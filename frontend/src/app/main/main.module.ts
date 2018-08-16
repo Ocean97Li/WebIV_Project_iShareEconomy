@@ -73,6 +73,7 @@ import { GOOGLE_MAPS_API_KEY } from '../../environments/api-keys';
 import { LogoutComponent } from '../user/logout/logout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SelectedUserService } from './services/selected-user.service';
+import { ApproveRequestComponent, ApproveRequestDialogComponent } from './components/request/approve-request/approve-request.component';
 
 const api = GOOGLE_MAPS_API_KEY;
 const appRoutes: Routes = [
@@ -116,7 +117,9 @@ const appRoutes: Routes = [
     DeleteLendObjectDialogComponent,
     AddRequestDialogComponent,
     InfoLendObjectComponent,
-    LoggedInUserComponent
+    LoggedInUserComponent,
+    ApproveRequestComponent,
+    ApproveRequestDialogComponent
   ],
   providers: [
     LoggedInUserService,
@@ -130,7 +133,8 @@ const appRoutes: Routes = [
     AddLendObjectDialogComponent,
     DeleteLendObjectDialogComponent,
     InfoLendObjectComponent,
-    AddRequestDialogComponent
+    AddRequestDialogComponent,
+    ApproveRequestDialogComponent
   ]
 })
 export class MainModule {}

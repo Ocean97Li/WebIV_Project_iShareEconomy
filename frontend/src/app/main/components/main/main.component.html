@@ -20,7 +20,7 @@
       </div>
     </div>
   </div>
-  <app-searchbar [_dissappearAnimation]=dissappearAnimation [_filtername]=filtername [_searchType]=searchType (newSearch)="newSearch($event)"
+  <app-searchbar [_dissappearAnimation]=dissappearAnimation [_filtername]=filtername [_searchType]=searchType (newSearch)="newSearch($event,drawerleft,drawerRight)"
     *ngIf="search"></app-searchbar>
   <div class="row justify-content-between contentheight">
     <mat-drawer-container class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 example-container nobackground" autosize [ngClass]="{'display-true': _display1, 'display-false': !_display1}">

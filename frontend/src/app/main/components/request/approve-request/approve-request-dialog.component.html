@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>Want to approve a request?</h2>
+<div mat-dialog-content>
+  <form class="ui form">
+    <label>Select the request you wish to approve:</label>
+    <div class="field object-selector">
+        <app-request (sendRequest)=newSelected($event) *ngFor='let req of inRequests'[request]='req' [conflict]='hasconflict(req)' [selectable]=true [selected]='req==selected'></app-request>
+    </div>
+    <div class="ui buttons full">
+      <button class="ui button blue" (click)="close()" type="button">Cancel</button>
+      <button (click)=onSubmitDeny() [ngClass]={disabled:!selected} class="ui button red">Deny it</button>
+      <button (click)=onSubmitApprove() [ngClass]={disabled:!selected} class="ui button green">Approve it</button>
+    </div>
+  </form>
+</div>

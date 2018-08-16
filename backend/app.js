@@ -12,8 +12,6 @@ mongoose.connect(
   //   mongoose.connection.db.dropDatabase();
   // }
 );
-// require('./models/Recipe');
-// require('./models/Ingredient');
 require('./models/User');
 require('./models/LendObject');
 require('./models/Request');

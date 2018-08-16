@@ -52,11 +52,27 @@ export class ObjectRequest {
   }
 
   /**
+   * Getter id
+   * @return id: string
+   */
+  public get id(): string {
+    return this._id;
+  }
+
+  /**
    * Getter source
    * @return {{id: string, name: string}}
    */
   public get source(): {id: string, name: string} {
     return this._source;
+  }
+
+  /**
+   * Getter approved
+   * @return {boolean}
+   */
+  public get approved(): boolean {
+    return this._approved;
   }
 
   /**

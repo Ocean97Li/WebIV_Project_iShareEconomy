@@ -60,8 +60,9 @@ export class AddRequestDialogComponent implements OnInit {
       }});
     _loggedInUserService.loggedInUser
     .pipe()
-    .subscribe(val => {
+    .subscribe(val => { if (val) {
       this._user = {id: val.id, name: val.name};
+    }
     });
   }
 
@@ -105,7 +106,6 @@ export class AddRequestDialogComponent implements OnInit {
   }
 
   public newSelected(object: LendObject) {
-    console.log(object);
     this._selected = object;
   }
 

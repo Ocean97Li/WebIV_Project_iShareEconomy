@@ -3,6 +3,7 @@ import { User } from '../../models/user.model';
 import { LoggedInUserService } from '../../services/logged-in-user.service';
 import { LendObject } from '../../models/lend-object.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ObjectRequest } from '../../models/object-request.model';
 @Component({
   selector: 'app-logged-in-user',
   templateUrl: './logged-in-user.component.html',
@@ -72,6 +73,20 @@ export class LoggedInUserComponent implements OnInit {
       return [];
     }
     return this.user.outRequest;
+  }
+
+  refreshInRequests(): void {
+    this.loggedInUserService.fetchInRequest();
+  }
+
+  refreshOutRequests(): void {
+    this.loggedInUserService.fetchOutRequest();
+  }
+
+  removeRequest(request: ObjectRequest) {
+    console.log('plotting to remove');
+    console.log(request);
+    this.loggedInUserService.removeInRequest(request);
   }
 
   ngOnInit() {

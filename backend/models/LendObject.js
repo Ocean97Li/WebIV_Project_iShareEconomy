@@ -6,7 +6,7 @@ let LendObjectSchema = new mongoose.Schema({
     type: String,
     rules: String,
     owner: {id: String,name: String},
-    user: {id: String,name: String},
+    user: {id: String,name: String, todate: Date, fromdate: Date},
     waitinglist: [{
         id: String,
         name: String,

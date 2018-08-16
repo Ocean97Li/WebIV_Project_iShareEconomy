@@ -28,13 +28,11 @@ export class LendObject {
     const ownerid = owner.id;
     const ownername = owner.name;
     this._owner = { id: ownerid, name: ownername };
-    console.log(this._owner);
     this._waitinglist = [];
     this._rules = rules;
   }
 
   static fromJSON(json: any): LendObject {
-    console.log(json);
     const id: string = undefined;
     const name: string = undefined;
     const lo = new LendObject(
