@@ -15,7 +15,8 @@ let RequestSchema = new mongoose.Schema({
   todate: {
     type: Date
   },
-  approved: Boolean
+  approved: Boolean,
+  returned: Boolean
 });
 
 mongoose.model('Request', RequestSchema);

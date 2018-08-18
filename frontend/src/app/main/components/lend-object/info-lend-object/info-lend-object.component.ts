@@ -17,6 +17,21 @@ export class InfoLendObjectComponent implements OnInit {
   ) {
   }
 
+  public orderedlist(object) {
+    this._object = object;
+    return this._object.waitinglist.sort((a, b) => {
+      if (a.fromdate < b.fromdate) {
+        return -1;
+      }
+      if (a.fromdate > b.fromdate) {
+        return 1;
+      }
+      if (a.fromdate < b.fromdate) {
+        return 0;
+      }
+    });
+  }
+
 
   /**
    * Getter object

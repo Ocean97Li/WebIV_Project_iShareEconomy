@@ -105,8 +105,10 @@ export class LoggedInUserService {
       .post(url, undefined)
       .pipe(map((val: any) => LendObject.fromJSON(val)))
       .subscribe(lo => {
+        console.log(lo);
         this._user.using = this._user.using.filter(object => obj.id !== lo.id);
         this._user$.next(this._user);
+        this.getUsersFromServer();
       });
   }
 

@@ -20,7 +20,6 @@ router.post('/check/request', function (req, res, next) {
   req.body.todate = new Date(req.body.todate);
   //check if dates are valid
   if (isOutdatedRequest(req.body.fromdate)||isDeformedRequest(req.body.fromdate,req.body.todate)) {
-    console.log('outdated / deformed')
     return res.json({
       state: 'invalid dates'
     })
@@ -33,18 +32,15 @@ router.post('/check/request', function (req, res, next) {
         if (object.waitinglist || object.user) {
           if (object.user) {
             if (isConflictingRequest(object.user,req.body)){
-              console.log('request conflict found')
               return res.json({
                 state: 'request conflict'
               })
             }
           }
           if (object.waitinglist.length > 0) {
-            console.log('checking waitng list');
             object.waitinglist.forEach(
               usage => {
               if (isConflictingRequest({fromdate: req.body.fromdate,todate: req.body.todate},usage)) {
-                console.log('request conflict found')
                 return res.json({
                   state: 'request conflict'
                 })

@@ -66,8 +66,8 @@ export class ReturnLendObjectDialogComponent implements OnInit {
   }
 
   public onSubmit() {
-    this.loggedInUserService.removeObject(this._selected.id);
-    this.loggedInUserService.getUsersFromServer();
+    console.log(this.selected);
+    this.loggedInUserService.returnLendoBject(this._selected);
     this.close();
   }
 }

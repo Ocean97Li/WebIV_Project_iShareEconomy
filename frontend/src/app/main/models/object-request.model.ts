@@ -8,6 +8,7 @@ export class ObjectRequest {
   private _fromdate: Date;
   private _todate: Date;
   private _approved: boolean = undefined;
+  private _returned: boolean;
 
   constructor(
     source: {id: string, name: string},
@@ -34,6 +35,7 @@ export class ObjectRequest {
     console.log(new Date(json.fromdate));
     request._id = json._id;
     request._approved = json.approved;
+    request._returned = json.returned;
     return request;
   }
 
