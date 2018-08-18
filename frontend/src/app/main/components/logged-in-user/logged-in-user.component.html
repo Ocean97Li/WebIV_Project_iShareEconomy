@@ -20,7 +20,7 @@
          <b class="comforta">Rating</b>
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <ngb-rating style="font-size: 1.5em;padding-right: 1em; outline: none" [readonly]=true [rate]="3"></ngb-rating>
+      <ngb-rating style="font-size: 1.5em;padding-right: 1em; outline: none;" [readonly]=true [rate]="rating"></ngb-rating>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -41,8 +41,8 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div>
-        <button class="sharingbutton btn btn-dark btn-lg"> <fa name="handshake-o" size="2x"></fa><br>Return</button>
-    </div>
+        <app-return-lend-object> </app-return-lend-object>   
+      </div>
     <app-lend-object *ngFor='let obj of using' [information]=true [lendObject]='obj'></app-lend-object>
     </mat-expansion-panel>
     <mat-expansion-panel>
@@ -52,14 +52,11 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="row">
-          <div class="col-6 noPaddingRight">
-              <button (click)=refreshOutRequests() class="sharingbutton btn btn-dark btn-lg"> <fa name="refresh" size="2x"></fa><br>Refresh</button>
-          </div>
-          <div class="col-6 noPaddingLeft">
-              <button class="sharingbutton btn-border btn btn-light btn-lg "><fa name="trash" size="2x"></fa><br>Remove Request</button>
+          <div class="col-12 noPaddingRight">
+              <button [disabled]=!refreshB2 (click)=refreshOutRequests() class="sharingbutton btn-border btn btn-light btn-lg"> <fa name="refresh" size="2x"></fa><br>Refresh</button>
           </div>
       </div>
-      <app-request *ngFor='let req of outRequests'[request]='req'></app-request>
+      <app-request (click)=removeOutRequest(req) *ngFor='let req of outRequests'[request]='req'></app-request>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -69,14 +66,14 @@
       </mat-expansion-panel-header>
       <div class="row">
         <div class="col-6 noPaddingRight">
-            <button (click)=refreshInRequests() class="sharingbutton btn btn-dark btn-lg"> <fa name="refresh" size="2x"></fa><br>Refresh</button>
+            <button [disabled]=!refreshB1 (click)=refreshInRequests() class="sharingbutton btn-border btn btn-light btn-lg"> <fa name="refresh" size="2x"></fa><br>Refresh</button>
         </div>
         <div class="col-6 noPaddingLeft">
           <app-approve-request></app-approve-request>
             <!-- <button class="sharingbutton btn-border btn btn-light btn-lg "><fa name="hand-paper-o" size="2x"></fa><br>Approve Request</button> -->
         </div>
       </div>
-      <app-request (click)=removeRequest(req) *ngFor='let req of inRequests'[request]='req' [selectable]></app-request>
+      <app-request (click)=removeInRequest(req) *ngFor='let req of inRequests'[request]='req' [selectable]></app-request>
     </mat-expansion-panel>
   </mat-accordion>
 </div>

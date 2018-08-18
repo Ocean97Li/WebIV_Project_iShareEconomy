@@ -1,6 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
-import { UserService } from './user.service';
 import { LendObject } from '../models/lend-object.model';
 import { AuthenticationService } from '../../user/authentication.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -18,7 +17,6 @@ export class SelectedUserService {
 
   constructor(
     private _http: HttpClient,
-    private userserv: UserService,
     private _mapserv: MapSettingsService
   ) {
     this._user$ = new BehaviorSubject<User>(undefined);
@@ -32,12 +30,6 @@ export class SelectedUserService {
           }
         }
       );
-  }
-
-  private mapToUserLocation() {
-    if (this._user) {
-      this._mapserv.position = this._user.mapLocation;
-    }
   }
 
   public get name(): string {

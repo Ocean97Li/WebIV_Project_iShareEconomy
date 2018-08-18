@@ -31,7 +31,6 @@ export class InfoLendObjectComponent implements OnInit {
    * @param {LendObject} value
    */
   public set object(value: LendObject) {
-    console.log('got the object');
     this._object = value;
   }
 

@@ -19,6 +19,8 @@ export class User {
   public mapsApiLoader: MapsAPILoader;
   private _inRequest: ObjectRequest[];
   private _outRequest: ObjectRequest[];
+  // Dynamic
+  private _distance: number;
 
   constructor(// esential data
      username: string,
@@ -47,10 +49,12 @@ export class User {
     user._id = json._id;
     user._lending = json.lending.map(o => LendObject.fromJSON(o));
     user._using = json.using.map(o => LendObject.fromJSON(o));
+    user._rating = json.rating;
     if (!norequests) {
     user._inRequest = json.inRequest.map(r => ObjectRequest.fromJSON(r));
     user._outRequest = json.outRequest.map(r => ObjectRequest.fromJSON(r));
     }
+    user._distance = json.distance;
     return user;
   }
 
@@ -76,6 +80,10 @@ export class User {
     return this._id;
   }
 
+  public get distance(): number {
+    return this._distance;
+  }
+
   public get password() {
     return this._password;
   }
@@ -85,7 +93,7 @@ export class User {
   }
 
   public get rating(): number {
-    return this.rating;
+    return this._rating;
   }
 
   public get username(): string {
@@ -103,7 +111,6 @@ export class User {
     return `${this._firstname} ${this._lastname}`;
   }
 
-  // these don't seem so secure, but will have to do for now
   public get inRequest(): ObjectRequest[] {
     return this._inRequest;
   }

@@ -26,7 +26,7 @@
     </div>
     <label *ngIf='data.object.waitinglist.length>0||data.object.user'>Waitinglist:</label>
     <div *ngIf='data.object.waitinglist.length>0||data.object.user' class="field waitinglist">
-        <div *ngIf=data.object.user class='ui full green card padding'>
+        <div *ngIf=data.object.user class='ui full card padding' [ngClass]="{'green':!data.object.expired,'red':data.object.expired}">
           <div class="josefin padding">  
             {{data.object.user.name}} from {{data.object.user.fromdate|date:'dd/MM/yyyy'}} to {{data.object.user.todate|date:'dd/MM/yyyy'}}
           </div> 

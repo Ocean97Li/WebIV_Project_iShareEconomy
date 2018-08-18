@@ -12,7 +12,7 @@ let UserSchema = new mongoose.Schema({
   hash: String,
   salt: String,
   //user data
-  rating: [{score:Number, user: String}],
+  rating: Number,
   lending: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'LendObject'

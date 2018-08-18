@@ -8,7 +8,6 @@ import {
 } from '@angular/material';
 import { User } from '../../../models/user.model';
 import { LendObject } from '../../../models/lend-object.model';
-import { UserService } from '../../../services/user.service';
 import { LoggedInUserService } from '../../../services/logged-in-user.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { SelectedUserService } from '../../../services/selected-user.service';
@@ -122,8 +121,13 @@ export class AddRequestDialogComponent implements OnInit {
   public onSubmit() {
     console.log(this.fromdate);
     const request = new ObjectRequest(this._user, this._selected, this._fromdate, this.todate);
-    this._loggedInUserService.addNewRequest(request);
-    this.close();
+    this._loggedInUserService.addNewRequest(request).pipe(distinctUntilChanged()).subscribe(
+      val => {
+        if (val) {
+          this.close();
+        }
+      }
+    );
   }
 
 }
@@ -135,3 +139,17 @@ function getLanguage() {
    return navigator.language;
   }
 }
+
+function isOutdatedRequest(fromdate) {
+  // request that is for a date already passed
+  return fromdate <= new Date().setHours(0, 0, 0, 0);
+}
+function isDeformedRequest(fromdate, todate) {
+  // request that is for a date already passed
+  return !(fromdate <= todate);
+}
+function isConflictingRequest(request, checkwith) {
+  // checks for overlaps
+  return (request.fromdate  <= checkwith.todate )  &&  (request.todate  >= checkwith.fromdate);
+}
+

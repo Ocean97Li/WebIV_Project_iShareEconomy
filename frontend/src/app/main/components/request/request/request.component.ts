@@ -2,6 +2,8 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ObjectRequest } from '../../../models/object-request.model';
 import { LoggedInUserService } from '../../../services/logged-in-user.service';
 import { LendObject } from '../../../models/lend-object.model';
+import { Lexer } from '../../../../../../node_modules/@angular/compiler';
+import { LendObjectComponent } from '../../lend-object/lend-object/lend-object.component';
 
 @Component({
   selector: 'app-request',
@@ -50,7 +52,7 @@ export class RequestComponent implements OnInit {
    * @return {boolean}
    */
   get dissaproved(): boolean {
-    return this.approved === false;
+    return this.approved !== undefined;
   }
 
   /**
@@ -68,7 +70,6 @@ export class RequestComponent implements OnInit {
   get target(): string {
     return this._request.object.owner.name;
   }
-
 
   /**
    * get object

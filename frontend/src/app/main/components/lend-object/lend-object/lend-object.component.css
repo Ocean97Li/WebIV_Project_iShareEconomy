@@ -87,6 +87,10 @@
     left: 3px;
 }
 
+.expired {
+    background-color: lightcoral;
+}
+
 
 
 

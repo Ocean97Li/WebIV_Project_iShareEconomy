@@ -1,5 +1,5 @@
 <div (ngDoubleClick)=remove() (click)="send()" class="full margin ui card" [ngClass]={selected:selected,conflict:conflict||dissaproved,approved:approved}>
   <div class="text-size-1 josefin text-center">{{source}} <fa name="arrow-right" size="1x"></fa>{{target}}</div>
-  <app-lend-object [lendObject]="object"></app-lend-object>
+  <app-lend-object #component [lendObject]="object" [information]=object.expired></app-lend-object>
   <div class="text-size-2 josefin text-center">{{fromdate|date:'dd/MM/yyyy'}} - {{todate|date:'dd/MM/yyyy'}}</div>
 </div>

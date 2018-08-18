@@ -82,7 +82,6 @@ export class AddLendObjectDialogComponent implements OnInit {
   }
 
   public onSubmit() {
-    this.close();
     const object = {
       name: this.lendObject.value.title,
       desc: this.lendObject.value.desc,
@@ -90,6 +89,8 @@ export class AddLendObjectDialogComponent implements OnInit {
       rules: this.lendObject.value.rules
     };
     this._loggedInUserService.addNewLendObject(object);
+    this._loggedInUserService.getUsersFromServer();
+    this.close();
   }
 
   public isTypeDirty() {

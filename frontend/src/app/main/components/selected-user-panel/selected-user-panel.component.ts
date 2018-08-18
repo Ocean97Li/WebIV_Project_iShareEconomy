@@ -45,7 +45,7 @@ export class SelectedUserPanelComponent implements OnInit {
   }
 
   get rating() {
-    return new Array<number>(this._currentSelectedUser.rating);
+   return this._currentSelectedUser.rating;
   }
   ngOnInit() {
   }

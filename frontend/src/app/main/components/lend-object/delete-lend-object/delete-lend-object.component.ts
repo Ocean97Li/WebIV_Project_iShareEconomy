@@ -7,7 +7,6 @@ import {
 } from '@angular/material';
 import { User } from '../../../models/user.model';
 import { LendObject } from '../../../models/lend-object.model';
-import { UserService } from '../../../services/user.service';
 import { LoggedInUserService } from '../../../services/logged-in-user.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 
@@ -74,6 +73,7 @@ export class DeleteLendObjectDialogComponent implements OnInit {
 
   public onSubmit() {
     this.loggedInUserService.removeObject(this._selected.id);
+    this.loggedInUserService.getUsersFromServer();
     this.close();
   }
 }

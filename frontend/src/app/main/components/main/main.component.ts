@@ -1,6 +1,5 @@
 import { Component, Output, OnInit, Input } from '@angular/core';
 import { LatLngBounds } from '@agm/core';
-import { UserService } from '../../services/user.service';
 import { MapSettingsService } from '../../services/map-settings.service';
 import { SelectedUserPanelComponent } from '../selected-user-panel/selected-user-panel.component';
 import 'hammerjs';
@@ -40,7 +39,6 @@ export class MainComponent implements OnInit {
   private _selecteduser: User;
   private _user: User;
   constructor(
-    private _userService: UserService,
     private _mapSettings: MapSettingsService,
     private _geoService: GeolocationService,
     private _loggedInUserService: LoggedInUserService,
@@ -57,7 +55,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this._currentLoc = this._geoService.findCurrentLocation();
-    this._userService.users.subscribe(users => {
+    this._loggedInUserService.users.subscribe(users => {
       console.log('change detected');
       if (users) {
         this.users = users;

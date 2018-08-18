@@ -40,8 +40,8 @@ export class LendObjectComponent implements OnInit {
         this.sendObject.emit(this._obj);
       }
     }
-
   }
+
 
   public deselect(): void {
     this.selected = false;
@@ -80,7 +80,11 @@ export class LendObjectComponent implements OnInit {
   }
 
   get waiting(): number {
-    return (this._obj.user ? 1 : 0) + (this._obj.waitinglist ? this._obj.waitinglist.length : 0);
+    return this._obj.waiting;
+  }
+
+  get expired(): boolean {
+    return this._obj.expired;
   }
 
   private openDialog(): void {

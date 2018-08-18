@@ -15,4 +15,8 @@
     border: 1px solid lightgray
 }
 
+.expired {
+    background-color: lightcoral;
+}
+
 

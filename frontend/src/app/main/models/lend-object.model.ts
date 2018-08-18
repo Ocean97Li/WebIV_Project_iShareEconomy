@@ -7,7 +7,12 @@ export class LendObject {
   private _type: ShareType;
   private _rules: string;
   private _owner: { id: string; name: string };
-  private _user: { id: string; name: string };
+  private _user: {
+    id: string;
+    name: string,
+    todate: Date;
+    fromdate: Date;
+  };
   private _waitinglist: {
     id: string;
     name: string;
@@ -157,7 +162,12 @@ export class LendObject {
    * Getter user
    * @return {{id: string, name: string}}
    */
-  public get user(): { id: string; name: string } {
+  public get user(): {
+    id: string,
+    name: string,
+    todate: Date,
+    fromdate: Date
+  } {
     return this._user;
   }
 
@@ -221,9 +231,26 @@ export class LendObject {
    * Setter user
    * @param {{id: string, name: string}} value
    */
-  public set user(value: { id: string; name: string }) {
+  public set user(value: {
+    id: string,
+    name: string,
+    todate: Date,
+    fromdate: Date
+  }) {
     this._user = value;
   }
+
+  get expired(): boolean {
+    if (this._user) {
+      return (new Date(this.user.todate).setHours(0, 0, 0, 0)).valueOf() < (new Date().setHours(0, 0, 0, 0)).valueOf();
+    }
+    return false;
+  }
+
+  get waiting(): number {
+    return (this.user ? 1 : 0) + (this.waitinglist ? this.waitinglist.length : 0);
+  }
+
 }
 
 export enum ShareType {
@@ -231,3 +258,5 @@ export enum ShareType {
   Tool = 'wrench',
   Transport = 'car'
 }
+
+

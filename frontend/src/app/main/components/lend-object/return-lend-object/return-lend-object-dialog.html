@@ -1,0 +1,16 @@
+<h2 class=comforta mat-dialog-title>Return an item?</h2>
+<div mat-dialog-content>
+  <form class="ui form" (ngSubmit)='onSubmit()'>
+    <label>Select only items you have already returned in IRL:</label>
+    <div class="object-selector">
+      <div *ngFor="let object of lending">
+        <app-lend-object (sendObject)="newSelected($event);" [selected]='object===selected' [selectable]='true'[lendObject]=object></app-lend-object>
+      </div>
+    </div>
+    <br>
+    <div>
+      <button class="ui button blue" (click)="close()" type="button">Cancel</button>
+      <button [ngClass]={disabled:!selected} class="ui right button red" type="submit">Return it!</button>
+    </div>
+  </form>
+</div>

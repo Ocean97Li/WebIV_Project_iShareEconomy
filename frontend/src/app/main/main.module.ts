@@ -43,7 +43,6 @@ import {
   MatDialog,
   MatDatepicker
 } from '@angular/material';
-import { UserService } from './services/user.service';
 import { MapSettingsService } from './services/map-settings.service';
 import { GeolocationService } from './services/geolocation.service';
 import { LoggedInUserComponent } from './components/logged-in-user/logged-in-user.component';
@@ -74,6 +73,8 @@ import { LogoutComponent } from '../user/logout/logout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SelectedUserService } from './services/selected-user.service';
 import { ApproveRequestComponent, ApproveRequestDialogComponent } from './components/request/approve-request/approve-request.component';
+// tslint:disable-next-line:max-line-length
+import { ReturnLendObjectDialogComponent, ReturnLendObjectComponent } from './components/lend-object/return-lend-object/return-lend-object.component';
 
 const api = GOOGLE_MAPS_API_KEY;
 const appRoutes: Routes = [
@@ -119,12 +120,13 @@ const appRoutes: Routes = [
     InfoLendObjectComponent,
     LoggedInUserComponent,
     ApproveRequestComponent,
-    ApproveRequestDialogComponent
+    ApproveRequestDialogComponent,
+    ReturnLendObjectDialogComponent,
+    ReturnLendObjectComponent
   ],
   providers: [
     LoggedInUserService,
     SelectedUserService,
-    UserService,
     MatDialog,
     MatDatepicker
 
@@ -134,7 +136,8 @@ const appRoutes: Routes = [
     DeleteLendObjectDialogComponent,
     InfoLendObjectComponent,
     AddRequestDialogComponent,
-    ApproveRequestDialogComponent
+    ApproveRequestDialogComponent,
+    ReturnLendObjectDialogComponent
   ]
 })
 export class MainModule {}

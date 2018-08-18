@@ -10,6 +10,8 @@ import { ObjectRequest } from '../../models/object-request.model';
   styleUrls: ['./logged-in-user.component.css']
 })
 export class LoggedInUserComponent implements OnInit {
+  private _refreshB1 = true;
+  private _refreshB2 = true;
   private _display = false;
   private user: User;
   private user$: BehaviorSubject<User>;
@@ -41,10 +43,9 @@ export class LoggedInUserComponent implements OnInit {
   }
 
   get rating() {
-    if (this.user === undefined) {
-      return new Array<number>(0);
+    if (this.user !== undefined) {
+      return this.user.rating;
     }
-    return new Array<number>(this.user.rating);
   }
 
   get sharing() {
@@ -75,18 +76,68 @@ export class LoggedInUserComponent implements OnInit {
     return this.user.outRequest;
   }
 
+  /**
+   * Getter refreshB1
+   * @return {boolean}
+   */
+  public get refreshB1(): boolean {
+    return this._refreshB1;
+  }
+
+  /**
+   * Getter refreshB2
+   * @return {boolean}
+   */
+  public get refreshB2(): boolean {
+    return this._refreshB2;
+  }
+
   refreshInRequests(): void {
-    this.loggedInUserService.fetchInRequest();
+    if (this._refreshB1) {
+      this._refreshB1 = false;
+      this.loggedInUserService.fetchInRequest();
+      this.refreshButtonPressed(true);
+      this.loggedInUserService.getUsersFromServer();
+    }
   }
 
   refreshOutRequests(): void {
-    this.loggedInUserService.fetchOutRequest();
+    if (this._refreshB2) {
+      this._refreshB2 = false;
+      this.loggedInUserService.fetchOutRequest();
+      this.refreshButtonPressed(false);
+      this.loggedInUserService.getUsersFromServer();
+    }
   }
 
-  removeRequest(request: ObjectRequest) {
-    console.log('plotting to remove');
-    console.log(request);
-    this.loggedInUserService.removeInRequest(request);
+  removeInRequest(request: ObjectRequest) {
+    if (request.approved !== undefined) {
+      this.loggedInUserService.removeInRequest(request);
+      this.loggedInUserService.getUsersFromServer();
+    }
+  }
+
+  removeOutRequest(request: ObjectRequest) {
+    if (request.approved !== undefined) {
+    this.loggedInUserService.removeOutRequest(request);
+    this.loggedInUserService.getUsersFromServer();
+    }
+  }
+
+  private refreshButtonPressed(b1: boolean) {
+    if (b1) {
+      setTimeout(() => {
+        console.log(this._refreshB1);
+        console.log('arrived');
+        this._refreshB1 = true;
+      }, 5000);
+    } else {
+        setTimeout(() => {
+          console.log(this._refreshB2);
+          console.log('arrived');
+          this._refreshB2 = true;
+        }, 5000);
+    }
   }
 
   ngOnInit() {

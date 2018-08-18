@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AgmCoreModule } from '@agm/core';
 import { GOOGLE_MAPS_API_KEY } from '../../environments/api-keys';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { RealTimeService } from '../user/real-time.service';
+
 // import { basehttpInterceptorProviders } from '../http-interceptors';
 const api = GOOGLE_MAPS_API_KEY;
 const routes = [
@@ -38,6 +40,7 @@ const routes = [
     LogoutComponent
   ],
   providers: [
+    RealTimeService
     // basehttpInterceptorProviders,
   ],
   exports: []

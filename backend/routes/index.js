@@ -73,6 +73,5 @@ function isDeformedRequest(fromdate,todate){
 }
 function isConflictingRequest(request,checkwith){
   //checks for overlaps
-  console.log((request.fromdate  <= checkwith.todate )  &&  (request.todate  >= checkwith.fromdate));
   return (request.fromdate  <= checkwith.todate )  &&  (request.todate  >= checkwith.fromdate)
 }
