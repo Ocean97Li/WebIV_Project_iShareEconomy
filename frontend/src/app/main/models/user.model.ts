@@ -54,6 +54,7 @@ export class User {
     user._inRequest = json.inRequest.map(r => ObjectRequest.fromJSON(r));
     user._outRequest = json.outRequest.map(r => ObjectRequest.fromJSON(r));
     }
+    console.log(json.distance);
     user._distance = json.distance;
     return user;
   }
@@ -84,7 +85,7 @@ export class User {
     return this._distance;
   }
 
-  public get password() {
+  public get password(): string {
     return this._password;
   }
 
@@ -151,6 +152,10 @@ export class User {
 
   public set outRequest(rqs: ObjectRequest[]) {
     this._outRequest = rqs;
+  }
+
+  public set rating(rating: number) {
+    this._rating = rating;
   }
 
 

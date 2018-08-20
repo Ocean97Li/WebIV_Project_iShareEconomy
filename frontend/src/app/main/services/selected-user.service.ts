@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
 import { LendObject } from '../models/lend-object.model';
-import { AuthenticationService } from '../../user/authentication.service';
+import { AuthenticationService } from '../../user-auth/authentication.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MapSettingsService } from './map-settings.service';
 import { map, distinctUntilChanged } from 'rxjs/operators';

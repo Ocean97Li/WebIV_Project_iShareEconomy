@@ -15,7 +15,10 @@ select {
     height: 44px !important;
     border-radius: 0px !important;
     padding: 0px !important;
+    padding-left: 10px !important;
     width: 25% !important;
+    
+    -webkit-appearance: none;
   }
   
   .custum_input{

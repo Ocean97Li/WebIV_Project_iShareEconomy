@@ -29,8 +29,6 @@ export class MainComponent implements OnInit {
   public _display1 = false;
   public _open2 = false;
   public _display2 = false;
-  private _geocoder;
-  private _currentLoc;
   public filtername: string;
   public searchType: string;
   public search: boolean;
@@ -54,7 +52,6 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._currentLoc = this._geoService.findCurrentLocation();
     this._loggedInUserService.users.subscribe(users => {
       console.log('change detected');
       if (users) {
@@ -244,20 +241,26 @@ export class MainComponent implements OnInit {
     }
   }
 
-  public newSearch(search: string[], drawerLeft, drawerRight) {
-    console.log(drawerLeft, drawerRight);
+  public newFilter(search: string[]) {
+    console.log('filtertime');
     this.filtername = search[0];
     this.searchType = search[1];
-    const pipe = new UserFilterPipe();
-    const users = pipe.transform(this._users, this.filtername, this.searchType);
-    if (users.length >= 2) {
-      this._mapSettings.position = users[0].mapLocation;
-      this._mapSettings.zoom = 10;
-      this.newSelectedUser(users[0], drawerLeft, drawerRight);
-    } else if (users.length === 1) {
-      this._mapSettings.position = users[0].mapLocation;
-      this._mapSettings.zoom = 18;
-      this.newSelectedUser(users[0], drawerLeft, drawerRight);
+  }
+
+  public newSearch(boole: string, drawerLeft, drawerRight) {
+    if (boole) {
+      console.log('seachtime');
+      const pipe = new UserFilterPipe();
+      const users = pipe.transform(this._users, this.filtername, this.searchType);
+      if (users.length >= 2) {
+        this._mapSettings.position = users[0].mapLocation;
+        this._mapSettings.zoom = 10;
+        this.newSelectedUser(users[0], drawerLeft, drawerRight);
+      } else if (users.length === 1) {
+        this._mapSettings.position = users[0].mapLocation;
+        this._mapSettings.zoom = 18;
+        this.newSelectedUser(users[0], drawerLeft, drawerRight);
+      }
     }
   }
 

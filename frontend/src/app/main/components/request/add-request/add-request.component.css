@@ -1,6 +1,9 @@
 .object-selector {
     max-height: 300px;
-    overflow: hidden;
+    padding: 2px 10px 2px 0px;
+    overflow: auto;
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
 }
 
 .appear {

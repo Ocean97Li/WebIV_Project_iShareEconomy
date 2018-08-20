@@ -12,7 +12,6 @@ export class GeolocationService implements OnInit {
   private busy = false;
   private _currentAddress = 'hello!';
   constructor(public mapsApiLoader: MapsAPILoader, private _mapsSettingsService: MapSettingsService) {
-    this.findCurrentLocation();
     this.mapsApiLoader.load().then(() => {
       this._geocoder = new google.maps.Geocoder();
       console.log(this._geocoder);

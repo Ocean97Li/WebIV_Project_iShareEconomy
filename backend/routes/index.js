@@ -4,18 +4,9 @@ let mongoose = require('mongoose');
 let LendObject = mongoose.model('LendObject');
 module.exports = router;
 
-router.get('/lends', function (req, res) {
-  let query = LendObject.find();
-  query.exec(function (err, los) {
-    if (err) {
-      return next(err);
-    }
-    res.json(los);
-  });
-});
-
 router.post('/check/request', function (req, res, next) {
   //fix the date 
+  console.log(req.body);
   req.body.fromdate = new Date(req.body.fromdate);
   req.body.todate = new Date(req.body.todate);
   //check if dates are valid
@@ -25,6 +16,9 @@ router.post('/check/request', function (req, res, next) {
     })
   } else {
     //check if the request does not conflict with current/future users
+    let resobject = {
+      state: 'ok'
+    };
     LendObject.findOne({
       _id: req.body.object._id
     }).exec(
@@ -32,29 +26,20 @@ router.post('/check/request', function (req, res, next) {
         if (object.waitinglist || object.user) {
           if (object.user) {
             if (isConflictingRequest(object.user,req.body)){
-              return res.json({
-                state: 'request conflict'
-              })
+              resobject.state = 'request conflict';
             }
           }
           if (object.waitinglist.length > 0) {
             object.waitinglist.forEach(
               usage => {
               if (isConflictingRequest({fromdate: req.body.fromdate,todate: req.body.todate},usage)) {
-                return res.json({
-                  state: 'request conflict'
-                })
+                resobject.state = 'request conflict';
               }
             });
           }
-          return res.json({
-            state: 'ok'
-          });
-        } else {
-          return res.json({
-            state: 'ok'
-          });
-        }
+
+        } 
+        return res.json(resobject);
       });
   }
 });

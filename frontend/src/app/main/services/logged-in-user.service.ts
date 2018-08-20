@@ -1,15 +1,13 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { LendObject } from '../models/lend-object.model';
-import { AuthenticationService } from '../../user/authentication.service';
+import { AuthenticationService } from '../../user-auth/authentication.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MapSettingsService } from './map-settings.service';
-import { map, catchError, distinctUntilChanged } from 'rxjs/operators';
-import { Observable } from '../../../../node_modules/rxjs/Observable';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ObjectRequest } from '../models/object-request.model';
-import { interval } from '../../../../node_modules/rxjs/observable/interval';
-import { RealTimeService } from '../../user/real-time.service';
+import { RealTimeService } from '../../user-auth/real-time.service';
 
 @Injectable()
 export class LoggedInUserService {
@@ -29,8 +27,41 @@ export class LoggedInUserService {
     this._authService.user$.subscribe(val => {
       this._id = val;
       if (this._id) {
+        this._realtime.startCommunication(this._id);
         this.getUsersFromServer();
+        this._users$.subscribe(users => {
+          if (users) {
+            users.forEach(user => this._realtime.startListeningTo(user.id));
+          }
+        });
         this.loggedInUserfromUsers();
+        // listen for updates
+        this._realtime.listenForCommunication().subscribe(id => {
+          this._realtime.startCommunication(id);
+        });
+        this._realtime.listenForAddRemoveObject().subscribe(id => {
+          if (id) {
+            this.getUsersFromServer();
+          }
+        });
+        this._realtime.listenForInRequest().subscribe(id => {
+          console.log(id);
+          if (id) {
+            this.fetchInRequest();
+          }
+        });
+        this._realtime.listenForApproveDenyRequest().subscribe(id => {
+          console.log(id);
+          if (id) {
+            this.getUsersFromServer();
+          }
+        });
+        this._realtime.listenForReturnObject().subscribe(id => {
+          console.log(id);
+          if (id) {
+            this.getUsersFromServer();
+          }
+        });
       }
     });
   }
@@ -50,6 +81,61 @@ export class LoggedInUserService {
     });
   }
 
+  public fetchLending(fromId: string) {
+    if (this._id) {
+      this._http
+        .get(`/API/users/${fromId}/lending`)
+        .pipe(map((list: any[]): LendObject[] => list.map(LendObject.fromJSON)))
+        .subscribe(los => {
+          this._users[
+            this._users.findIndex(u => u.id === fromId)
+          ].lending = los;
+          this._users$.next(this._users);
+        },
+        () => {
+          this.getUsersFromServer();
+        });
+    }
+  }
+
+  public fetchUsing(fromId: string) {
+    if (this._id) {
+      this._http
+        .get(`/API/users/${fromId}/using`)
+        .pipe(map((list: any[]): LendObject[] => list.map(LendObject.fromJSON)))
+        .subscribe(los => {
+          this._user.using = los;
+          this._user$.next(this._user);
+        },
+        () => {
+          this.getUsersFromServer();
+        });
+    }
+  }
+
+  public fetchUser(userid) {
+    if (userid) {
+      this._http
+        .get(`/API/users/${this._id}`)
+        .pipe(map(u => User.fromJSON(u, true)))
+        .subscribe(user => {
+          if (user) {
+            console.log('WOWAA');
+            this._users[this._users.findIndex(u => u.id === user.id)].rating =
+              user.rating;
+            this._users[this._users.findIndex(u => u.id === user.id)].lending =
+              user.lending;
+            this._users[this._users.findIndex(u => u.id === user.id)].using =
+              user.lending;
+            this._users$.next(this._users);
+          }
+        },
+        () => {
+          this.getUsersFromServer();
+        });
+    }
+  }
+
   public fetchOutRequest() {
     if (this._id) {
       this._http
@@ -62,6 +148,9 @@ export class LoggedInUserService {
         .subscribe(reqs => {
           this._user.outRequest = reqs;
           this._user$.next(this._user);
+        },
+        () => {
+          this.getUsersFromServer();
         });
     }
   }
@@ -79,6 +168,9 @@ export class LoggedInUserService {
         .subscribe(reqs => {
           this._user.inRequest = reqs;
           this._user$.next(this._user);
+        },
+        () => {
+          this.getUsersFromServer();
         });
     }
   }
@@ -94,7 +186,12 @@ export class LoggedInUserService {
           this._user.lending.findIndex(ob => ob.id === request.object.id)
         ] = request.object;
         this.loggedInUser.next(this._user);
+        console.log(request);
         this.fetchInRequest();
+        this._realtime.signalApproveDenyRequestToUser(request.source.id);
+      },
+      () => {
+        this.getUsersFromServer();
       });
   }
 
@@ -106,8 +203,11 @@ export class LoggedInUserService {
       .pipe(map((val: any) => LendObject.fromJSON(val)))
       .subscribe(lo => {
         console.log(lo);
-        this._user.using = this._user.using.filter(object => obj.id !== lo.id);
-        this._user$.next(this._user);
+        this._realtime.signalReturnObject(lo.owner.id);
+        this.getUsersFromServer();
+        this.loggedInUserfromUsers();
+      },
+      () => {
         this.getUsersFromServer();
       });
   }
@@ -123,6 +223,11 @@ export class LoggedInUserService {
           this._user.lending.findIndex(ob => ob.id === request.object.id)
         ] = request.object;
         this.loggedInUser.next(this._user);
+        this.fetchInRequest();
+        this._realtime.signalApproveDenyRequestToUser(request.object.owner.id);
+      },
+      () => {
+        this.getUsersFromServer();
       });
   }
 
@@ -133,11 +238,12 @@ export class LoggedInUserService {
       .delete(url)
       .pipe(map((val: any) => ObjectRequest.fromJSON(val)))
       .subscribe(request => {
-        this._user.inRequest = this._user.inRequest.filter(
-          r => r.id !== request.id
-        );
-        this._user$.next(this._user);
-      });
+        this.fetchInRequest();
+      },
+      () => {
+        this.getUsersFromServer();
+      }
+    );
   }
 
   public removeOutRequest(req: ObjectRequest) {
@@ -146,12 +252,12 @@ export class LoggedInUserService {
     this._http
       .delete(url)
       .pipe(map((val: any) => ObjectRequest.fromJSON(val)))
-      .subscribe(request => {
-        this._user.inRequest = this._user.inRequest.filter(
-          r => r.id !== request.id
-        );
-        this._user$.next(this._user);
-      });
+      .subscribe(() => {
+          this.fetchOutRequest();
+        },
+        () => {
+          this.getUsersFromServer();
+        });
   }
 
   private mapToUserLocation() {
@@ -175,6 +281,10 @@ export class LoggedInUserService {
     );
     this._http.post(url, lo.toJSON()).subscribe(val => {
       this._user.lending.push(LendObject.fromJSON(val));
+      this._realtime.signalAddRemoveObject(this._id);
+      this.getUsersFromServer();
+    },
+    () => {
       this.getUsersFromServer();
     });
   }
@@ -187,6 +297,10 @@ export class LoggedInUserService {
       .subscribe(val => {
         this._user.removeLendingObject(val);
         this._user$.next(this._user);
+        this._realtime.signalAddRemoveObject(this._id);
+      },
+      () => {
+        this.getUsersFromServer();
       });
   }
 
@@ -210,6 +324,7 @@ export class LoggedInUserService {
               .post(url, request.toJSON())
               .pipe(map(ob => ObjectRequest.fromJSON(ob)))
               .subscribe(val => {
+                this._realtime.signalInRequestSentToUser(val.object.owner.id);
                 this._user.outRequest.push(val);
                 this._user$.next(this._user);
                 obsv.next(true);
@@ -218,6 +333,9 @@ export class LoggedInUserService {
           }
         }
       }
+    },
+    () => {
+      this.getUsersFromServer();
     });
     return obsv;
   }

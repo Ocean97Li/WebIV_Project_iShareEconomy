@@ -44,6 +44,13 @@ export class SelectedUserPanelComponent implements OnInit {
     ${this._currentSelectedUser.address}`;
   }
 
+  get distance() {
+    if (this.currentSelectedUser) {
+      return '';
+    }
+    return this._currentSelectedUser.distance.toFixed(1);
+  }
+
   get rating() {
    return this._currentSelectedUser.rating;
   }

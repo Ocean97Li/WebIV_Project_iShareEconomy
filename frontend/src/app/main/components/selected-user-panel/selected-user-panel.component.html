@@ -4,7 +4,8 @@
       <fa name="user-circle" size="4x"></fa>
     </p>
   </span>
-  <h3 class="josefin marginbottom text-center">{{name}}</h3>
+  <h3 class="josefin text-center">{{name}}</h3>
+  <h6 *ngIf="used" class="grey josefin marginbottom text-center">{{distance}} km</h6>
   <mat-accordion *ngIf="used" [multi]=true>
     <mat-expansion-panel>
       <mat-expansion-panel-header>

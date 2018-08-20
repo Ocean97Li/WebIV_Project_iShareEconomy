@@ -26,6 +26,7 @@ let UserSchema = new mongoose.Schema({
   firstname: String,
   lastname: String,
   address: String,
+  distance: Number,
   mapLocation:  { lat: Number, lng: Number },
   inRequest: [{
     type: mongoose.Schema.Types.ObjectId,
@@ -63,7 +64,7 @@ UserSchema.methods.generateJWT = function() {
     },
       exp: parseInt(exp.getTime() / 1000)
     },
-    process.env.RECIPE_BACKEND_SECRET
+    process.env.BACKEND_SECRET
   );
 };
 

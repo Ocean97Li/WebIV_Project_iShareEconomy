@@ -9,6 +9,7 @@ agm-map {
     padding-bottom: 18px; 
   }
   .pageheader2{
+    user-select: none;
     font-weight: bold;
     width: 100%;
     padding: 0.5em;

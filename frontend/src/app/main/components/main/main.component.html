@@ -8,9 +8,6 @@
         <a (click)="toggleSearch(drawerleft,drawerRight)">
           <fa name="search" class=smaller size="1x"></fa>
         </a>
-        <a>
-          <fa name="question" class=smaller size="1x"></fa>
-        </a>
         <a routerLinkActive='active' routerLink="/logout">
           <fa name="sign-out" class='smaller' size="1x"></fa>
         </a>
@@ -20,7 +17,7 @@
       </div>
     </div>
   </div>
-  <app-searchbar [_dissappearAnimation]=dissappearAnimation [_filtername]=filtername [_searchType]=searchType (newSearch)="newSearch($event,drawerleft,drawerRight)"
+  <app-searchbar [_dissappearAnimation]=dissappearAnimation [_filtername]=filtername [_searchType]=searchType (newFilter)="newFilter($event)" (newSearch)="newSearch($event,drawerleft,drawerRight)"
     *ngIf="search"></app-searchbar>
   <div class="row justify-content-between contentheight">
     <mat-drawer-container class="col-xs-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 example-container nobackground" autosize [ngClass]="{'display-true': _display1, 'display-false': !_display1}">

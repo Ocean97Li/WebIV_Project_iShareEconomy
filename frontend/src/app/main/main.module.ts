@@ -66,19 +66,21 @@ import { MainComponent } from './components/main/main.component';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
-import { LoginComponent } from '../user/login/login.component';
-import { RegisterComponent } from '../user/register/register.component';
+import { LoginComponent } from '../user-auth/login/login.component';
+import { RegisterComponent } from '../user-auth/register/register.component';
 import { GOOGLE_MAPS_API_KEY } from '../../environments/api-keys';
-import { LogoutComponent } from '../user/logout/logout.component';
+import { LogoutComponent } from '../user-auth/logout/logout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SelectedUserService } from './services/selected-user.service';
 import { ApproveRequestComponent, ApproveRequestDialogComponent } from './components/request/approve-request/approve-request.component';
 // tslint:disable-next-line:max-line-length
 import { ReturnLendObjectDialogComponent, ReturnLendObjectComponent } from './components/lend-object/return-lend-object/return-lend-object.component';
+import { httpInterceptorProviders } from '../http-interceptors';
+import { AuthGuardService } from '../user-auth/auth-guard.service';
 
 const api = GOOGLE_MAPS_API_KEY;
 const appRoutes: Routes = [
-  { path: 'main', component: MainComponent},
+  { path: 'main', canActivate: [ AuthGuardService ], component: MainComponent},
   { path: '**', redirectTo: 'login'}
 ];
 
@@ -128,8 +130,8 @@ const appRoutes: Routes = [
     LoggedInUserService,
     SelectedUserService,
     MatDialog,
-    MatDatepicker
-
+    MatDatepicker,
+    httpInterceptorProviders
   ],
   entryComponents: [
     AddLendObjectDialogComponent,

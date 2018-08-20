@@ -21,7 +21,7 @@ export class UserFilterPipe implements PipeTransform {
           || u.firstname.toLowerCase().concat(' ').concat(u.lastname.toLowerCase()).match(input));
         }
         case SearchUserEnum.Object: {
-          return users.filter(u => u.lending.find(o => o.name.search(input) !== -1));
+          return users.filter(u => u.lending.find(o => o.name.search(input) !== -1 || o.description.search(input) !== -1));
         }
         case SearchUserEnum.Address: {
           return users.filter(u => u.address.toLowerCase().match(input));

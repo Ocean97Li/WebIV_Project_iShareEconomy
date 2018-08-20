@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
-import { UserModule } from './user/user.module';
+import { UserAuthModule } from './user-auth/user-auth.module';
 import { MainModule } from './main/main.module';
 import { HttpClientModule, HttpHandler } from '@angular/common/http';
 
@@ -9,13 +9,13 @@ const appRoutes: Routes = [
 ];
 @NgModule({
     imports: [
-        UserModule,
+        UserAuthModule,
         MainModule,
         RouterModule.forRoot(appRoutes, {
             preloadingStrategy: PreloadAllModules
         }),
     ],
-    exports: [RouterModule, UserModule],
+    exports: [RouterModule, UserAuthModule],
     providers: []
 
 })

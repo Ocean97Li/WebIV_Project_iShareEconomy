@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { MapSettingsService } from './main/services/map-settings.service';
 import { GeolocationService } from './main/services/geolocation.service';
-import { AuthenticationService } from './user/authentication.service';
-import { AuthGuardService } from './user/auth-guard.service';
+import { AuthenticationService } from './user-auth/authentication.service';
+import { AuthGuardService } from './user-auth/auth-guard.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatNativeDateModule } from '@angular/material';
 

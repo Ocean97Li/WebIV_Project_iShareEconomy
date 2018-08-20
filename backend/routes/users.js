@@ -8,7 +8,7 @@ let User = mongoose.model("User");
 let Request = mongoose.model("Request");
 let jwt = require("express-jwt");
 let auth = jwt({
-  secret: process.env.RECIPE_BACKEND_SECRET
+  secret: process.env.BACKEND_SECRET
 });
 
 //login and regsiter
@@ -76,15 +76,17 @@ router.post("/checkusername", function (req, res, next) {
 
 //params
 router.param("user", function (req, res, next, id) {
-  let query = User.findById(id).populate("lending", "using");
+  let query = User.findById(id).populate("lending").populate("using");
   query.exec(function (err, user) {
     if (err) {
       return next(err);
     }
     if (!user) {
-      return next(new Error("not found " + id));
+      return next(new Error("user not found " + id));
     }
     req.user = user;
+    req.lending = user.lending;
+    req.using = user.using;
     return next();
   });
 });
@@ -96,7 +98,7 @@ router.param("object", function (req, res, next, id) {
       return next(err);
     }
     if (!obj) {
-      return next(new Error("not found " + id));
+      return next(new Error("object not found " + id));
     }
     req.id = id;
     req.user.obj = obj;
@@ -111,7 +113,7 @@ router.param("request", function (req, res, next, id) {
       return next(err);
     }
     if (!obj) {
-      return next(new Error("not found " + id));
+      return next(new Error("request not found " + id));
     }
     req.id = id;
     req.user.request = obj;
@@ -120,7 +122,7 @@ router.param("request", function (req, res, next, id) {
 });
 
 //users
-router.get("/:user/users",function (req, res, next) {
+router.get("/:user/users", function (req, res, next) {
   const lat2 = req.user.mapLocation.lat;
   const lng2 = req.user.mapLocation.lng;
   const rating = req.user.rating;
@@ -129,20 +131,6 @@ router.get("/:user/users",function (req, res, next) {
     if (err) {
       return next(err);
     }
-    users = users.sort(
-      (user1, user2) => {
-        const dist1 = calcDistanceBetween(user1.mapLocation.lat, user1.mapLocation.lng, lat2, lng2);
-        const dist2 = calcDistanceBetween(user2.mapLocation.lat, user2.mapLocation.lng, lat2, lng2);
-        if (dist1 < dist2) {
-          return -1;
-        }
-        if (dist1 > dist2) {
-          return 1;
-        }
-        // equal
-        return 0;
-      }
-    );
     //decide how much users to load based on rating
     let numberOfusers = 50;
     switch (rating) {
@@ -181,35 +169,43 @@ router.get("/:user/users",function (req, res, next) {
         break;
     }
     users = users.slice(0, numberOfusers >= users.length ? users.length : numberOfusers);
+    //calculate distance for every loaded user
+    for (let i = 0; i < users.length; i++) {
+      users[i].distance = calcDistanceBetween(users[i].mapLocation.lat, users[i].mapLocation.lng, lat2, lng2);
+    }
+    users = users.sort(
+      (user1, user2) => {
+        if (user1.distance < user2.distance) {
+          return -1;
+        }
+        if (user1.distance > user2.distance) {
+          return 1;
+        }
+        // equal
+        return 0;
+      }
+    );
     res.json(users);
   });
-});
-
-//requests
-router.get("/requests", function (req, res, next) {
-  let query = Request.find().populate("object");
-  query.exec(function (err, requests) {
-    if (err) {
-      return next(err);
-    }
-    res.json(requests);
-  });
-});
+}, auth);
 
 //user specific
-router.get("/:user", function (req, res, next) {
+router.get("/:user", auth, function (req, res, next) {
+  req.user.using = req.using;
+  req.user.lending = req.lending;
   req.user.password = undefined;
   req.user.salt = undefined;
   req.user.hash = undefined;
   req.user.inRequest = undefined;
   req.user.outRequest = undefined;
   res.json(req.user);
-});
+}, auth);
 
 //lending objects
 router.get("/:user/lending", function (req, res, next) {
+
   res.json(req.user.lending);
-});
+}, auth);
 
 router.post("/:user/lending", function (req, res, next) {
   let obj = new LendObject();
@@ -232,69 +228,71 @@ router.post("/:user/lending", function (req, res, next) {
       res.json(obj);
     });
   });
-});
+}, auth);
 
-router.get("/:user/using", auth, function (req, res, next) {
+router.get("/:user/using",  function (req, res, next) {
   res.json(req.user.using);
-});
+}, auth);
 
-router.delete("/:user/using/:object", function (req, res) {
-  req.user.obj.remove(function (err) {
-    if (err) return next(err);
-    let id = req.user.obj._id;
-    //find all requests for deleted object, set  approved = flase
-    Request.find({
-      object: {
-        $in: req.user.inRequest
-      }
-    }).exec(function (err, requests) {
-      if (err) return next(err);
-      requests.forEach(req => {
-        req.approved = false;
-      });
-      requests.save(function (err) {
-        if (err) return next(err);
-      });
-    });
-    res.json(req.user.obj);
-  });
-});
+// router.delete("/:user/using/:object",function (req, res) {
+//   console.log('the params');
+//   console.log(req.user.obj);
+//   console.log(req.user);
+//   req.user.obj.remove(function (err) {
+//     if (err) return next(err);
+//     let id = req.user.obj._id;
+//     //find all requests for deleted object, set  approved = flase
+//     Request.find({
+//       object: {
+//         $in: req.user.inRequest
+//       }
+//     }).exec(function (err, requests) {
+//       if (err) return next(err);
+//       requests.forEach(req => {
+//         req.approved = false;
+//         req.save(function (err) {
+//           if (err) return next(err);
+//         });
+//       });
+//     });
+//     res.json(req.user.obj);
+//   });
+// });
 
 router.post("/:user/using/:object/return", function (req, res, next) {
   // object removed from user
+  req.user.using = req.user.using.filter(obj => obj === req.user.obj._id);
   req.user.obj.user = undefined;
-  let objs = [];
-  req.user.using.forEach(objId => {
-    if (objId.toString() !== req.user.obj._id.toString()) {
-      objs.push(objId);
-    }
-  });
-  req.user.using = objs;
-  
   // object waitinglist evaluation
-  usage = req.user.obj.waitinglist.shift()
-
-  //find corresponding request
-  // Request.find().exec(function(err,requests){
-  //   requests.find(r => r.)
-  // });
-
+  console.log(req.user.obj.waitinglist.length);
+  usage = req.user.obj.waitinglist.shift();
+  console.log(req.user.obj.waitinglist.length);
+  console.log(usage);
+  let newcurrentuser;
   if (usage) {
     req.user.obj.user = usage;
-    User.findById(req.user.obj.user.id).exec(function(err,user){
-      if(err) next(err);
-      user.using.push(req.user.obj);
+    User.findById(usage.id).exec(function (err, user) {
+      if (err) next(err);
+      console.log('hello');
+      console.log(user);
+      newcurrentuser = user;
+      newcurrentuser.using.push(req.user.obj);
     });
   }
   //save it all
   req.user.obj.save(function (err) {
     if (err) next(err);
-    req.user.save(function (err) {
-      if (err) next(err);
-      res.json(req.user.obj);
-    });
+      req.user.save(function (err) {
+        if (err) next(err);
+        if(newcurrentuser){
+        newcurrentuser.save(function(err){
+          if (err) next(err);
+        res.json(req.user.obj);
+      });
+      }
+    })
   });
-});
+}, auth);
 
 router.delete("/:user/lending/:object", function (req, res) {
   req.user.obj.remove(function (err) {
@@ -318,33 +316,33 @@ router.delete("/:user/lending/:object", function (req, res) {
         case 1:
         case 2:
           {
-            req.user.rating = req.user.rating - 1;
+            req.user.rating = req.user.rating - 3;
             break;
           }
         case 3:
         case 4:
         case 5:
           {
-            req.user.rating = req.user.rating - 2;
+            req.user.rating = req.user.rating - 4;
             break;
           }
         case 6:
         case 7:
         case 8:
           {
-            req.user.rating = req.user.rating - 3;
+            req.user.rating = req.user.rating - 5;
             break;
           }
         case 9:
         case 10:
         case 11:
           {
-            req.user.rating = req.user.rating - 4;
+            req.user.rating = req.user.rating - 6;
             break;
           }
         default:
           {
-            req.user.rating = req.user.rating - 5;
+            req.user.rating = req.user.rating - 8;
             break;
           }
       }
@@ -357,7 +355,7 @@ router.delete("/:user/lending/:object", function (req, res) {
     });
   });
   res.json(req.user.obj);
-});
+}, auth);
 
 router.get("/:user/inRequest", function (req, res, next) {
   Request.find({
@@ -370,7 +368,7 @@ router.get("/:user/inRequest", function (req, res, next) {
       if (err) return next(err);
       res.json(requests);
     });
-});
+}, auth);
 
 router.get("/:user/outRequest", function (req, res, next) {
   Request.find({
@@ -383,7 +381,7 @@ router.get("/:user/outRequest", function (req, res, next) {
       if (err) return next(err);
       res.json(requests);
     });
-});
+}, auth);
 
 router.delete("/remove-request", function (req, res, next) {
   Request.remove(function (err) {
@@ -396,7 +394,7 @@ router.delete("/remove-request", function (req, res, next) {
       users[i].save();
     }
   });
-});
+}, auth);
 
 router.post("/:user/outRequest", function (req, res, next) {
   //making the request
@@ -407,27 +405,31 @@ router.post("/:user/outRequest", function (req, res, next) {
   obj.todate = req.body.todate;
   obj.approved = req.body.approved;
   obj.messages = req.body.messages;
-  obj.save(function (err, obj) {
-    if (err) return next(err);
-    //add it to the inRequest of the selected user
-    User.findOne({
-      _id: req.body.object.owner.id
-    }).exec(function (err, owner) {
-      if (err) return next(err);
-      owner.inRequest.push(obj);
-      owner.save(function (err, user) {
-        if (err) return next(err);
-      });
-    });
     //add it to outRequest of the logged in user
     req.user.outRequest.push(obj);
-    req.user.save(function (err4, user) {
-      if (err4) return next(err4);
-    });
+  //add it to the inRequest of the selected user
+  let ownerglob;
+  User.findOne({
+    _id: req.body.object.owner.id
+  }).exec(function (err, owner) {
+    if (err) return next(err);
+    ownerglob = owner
+    owner.inRequest.push(obj);
   });
-  req.body._id = obj;
-  res.json(req.body);
-});
+    //save it-all
+    obj.save(function (err, obj) {
+      if (err) return next(err);
+      console.log('ownerglob');
+      ownerglob.save(function (err, user) {
+        if (err) return next(err);
+      });
+      req.user.save(function (err, user) {
+        if (err) return next(err);
+        req.body._id = obj;
+        res.json(req.body);
+      });
+    });
+}, auth);
 
 router.post("/:user/inRequest/:request/deny", function (req, res, next) {
   //check if the request isn't already approved/denied
@@ -440,29 +442,51 @@ router.post("/:user/inRequest/:request/deny", function (req, res, next) {
     if (err) return next();
     res.json(request);
   });
-});
+}, auth);
 
 router.post("/:user/inRequest/:request/approve", function (req, res, next) {
   //check if the request isn't already approved/denied
   if (req.user.request.approved !== undefined) {
     return next(new Error("Request already " + (req.user.request.approve ? "approved" : "denied")));
   }
+  
+  console.log(req.user.request.source);
   User.findById(req.user.request.source.id).exec(function (err, user1) {
     if (err) return next();
     const request = req.user.request;
     const object = req.user.request.object;
     const user = user1;
     const owner = req.user;
-    //approved true
-    request.approved = true;
+
     //set user / waitinglist of object
-    if (object.user.id && new Date(req.user.request.fromdate).setHours(0, 0, 0, 0) > new Date().setHours(0, 0, 0, 0)) {
-      object.waitinglist.push({
-        id: user._id,
-        name: `${user.firstname} ${user.lastname}`,
-        fromdate: request.fromdate,
-        todate: request.todate
-      });
+    if (object.user.id && new Date(request.fromdate).setHours(0, 0, 0, 0) > new Date().setHours(0, 0, 0, 0)) {
+      //check for possiblity that current user of object needs to be changed
+      if (new Date(object.user.fromdate).setHours(0, 0, 0, 0) > new Date(request.fromdate).setHours(0, 0, 0, 0)) {
+        object.waitinglist = object.waitinglist.sort((w1,w2) => dateSort(w1,w2));
+        let usage = object.user;
+        object.waitinglist.unshift(usage);
+        object.user = {
+          id: user._id,
+          name: `${user.firstname} ${user.lastname}`,
+          fromdate: request.fromdate,
+          todate: request.todate
+        };
+        //find previous user and remove object from using
+        User.findById(usage.id).exec(function (err, prevcuruser) {
+          let res = prevcuruser.using.splice(prevcuruser.using.findIndex(lo => lo === object.id), 1);
+          // current user and add using
+          user1.lending.push(res);
+        });
+
+      } else {
+        object.waitinglist.push({
+          id: user._id,
+          name: `${user.firstname} ${user.lastname}`,
+          fromdate: request.fromdate,
+          todate: request.todate
+        });
+        object.waitinglist = object.waitinglist.sort((w1,w2) => dateSort(w1,w2));
+      }
     } else {
       object.user = {
         id: user._id,
@@ -470,15 +494,32 @@ router.post("/:user/inRequest/:request/approve", function (req, res, next) {
         fromdate: request.fromdate,
         todate: request.todate
       };
-      user.using.push(object);
+      user1.using.push(object);
     }
     //update the owner's rating
     if (owner.rating < 10) {
       owner.rating = owner.rating + 1
     }
+    //deny any other conflicting requests
+    for (let i = 0; i < owner.inRequest.length; i++) {
+      Request.findById(owner.inRequest[i]).exec(function (err, currentrequest) {
+        if (err) console.log(err);
+        if (currentrequest !== null) {
+          if (currentrequest._id.toString() !== request._id.toString() && currentrequest.approved === undefined && isConflictingRequest(currentrequest, request)) {
+            currentrequest.approved = false;
+            currentrequest.save(function (err, request) {
+              if (err) return next();
+            });
+          }
+        }
+      });
+    }
+    request.approved = true;
     //save the whole shebang
     object.save(function (err, object) {
       if (err) return next();
+      //approved true
+      request.approved = true;
       request.save(function (err, request) {
         if (err) return next();
         user.save(function (err, user) {
@@ -486,12 +527,12 @@ router.post("/:user/inRequest/:request/approve", function (req, res, next) {
           owner.save(function (err, user) {
             if (err) return next();
           });
-          res.json(request);
+          return res.json(request);
         });
       });
     });
   });
-});
+},auth);
 
 router.delete("/:user/inRequest/:request", function (req, res, next) {
   //check if the request is approved/denied
@@ -506,22 +547,22 @@ router.delete("/:user/inRequest/:request", function (req, res, next) {
     });
     res.json(req.user.request);
   });
-});
+}, auth);
 
 router.delete("/:user/outRequest/:request", function (req, res, next) {
   //check if the request is approved/denied
   if (req.user.request.approved === true) {
     return next(new Error("Request is approved"));
   }
-  req.user.request.remove(function (err) {
+  req.user.request.remove(function (err, request) {
     if (err) return next(err);
-    req.user.outRequest = req.user.outRequest.filter(r => r._id !== req.user.request._id)
+    req.user.outRequest = req.user.outRequest.filter(r => r._id !== request._id)
     req.user.save(function (err, user) {
       if (err) return next(err);
     });
     res.json(req.user.request);
   });
-});
+}, auth);
 
 function calcDistanceBetween(lat1, lon1, lat2, lon2) {
   // from https://stackoverflow.com/questions/5260423/torad-javascript-function-throwing-error
@@ -539,6 +580,23 @@ function calcDistanceBetween(lat1, lon1, lat2, lon2) {
 function toRad(Value) {
   /** Converts numeric degrees to radians */
   return Value * Math.PI / 180;
+}
+
+function isConflictingRequest(request, checkwith) {
+  //checks for overlaps
+  return (request.fromdate <= checkwith.todate) && (request.todate >= checkwith.fromdate)
+}
+
+function dateSort(a, b) {
+  if (a.fromdate < b.fromdate) {
+    return -1;
+  }
+  if (a.fromdate > b.fromdate) {
+    return 1;
+  }
+  if (a.fromdate < b.fromdate) {
+    return 0;
+  }
 }
 
 module.exports = router;

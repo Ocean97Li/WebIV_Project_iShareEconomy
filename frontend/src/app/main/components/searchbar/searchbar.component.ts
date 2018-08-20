@@ -15,18 +15,21 @@ export class SearchbarComponent implements OnInit {
   @Input() private _dissappearAnimation: boolean;
   @Input() private _searchType: string;
   @Input() private _filtername: string;
-  @Output() private newSearch = new EventEmitter<string[]>();
+  @Output() private newSearch = new EventEmitter<boolean>();
+  @Output() private newFilter = new EventEmitter<string[]>();
   constructor() {
-    this.filterUser$.pipe(debounceTime(1000)).subscribe(val => {
+    this.filterUser$.subscribe(val => {
       this._filtername = val;
-      this.sendNewsearch();
+      this.sendNewfilter();
     });
 
   }
-
   public sendNewsearch() {
-    console.log('new search');
-    this.newSearch.emit([this._filtername, this.searchType]);
+    this.newSearch.emit(true);
+  }
+
+  public sendNewfilter() {
+    this.newFilter.emit([this._filtername, this.searchType]);
   }
 
   get filtername(): string {
@@ -46,8 +49,8 @@ export class SearchbarComponent implements OnInit {
     if (name === undefined) {
       name = '';
     }
-    this._filtername = name;
-    this.sendNewsearch();
+    this._filtername = name.trim();
+    this.sendNewfilter();
   }
 
   set searchType(searchType: string) {
@@ -55,7 +58,7 @@ export class SearchbarComponent implements OnInit {
       searchType = 'User';
     }
     this._searchType = searchType;
-    this.sendNewsearch();
+    this.sendNewfilter();
   }
 
   ngOnInit() {
