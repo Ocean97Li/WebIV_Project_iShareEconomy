@@ -1,4 +1,3 @@
-import { User } from './user.model';
 import { LendObject } from './lend-object.model';
 
 export class ObjectRequest {

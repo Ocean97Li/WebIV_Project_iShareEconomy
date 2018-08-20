@@ -3,7 +3,6 @@ import { User } from '../../models/user.model';
 import { LendObject } from '../../models/lend-object.model';
 import { ObjectRequest } from '../../models/object-request.model';
 
-
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',

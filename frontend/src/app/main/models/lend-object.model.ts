@@ -1,5 +1,3 @@
-import { User } from './user.model';
-
 export class LendObject {
   private _id;
   private _name: string;
