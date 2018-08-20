@@ -1,8 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { debounceTime } from 'rxjs/operators';
-import { ShareType } from '../../models/lend-object.model';
-
 
 @Component({
   selector: 'app-searchbar',

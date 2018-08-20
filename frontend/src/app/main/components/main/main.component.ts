@@ -1,22 +1,10 @@
-import { Component, Output, OnInit, Input } from '@angular/core';
-import { LatLngBounds } from '@agm/core';
+import { Component, Output, OnInit } from '@angular/core';
 import { MapSettingsService } from '../../services/map-settings.service';
-import { SelectedUserPanelComponent } from '../selected-user-panel/selected-user-panel.component';
 import 'hammerjs';
-import { timeout, delay } from 'q';
-import { GeolocationService } from '../../services/geolocation.service';
+import { delay } from 'q';
 import { LoggedInUserService } from '../../services/logged-in-user.service';
-import { Subject } from 'rxjs/Subject';
-import {
-  distinctUntilChanged,
-  debounceTime,
-  map,
-  filter
-} from 'rxjs/operators';
-import { ShareType } from '../../models/lend-object.model';
 import { UserFilterPipe } from '../user/user-filter.pipe';
 import { User } from '../../models/user.model';
-import { SelectControlValueAccessor } from '@angular/forms';
 import { SelectedUserService } from '../../services/selected-user.service';
 
 @Component({
@@ -38,7 +26,6 @@ export class MainComponent implements OnInit {
   private _user: User;
   constructor(
     private _mapSettings: MapSettingsService,
-    private _geoService: GeolocationService,
     private _loggedInUserService: LoggedInUserService,
     private _selectedUserService: SelectedUserService
   ) {

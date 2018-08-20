@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from '../../models/user.model';
 import { SelectedUserService } from '../../services/selected-user.service';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-selected-user-panel',

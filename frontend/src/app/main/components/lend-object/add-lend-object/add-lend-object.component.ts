@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { MatDialog, MatDialogContent, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ShareType } from '../../../models/lend-object.model';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
