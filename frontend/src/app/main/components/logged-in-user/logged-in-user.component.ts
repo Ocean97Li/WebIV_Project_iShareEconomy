@@ -111,7 +111,6 @@ export class LoggedInUserComponent implements OnInit {
 
   removeInRequest(request: ObjectRequest) {
     if (request.approved !== undefined) {
-      
       this.loggedInUserService.removeInRequest(request);
     }
   }
