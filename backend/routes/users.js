@@ -234,47 +234,22 @@ router.get("/:user/using",  function (req, res, next) {
   res.json(req.user.using);
 }, auth);
 
-// router.delete("/:user/using/:object",function (req, res) {
-//   console.log('the params');
-//   console.log(req.user.obj);
-//   console.log(req.user);
-//   req.user.obj.remove(function (err) {
-//     if (err) return next(err);
-//     let id = req.user.obj._id;
-//     //find all requests for deleted object, set  approved = flase
-//     Request.find({
-//       object: {
-//         $in: req.user.inRequest
-//       }
-//     }).exec(function (err, requests) {
-//       if (err) return next(err);
-//       requests.forEach(req => {
-//         req.approved = false;
-//         req.save(function (err) {
-//           if (err) return next(err);
-//         });
-//       });
-//     });
-//     res.json(req.user.obj);
-//   });
-// });
-
 router.post("/:user/using/:object/return", function (req, res, next) {
   // object removed from user
   req.user.using = req.user.using.filter(obj => obj === req.user.obj._id);
   req.user.obj.user = undefined;
   // object waitinglist evaluation
-  console.log(req.user.obj.waitinglist.length);
+  
   usage = req.user.obj.waitinglist.shift();
-  console.log(req.user.obj.waitinglist.length);
-  console.log(usage);
+  
+  
   let newcurrentuser;
   if (usage) {
     req.user.obj.user = usage;
     User.findById(usage.id).exec(function (err, user) {
       if (err) next(err);
-      console.log('hello');
-      console.log(user);
+      
+      
       newcurrentuser = user;
       newcurrentuser.using.push(req.user.obj);
     });
@@ -419,7 +394,7 @@ router.post("/:user/outRequest", function (req, res, next) {
     //save it-all
     obj.save(function (err, obj) {
       if (err) return next(err);
-      console.log('ownerglob');
+      
       ownerglob.save(function (err, user) {
         if (err) return next(err);
       });
@@ -450,7 +425,7 @@ router.post("/:user/inRequest/:request/approve", function (req, res, next) {
     return next(new Error("Request already " + (req.user.request.approve ? "approved" : "denied")));
   }
   
-  console.log(req.user.request.source);
+  
   User.findById(req.user.request.source.id).exec(function (err, user1) {
     if (err) return next();
     const request = req.user.request;

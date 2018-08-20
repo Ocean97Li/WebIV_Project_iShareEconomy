@@ -13,8 +13,6 @@ export class UserFilterPipe implements PipeTransform {
       input = '';
     }
     input = input.toString().toLowerCase();
-    console.log(type);
-    console.log(input);
     switch (type) {
         case SearchUserEnum.User: {
           return users.filter(u => u.firstname.toLowerCase().match(input) || u.lastname.toLowerCase().match(input)

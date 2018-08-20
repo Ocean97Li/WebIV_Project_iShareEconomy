@@ -41,11 +41,9 @@ export class AuthenticationService {
         parsedToken = null;
       } else {
         if (!this.user$) {
-          console.log('token1');
           this._user$ = new BehaviorSubject<string>(parsedToken.user._id);
         }
         this.user$.next(parsedToken.user._id);
-        console.log('token2');
       }
     }
   }
@@ -64,7 +62,6 @@ export class AuthenticationService {
       map((res: any) => {
         const token = res.token;
         if (token) {
-          console.log(token);
           localStorage.setItem(this._tokenKey, token);
           this.parseToken();
           return true;
@@ -83,7 +80,6 @@ export class AuthenticationService {
   }
 
   register(user: User): Observable<boolean> {
-    console.log(user.toJSON());
     return this.http.post(`${this._url}/register`, user.toJSON()).pipe(
       map((usr: any) => {
         const token = usr.token;

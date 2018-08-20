@@ -14,13 +14,11 @@ export class GeolocationService implements OnInit {
   constructor(public mapsApiLoader: MapsAPILoader, private _mapsSettingsService: MapSettingsService) {
     this.mapsApiLoader.load().then(() => {
       this._geocoder = new google.maps.Geocoder();
-      console.log(this._geocoder);
     });
   }
 
   ngOnInit(): void {
     this._geocoder = new google.maps.Geocoder();
-    console.log(this._geocoder);
   }
 
   findCurrentLocation(): any {
@@ -28,15 +26,12 @@ export class GeolocationService implements OnInit {
       if (navigator.geolocation) {
           this._currentLoc = navigator.geolocation.getCurrentPosition(this.showPosition);
       } else {
-          console.log('Geolocation is not supported by this browser.');
       }
     }
     return this._currentLoc;
   }
 
   showPosition(position) {
-    console.log(position.coords.latitude);
-    console.log(position.coords.longitude);
     position = {
       'lat': position.coords.latitude,
       'lng': position.coords.longitude

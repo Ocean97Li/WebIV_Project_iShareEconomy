@@ -52,7 +52,6 @@ export class ApproveRequestDialogComponent implements OnInit {
   }
 
   public newSelected(selected: ObjectRequest) {
-    console.log('new');
     this._selected = selected;
   }
 
@@ -78,13 +77,11 @@ export class ApproveRequestDialogComponent implements OnInit {
   }
 
   public onSubmitApprove() {
-    console.log('approve called');
     this._loggedInUserService.approveRequest(this._selected);
     this.close();
   }
 
   public onSubmitDeny() {
-    console.log('deny called');
     this._loggedInUserService.denyRequest(this._selected);
     this.close();
   }

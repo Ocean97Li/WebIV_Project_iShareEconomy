@@ -6,7 +6,6 @@ module.exports = router;
 
 router.post('/check/request', function (req, res, next) {
   //fix the date 
-  console.log(req.body);
   req.body.fromdate = new Date(req.body.fromdate);
   req.body.todate = new Date(req.body.todate);
   //check if dates are valid

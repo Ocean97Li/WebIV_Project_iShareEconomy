@@ -42,13 +42,10 @@ export class SelectedUserService {
 
   public fetchOutRequest() {
     if (this._id) {
-    console.log('udpated from server');
     this._http
       .get(`/API/users/${this._id}/outrequest`)
       .pipe(map((list: any[]): ObjectRequest[] => list.map(ObjectRequest.fromJSON)))
       .subscribe(reqs => {
-        console.log('outrequest');
-        console.log(reqs);
         this._user.outRequest = reqs;
         this._user$.next(this._user);
       });
@@ -57,13 +54,10 @@ export class SelectedUserService {
 
   public fetchInRequest() {
     if (this._id) {
-    console.log('udpated from server');
     this._http
       .get(`/API/users/${this._id}/inrequest`)
       .pipe(map((list: any[]): ObjectRequest[] => list.map(ObjectRequest.fromJSON)))
       .subscribe(reqs => {
-        console.log('inrequest');
-        console.log(reqs);
         this._user.inRequest = reqs;
         this._user$.next(this._user);
       });

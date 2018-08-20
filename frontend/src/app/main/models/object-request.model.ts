@@ -23,16 +23,12 @@ export class ObjectRequest {
   }
 
    static fromJSON(json: any): ObjectRequest {
-    console.log(json);
-    console.log(json.object);
     const request = new ObjectRequest(
      json.source,
      json.object ? LendObject.fromJSON(json.object) : undefined,
      new Date(json.fromdate),
      new Date(json.todate),
     );
-    console.log(json.fromdate);
-    console.log(new Date(json.fromdate));
     request._id = json._id;
     request._approved = json.approved;
     request._returned = json.returned;

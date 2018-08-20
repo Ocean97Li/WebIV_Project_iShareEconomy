@@ -45,19 +45,16 @@ export class LoggedInUserService {
           }
         });
         this._realtime.listenForInRequest().subscribe(id => {
-          console.log(id);
           if (id) {
             this.fetchInRequest();
           }
         });
         this._realtime.listenForApproveDenyRequest().subscribe(id => {
-          console.log(id);
           if (id) {
             this.getUsersFromServer();
           }
         });
         this._realtime.listenForReturnObject().subscribe(id => {
-          console.log(id);
           if (id) {
             this.getUsersFromServer();
           }
@@ -75,7 +72,6 @@ export class LoggedInUserService {
         this.fetchInRequest();
         this.fetchOutRequest();
       } else {
-        console.log('something went wrong');
         this.getUsersFromServer();
       }
     });
@@ -120,7 +116,6 @@ export class LoggedInUserService {
         .pipe(map(u => User.fromJSON(u, true)))
         .subscribe(user => {
           if (user) {
-            console.log('WOWAA');
             this._users[this._users.findIndex(u => u.id === user.id)].rating =
               user.rating;
             this._users[this._users.findIndex(u => u.id === user.id)].lending =
@@ -186,7 +181,6 @@ export class LoggedInUserService {
           this._user.lending.findIndex(ob => ob.id === request.object.id)
         ] = request.object;
         this.loggedInUser.next(this._user);
-        console.log(request);
         this.fetchInRequest();
         this._realtime.signalApproveDenyRequestToUser(request.source.id);
       },
@@ -202,7 +196,6 @@ export class LoggedInUserService {
       .post(url, undefined)
       .pipe(map((val: any) => LendObject.fromJSON(val)))
       .subscribe(lo => {
-        console.log(lo);
         this._realtime.signalReturnObject(lo.owner.id);
         this.getUsersFromServer();
         this.loggedInUserfromUsers();
@@ -353,7 +346,6 @@ export class LoggedInUserService {
       .subscribe(users => {
         this._users = users;
         this._users$.next(this._users);
-        console.log(this._users);
       });
   }
 

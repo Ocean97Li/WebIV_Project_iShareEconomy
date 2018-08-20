@@ -42,7 +42,6 @@ export class SearchbarComponent implements OnInit {
 
   set dissappearAnimation(dis: boolean) {
     this._dissappearAnimation = dis;
-    console.log(dis);
   }
 
   set filtername(name: string) {

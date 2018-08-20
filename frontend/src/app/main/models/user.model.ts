@@ -38,7 +38,6 @@ export class User {
     this._outRequest = [];
   }
   public static fromJSON(json: any, norequests?: boolean): User {
-    console.log(json);
     const user = new User(
       json.username,
       json.firstname,
@@ -54,14 +53,11 @@ export class User {
     user._inRequest = json.inRequest.map(r => ObjectRequest.fromJSON(r));
     user._outRequest = json.outRequest.map(r => ObjectRequest.fromJSON(r));
     }
-    console.log(json.distance);
     user._distance = json.distance;
     return user;
   }
 
   public toJSON() {
-    console.log(this._address);
-    console.log(this._password);
     return {
       username: this._username,
       firstname: this.firstname,

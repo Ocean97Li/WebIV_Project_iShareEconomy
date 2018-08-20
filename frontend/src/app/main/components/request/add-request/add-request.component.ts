@@ -119,7 +119,6 @@ export class AddRequestDialogComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log(this.fromdate);
     const request = new ObjectRequest(this._user, this._selected, this._fromdate, this.todate);
     this._loggedInUserService.addNewRequest(request).pipe(distinctUntilChanged()).subscribe(
       val => {

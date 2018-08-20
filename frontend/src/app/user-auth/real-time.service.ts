@@ -9,7 +9,6 @@ export class RealTimeService {
 
   // initiate conversation
   public startCommunication(id: string) {
-    console.log('talking');
     this.socket.emit('joinmyself', id);
   }
 
@@ -39,12 +38,9 @@ export class RealTimeService {
     const observable = new Observable<string>(
       observer => {
         this.socket.on('sent', (id) => {
-          console.log('SENT ME A REQUEST');
           observer.next(id);
         });
         return () => {
-          console.log('something went wrong');
-          // this.socket.disconnect();
         };
     });
     return observable;
@@ -58,12 +54,9 @@ export class RealTimeService {
     const observable = new Observable<string>(
       observer => {
         this.socket.on('approveddenied', (id) => {
-          console.log('SENT ME A REQUEST');
           observer.next(id);
         });
         return () => {
-          console.log('something went wrong');
-          // this.socket.disconnect();
         };
     });
     return observable;
@@ -77,11 +70,9 @@ export class RealTimeService {
     const observable = new Observable<string>(
       observer => {
         this.socket.on('addobject', (id) => {
-          console.log('SENT ME A REQUEST');
           observer.next(id);
         });
         return () => {
-          console.log('something went wrong');
         };
     });
     return observable;
@@ -95,11 +86,9 @@ export class RealTimeService {
     const observable = new Observable<string>(
       observer => {
         this.socket.on('return', (id) => {
-          console.log('SENT ME A REQUEST');
           observer.next(id);
         });
         return () => {
-          console.log('something went wrong');
         };
     });
     return observable;

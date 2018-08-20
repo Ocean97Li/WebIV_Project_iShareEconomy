@@ -130,7 +130,6 @@ export class MapSettingsService {
 
 
   set position(posobject) {
-    console.log('setting coords:' + posobject.lat + ', ' + posobject.lng);
     this._lat = posobject.lat;
     this._lng = posobject.lng;
   }

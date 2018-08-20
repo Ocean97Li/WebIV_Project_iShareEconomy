@@ -12,7 +12,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 function passwordValidator(): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
-    console.log(control.value);
     return control.value.length < 12
       ? { passwordTooShort: { value: control.value.length } }
       : null;

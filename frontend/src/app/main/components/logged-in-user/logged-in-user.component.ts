@@ -111,7 +111,7 @@ export class LoggedInUserComponent implements OnInit {
 
   removeInRequest(request: ObjectRequest) {
     if (request.approved !== undefined) {
-      console.log(request.approved);
+      
       this.loggedInUserService.removeInRequest(request);
     }
   }
@@ -125,14 +125,10 @@ export class LoggedInUserComponent implements OnInit {
   private refreshButtonPressed(b1: boolean) {
     if (b1) {
       setTimeout(() => {
-        console.log(this._refreshB1);
-        console.log('arrived');
         this._refreshB1 = true;
       }, 5000);
     } else {
         setTimeout(() => {
-          console.log(this._refreshB2);
-          console.log('arrived');
           this._refreshB2 = true;
         }, 5000);
     }

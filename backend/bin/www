@@ -20,49 +20,39 @@ app.set('port', port);
  */
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-io.on('connection',(socket) => {
-  console.log('new connection made');
-  
+io.on('connection',(socket) => {  
   socket.on('joinmyself',function(id){
     socket.join(id);
     socket.join(id+'receive');
-    console.log('started communication on '+id);
-    console.log('started listening on '+id+'receive');
   });
 
   socket.on('join',function(id){
     socket.join(id);
-    console.log('someone is tuning on '+id);
   });
 
   socket.on('sent',function(id){
     socket.join(id+'receive');
-    console.log('sent');
     socket.broadcast.to(id+'receive').emit('sent',id);
     socket.leave(id+'receive');
   });
 
   socket.on('approveddenied',function(id){
     socket.join(id+'receive');
-    console.log('aprprovedinied');
     socket.broadcast.to(id+'receive').emit('approveddenied',id);
     socket.leave(id+'receive');
   });
 
   socket.on('returned',function(id){
     socket.join(id+'receive');
-    console.log('returned');
     socket.broadcast.to(id+'receive').emit('returned',id);
     socket.leave(id+'receive');
   });
 
   socket.on('addobject',function(myid){
-    console.log('add');
     socket.broadcast.to(myid).emit('addobject',myid);
   });
 
   socket.on('removeobject',function(myid){
-    console.log('sent');
     socket.broadcast.to(myid).emit('removeobject',myid);
   });
 });

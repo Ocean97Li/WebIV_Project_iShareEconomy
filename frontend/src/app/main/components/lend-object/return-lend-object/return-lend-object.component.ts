@@ -66,7 +66,6 @@ export class ReturnLendObjectDialogComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log(this.selected);
     this.loggedInUserService.returnLendoBject(this._selected);
     this.close();
   }

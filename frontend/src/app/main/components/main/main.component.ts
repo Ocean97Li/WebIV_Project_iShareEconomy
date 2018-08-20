@@ -46,18 +46,15 @@ export class MainComponent implements OnInit {
     this.filtername = '';
     this._loggedInUserService.loggedInUser
       .subscribe(user => {
-        console.log('last user');
         this._user = user;
       });
   }
 
   ngOnInit(): void {
     this._loggedInUserService.users.subscribe(users => {
-      console.log('change detected');
       if (users) {
         this.users = users;
       } else {
-        console.log('no users yet');
       }
     });
   }
@@ -76,7 +73,6 @@ export class MainComponent implements OnInit {
           users.forEach(user => {
             let index = this._users.findIndex(usr => usr.id === user.id);
             if (index === -1) {
-              console.log('new user');
               index = this._users.push(user) - 1;
             }
             this._users[index].lending = user.lending;
@@ -84,33 +80,24 @@ export class MainComponent implements OnInit {
           });
         } else {
           this._users = users;
-          console.log(this._users);
         }
   }
 
   newSelectedUser(user: User, drawerLeft, drawerRight) {
     if (!this._user) {
-      console.log('still loading this user');
     }
     if (user.id === this._user.id) {
       this.toggleNavRight(drawerRight);
-      console.log('1');
     } else {
       if (!this._selecteduser) {
-        console.log('2');
         this._selecteduser = user;
         this._selectedUserService.selectedUser.next(user);
         this.toggleNavLeft(drawerLeft);
       } else {
-        console.log('3');
         if (user.id === this._selecteduser.id) {
-          console.log('4');
           this.toggleNavLeft(drawerLeft);
         } else {
-          console.log('5');
-          console.log(this._display1);
           if (!this._display1) {
-            console.log('6');
             this.toggleNavLeft(drawerLeft);
           }
           this._selecteduser = user;
@@ -242,14 +229,12 @@ export class MainComponent implements OnInit {
   }
 
   public newFilter(search: string[]) {
-    console.log('filtertime');
     this.filtername = search[0];
     this.searchType = search[1];
   }
 
   public newSearch(boole: string, drawerLeft, drawerRight) {
     if (boole) {
-      console.log('seachtime');
       const pipe = new UserFilterPipe();
       const users = pipe.transform(this._users, this.filtername, this.searchType);
       if (users.length >= 2) {

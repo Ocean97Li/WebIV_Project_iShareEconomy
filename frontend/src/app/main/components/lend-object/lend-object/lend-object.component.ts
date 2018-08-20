@@ -89,7 +89,6 @@ export class LendObjectComponent implements OnInit {
 
   private openDialog(): void {
     if (this.information) {
-    console.log(this._obj);
     const dialogRef = this.dialog.open(InfoLendObjectComponent, {
       width: '480px',
       data: {

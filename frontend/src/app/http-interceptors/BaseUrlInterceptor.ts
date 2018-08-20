@@ -17,11 +17,9 @@ export class BaseUrlInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (BACKEND_URL) {
-      console.log('entered');
       req = req.clone({
         url: `${BACKEND_URL}${req.url}`
       });
-      console.log('set to ', `${BACKEND_URL}${req.url}`);
     }
     return next.handle(req);
   }
